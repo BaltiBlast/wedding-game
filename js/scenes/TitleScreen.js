@@ -16,6 +16,14 @@ function createTitleScreen() {
     })
     .setOrigin(0.5);
 
+  // Zone d'affichage du personnage (à gauche)
+  characterDisplay = this.add
+    .text(200, 350, "Choisissez un personnage", {
+      fontSize: "18px",
+      fill: "#cccccc",
+    })
+    .setOrigin(0.5);
+
   // Bouton Alexis cliquable
   const alexisButton = this.add
     .text(600, 300, "Alexis", {
@@ -24,11 +32,14 @@ function createTitleScreen() {
     })
     .setOrigin(0.5);
 
+  let selectedCharacter = null;
+
   // Rendre le bouton cliquable
   alexisButton.setInteractive();
-  alexisButton.on("pointerdown", function () {
+  alexisButton.on("pointerdown", () => {
     console.log("Alexis sélectionné !");
-    // TODO: passer au niveau 1 avec le personnage Alexis
+    selectedCharacter = "Alexis";
+    characterDisplay.setText("Alexis\n(Le marié)");
   });
 
   const vefaButton = this.add
@@ -40,8 +51,27 @@ function createTitleScreen() {
 
   // Rendre le bouton cliquable
   vefaButton.setInteractive();
-  vefaButton.on("pointerdown", function () {
+  vefaButton.on("pointerdown", () => {
     console.log("Vefa sélectionnée !");
-    // TODO: passer au niveau 1 avec le personnage Vefa
+    selectedCharacter = "Vefa";
+    characterDisplay.setText("Vefa\n(La mariée)");
+  });
+
+  // Bouton Commencer (centré en bas)
+  const startButton = this.add
+    .text(400, 500, "Commencer", {
+      fontSize: "28px",
+      fill: "#00ff00",
+    })
+    .setOrigin(0.5);
+
+  startButton.setInteractive();
+  startButton.on("pointerdown", () => {
+    if (selectedCharacter) {
+      console.log(`Démarrage avec ${selectedCharacter}`);
+      this.scene.start("Level1");
+    } else {
+      console.log("Aucun personnage sélectionné !");
+    }
   });
 }
