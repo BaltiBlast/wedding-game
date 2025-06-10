@@ -15,5 +15,10 @@ const GameConfig = {
       preload: preloadTitleScreen,
       create: createTitleScreen,
     },
+    {
+      key: "Level1",
+      preload: preloadLevel1,
+      create: createLevel1,
+    },
   ],
 };
