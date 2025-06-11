@@ -1,43 +1,94 @@
 function preloadLevel1() {
-  console.log("Chargement du Level1...");
+  // Images
+  this.load.image("lvl1-background", "assets/images/level1/lvl1_background.png");
+  this.load.image("npc-sprite", "assets/images/level1/Ardoise.png");
+  this.load.image("alexis-game-sprite", "assets/images/characters/Alexis.png");
+  this.load.image("vefa-game-sprite", "assets/images/characters/vefa-game.png");
+  this.load.spritesheet("alexis-spritesheet", "assets/images/characters/alexis-spritesheet.png", {
+    frameWidth: 270,
+    frameHeight: 600,
+  });
+
+  // Audio
+  this.load.audio("footstep", "assets/sounds/step_walk/grass.mp3");
 }
 
 function createLevel1() {
-  console.log("Création du Level1...");
+  this.cameras.main.fadeIn(1000, 0, 0, 0);
+  this.add.image(512, 512, "lvl1-background");
 
-  // Fond du niveau 1
-  this.add.rectangle(400, 300, 800, 600, 0x2d4a22);
+  const selectedCharacter = this.registry.get("selectedCharacter") || "Alexis";
+  this.player = createAnimatedPlayer(this, 430, 570, selectedCharacter);
+  this.player.setScale(0.2);
+  this.player.setOrigin(0.5, 1);
 
-  // Titre du niveau
-  this.add
-    .text(400, 50, "NIVEAU 1 - Trouvez le code de l'ascenseur", {
-      fontSize: "24px",
-      fill: "#ffffff",
-    })
-    .setOrigin(0.5);
-
-  // Instructions
-  this.add
-    .text(400, 100, "Parlez au PNJ pour obtenir un indice !", {
-      fontSize: "16px",
-      fill: "#cccccc",
-    })
-    .setOrigin(0.5);
-
-  // PNJ près du feu (placeholder)
-  const npc = this.add
-    .text(200, 400, "PNJ", {
-      fontSize: "20px",
-      fill: "#ffaa00",
-      backgroundColor: "#333333",
-      padding: { x: 10, y: 5 },
-    })
-    .setOrigin(0.5);
-
-  // Rendre le PNJ cliquable
-  npc.setInteractive();
-  npc.on("pointerdown", () => {
-    console.log("Discussion avec le PNJ");
-    // TODO: afficher le dialogue
+  // Respiration naturelle
+  this.tweens.add({
+    targets: this.player,
+    scaleY: 0.205,
+    duration: 1000,
+    ease: "Sine.easeInOut",
+    yoyo: true,
+    repeat: -1,
   });
+
+  // Dialogue d'introduction (après le fade in)
+  this.cameras.main.once("camerafadeincomplete", () => {
+    const selectedCharacter = this.registry.get("selectedCharacter") || "Alexis";
+    const otherCharacter = selectedCharacter === "Alexis" ? "Vefa" : "Alexis";
+
+    const playerText = `Je dois trouver le code de l'ascenseur pour sauver ${otherCharacter} !\nIl doit y avoir un indice quelque part...`;
+    const spritPlayer = `${selectedCharacter.toLowerCase()}-game-sprite`;
+
+    showPlayerDialogue(this, playerText, spritPlayer, selectedCharacter);
+
+    // Cacher après 10 secondes
+    this.time.delayedCall(10000, () => {
+      hidePlayerDialogue(this);
+    });
+  });
+
+  // ------------------------------------------------------------ //
+  // Déplacement - STOCKER DANS THIS
+  createPlayerMovement(this, this.player, 135);
+  createPlayerDialogue(this);
+
+  // ------------------------------------------------------------ //
+  // NPC - STOCKER DANS THIS
+  this.npc = this.add.image(690, 620, "npc-sprite");
+  this.npc.setScale(0.13);
+
+  // Bulle d'interaction - STOCKER DANS THIS
+  this.interactionBubble = this.add
+    .text(this.npc.x, this.npc.y - 50, "💬", {
+      fontSize: "32px",
+    })
+    .setOrigin(0.5)
+    .setVisible(false);
+
+  // Variables - STOCKER DANS THIS
+  this.interactionDistance = 80;
+  this.nearNPC = false;
+
+  createNPCDialogue(this);
+
+  // Texte du dialogue
+  this.npcDialogue =
+    "Le code de l'ascenseur ?\nIl me semble que c'est la date du mariage, mais… je n'en suis plus sûr.\nJe l'avais noté sur un papier que j'ai perdu.";
+}
+
+function updateLevel1() {
+  updatePlayerMovement(this);
+
+  const distanceToNPC = Phaser.Math.Distance.Between(this.player.x, this.player.y, this.npc.x, this.npc.y);
+
+  if (distanceToNPC < this.interactionDistance && !this.nearNPC) {
+    this.nearNPC = true;
+    this.interactionBubble.setVisible(true);
+    showNPCDialogue(this, this.npcDialogue, "npc-sprite", "Ardoise");
+  } else if (distanceToNPC >= this.interactionDistance && this.nearNPC) {
+    this.nearNPC = false;
+    this.interactionBubble.setVisible(false);
+    hideNPCDialogue(this);
+  }
 }

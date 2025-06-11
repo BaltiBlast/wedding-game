@@ -10,15 +10,16 @@ const GameConfig = {
 
   // Scènes du jeu
   scenes: [
-    {
-      key: "TitleScreen",
-      preload: preloadTitleScreen,
-      create: createTitleScreen,
-    },
+    // {
+    //   key: "TitleScreen",
+    //   preload: preloadTitleScreen,
+    //   create: createTitleScreen,
+    // },
     {
       key: "Level1",
       preload: preloadLevel1,
       create: createLevel1,
+      update: updateLevel1,
     },
   ],
 };
