@@ -1,8 +1,8 @@
 function preloadTitleScreen() {
   // Images
-  this.load.image("title-background", "assets/images/title_background.png");
-  this.load.image("alexis-sprite", "assets/images/start_alexis.png");
-  this.load.image("vefa-sprite", "assets/images/start_vefa.png");
+  this.load.image("title-background", "assets/images/title_screen/title_background.png");
+  this.load.image("alexis-sprite", "assets/images/title_screen/start_alexis.png");
+  this.load.image("vefa-sprite", "assets/images/title_screen/start_vefa.png");
 
   // Audio
   this.load.audio("character-select", "assets/sounds/title_screen/woosh.mp3");
@@ -11,10 +11,6 @@ function preloadTitleScreen() {
 }
 
 function createTitleScreen() {
-  // ================================================================================================================================== //
-  // ELEMENT DU DE L'ECRAN TITRE
-  // ================================================================================================================================== //
-
   // Fade in de la scène complète
   this.cameras.main.fadeIn(1000, 0, 0, 0);
 
@@ -64,6 +60,8 @@ function createTitleScreen() {
     .setAlpha(0);
 
   selectedCharacter = "Vefa";
+  this.registry.set("selectedCharacter", selectedCharacter);
+
   characterSprite = this.add.image(200, 650, "vefa-sprite");
   characterSprite.setScale(0.5).setAlpha(0);
 
@@ -189,6 +187,7 @@ function createTitleScreen() {
   alexisButtonText.on("pointerdown", () => {
     this.sound.play("character-select", { volume: 0.1 });
     selectedCharacter = "Alexis";
+    this.registry.set("selectedCharacter", selectedCharacter);
 
     if (characterSprite) {
       this.tweens.add({
@@ -231,6 +230,7 @@ function createTitleScreen() {
   vefaButtonText.on("pointerdown", () => {
     this.sound.play("character-select", { volume: 0.1 });
     selectedCharacter = "Vefa";
+    this.registry.set("selectedCharacter", selectedCharacter);
 
     if (characterSprite) {
       this.tweens.add({
