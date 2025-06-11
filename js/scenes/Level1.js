@@ -15,6 +15,11 @@ function preloadLevel1() {
     frameHeight: 600,
   });
 
+  this.load.spritesheet("campfire", "assets/images/level1/campfire.png", {
+    frameWidth: 32,
+    frameHeight: 64,
+  });
+
   // Audio
   this.load.audio("footstep", "assets/sounds/step_walk/grass.mp3");
 }
@@ -145,6 +150,18 @@ function createLevel1() {
 
   // mur invisible droit
   this.wallRight = createInvisibleWall(this, 1000, 512, 40, 1024);
+
+  this.anims.create({
+    key: "campfire",
+    frames: this.anims.generateFrameNumbers("campfire", { start: 0, end: 7 }),
+    frameRate: 7, // tu peux ajuster la vitesse ici
+    repeat: -1, // boucle infinie
+  });
+
+  this.campfire = this.add.sprite(550, 600, "campfire");
+  this.campfire.setScale(3.3); // si tu veux l’agrandir
+  this.campfire.setDepth(this.campfire.y); // pour qu'il soit bien trié
+  this.campfire.play("campfire");
 
   // Bulle d'interaction - STOCKER DANS THIS
   this.interactionBubble = this.add

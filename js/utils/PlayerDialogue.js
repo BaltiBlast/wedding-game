@@ -1,18 +1,20 @@
 function createPlayerDialogue(scene) {
   // Boîte de dialogue principale
-  scene.playerDialogueBox = scene.add.rectangle(512, 850, 900, 180, 0x1a1a2e, 0.9);
-  scene.playerDialogueBox.setStrokeStyle(4, 0x64ffda);
-  scene.playerDialogueBox.setVisible(false);
+  scene.playerDialogueBox = scene.add
+    .rectangle(512, 850, 900, 180, 0x1a1a2e, 0.8)
+    .setStrokeStyle(4, 0x64ffda)
+    .setDepth(1000)
+    .setVisible(false);
 
   // Cadre portrait à gauche
-  scene.playerPortraitFrame = scene.add.rectangle(244, 850, 120, 120, 0x2d4a22, 1);
-  scene.playerPortraitFrame.setStrokeStyle(3, 0x64ffda);
-  scene.playerPortraitFrame.setVisible(false);
+  scene.playerPortraitFrame = scene.add
+    .rectangle(244, 850, 120, 120, 0x2d4a22, 1)
+    .setStrokeStyle(3, 0x64ffda)
+    .setDepth(1000)
+    .setVisible(false);
 
   // Portrait du joueur
-  scene.playerPortrait = scene.add.image(250, 889, "");
-  scene.playerPortrait.setScale(1.3);
-  scene.playerPortrait.setVisible(false);
+  scene.playerPortrait = scene.add.image(250, 889, "").setScale(1.3).setDepth(1000).setVisible(false);
 
   // Nom du personnage
   scene.playerCharacterName = scene.add
@@ -22,6 +24,7 @@ function createPlayerDialogue(scene) {
       fontWeight: "bold",
     })
     .setOrigin(0.5)
+    .setDepth(1000)
     .setVisible(false);
 
   // Texte du dialogue à droite
@@ -33,6 +36,7 @@ function createPlayerDialogue(scene) {
       wordWrap: { width: 400 },
     })
     .setOrigin(1, 0.5)
+    .setDepth(1000)
     .setVisible(false);
 }
 
