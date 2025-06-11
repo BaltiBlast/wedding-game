@@ -72,7 +72,6 @@ function createPlayerMovement(scene, player, moveSpeed) {
   scene.cursors = scene.input.keyboard.createCursorKeys();
   scene.wasdKeys = scene.input.keyboard.addKeys("Z,Q,S,D");
   scene.moveSpeed = moveSpeed;
-  scene.isMoving = false;
 
   scene.footstepSound = scene.sound.add("footstep", {
     loop: true,
@@ -84,41 +83,41 @@ function createPlayerMovement(scene, player, moveSpeed) {
 function updatePlayerMovement(scene) {
   let isMoving = false;
 
-  // Déplacement gauche
+  // Reset velocity
+  scene.player.body.setVelocity(0);
+
+  // Déplacement avec velocity au lieu de position directe
   if (scene.cursors.left.isDown || scene.wasdKeys.Q.isDown) {
-    scene.player.x -= scene.moveSpeed * (1 / 60);
+    scene.player.body.setVelocityX(-scene.moveSpeed);
     if (scene.player.anims) scene.player.anims.play("walk-left", true);
     scene.lastDirection = "left";
     isMoving = true;
-  }
-  // Déplacement droite
-  else if (scene.cursors.right.isDown || scene.wasdKeys.D.isDown) {
-    scene.player.x += scene.moveSpeed * (1 / 60);
+  } else if (scene.cursors.right.isDown || scene.wasdKeys.D.isDown) {
+    scene.player.body.setVelocityX(scene.moveSpeed);
     if (scene.player.anims) scene.player.anims.play("walk-right", true);
     scene.lastDirection = "right";
     isMoving = true;
   }
-  // Déplacement haut
-  else if (scene.cursors.up.isDown || scene.wasdKeys.Z.isDown) {
-    scene.player.y -= scene.moveSpeed * (1 / 60);
+
+  if (scene.cursors.up.isDown || scene.wasdKeys.Z.isDown) {
+    scene.player.body.setVelocityY(-scene.moveSpeed);
     if (scene.player.anims) scene.player.anims.play("walk-up", true);
     scene.lastDirection = "up";
     isMoving = true;
-  }
-  // Déplacement bas
-  else if (scene.cursors.down.isDown || scene.wasdKeys.S.isDown) {
-    scene.player.y += scene.moveSpeed * (1 / 60);
+  } else if (scene.cursors.down.isDown || scene.wasdKeys.S.isDown) {
+    scene.player.body.setVelocityY(scene.moveSpeed);
     if (scene.player.anims) scene.player.anims.play("walk-down", true);
     scene.lastDirection = "down";
     isMoving = true;
   }
 
-  // Si pas de mouvement, jouer l'animation idle dans la dernière direction
+  // Animation idle
   if (!isMoving && scene.player.anims) {
     const idleDirection = scene.lastDirection || "down";
     scene.player.anims.play(`idle-${idleDirection}`, true);
   }
 
+  // Gestion du son
   if (isMoving && !scene.wasMoving) {
     if (!scene.footstepSound.isPlaying) {
       scene.footstepSound.play();

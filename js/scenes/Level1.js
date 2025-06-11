@@ -3,7 +3,7 @@ function preloadLevel1() {
   this.load.image("lvl1-background", "assets/images/level1/lvl1_background.png");
   this.load.image("npc-sprite", "assets/images/level1/Ardoise.png");
   this.load.image("alexis-game-sprite", "assets/images/characters/Alexis.png");
-  this.load.image("vefa-game-sprite", "assets/images/characters/vefa-game.png");
+  // this.load.image("vefa-game-sprite", "assets/images/characters/vefa-game.png");
   this.load.spritesheet("alexis-spritesheet", "assets/images/characters/alexis-spritesheet.png", {
     frameWidth: 270,
     frameHeight: 600,
@@ -75,6 +75,17 @@ function createLevel1() {
   // Texte du dialogue
   this.npcDialogue =
     "Le code de l'ascenseur ?\nIl me semble que c'est la date du mariage, mais… je n'en suis plus sûr.\nJe l'avais noté sur un papier que j'ai perdu.";
+
+  // NPC colider
+  this.physics.add.existing(this.npc);
+  this.npc.body.setSize(600, 550);
+  this.npc.body.setOffset(200, 415);
+  this.npc.body.setImmovable(true);
+
+  this.physics.add.existing(this.player);
+  this.player.body.setSize(250, 75); // largeur, hauteur
+  this.player.body.setOffset(0, 500); // position du coin haut-gauche de la hitbox par rapport au sprite
+  this.physics.add.collider(this.player, this.npc);
 }
 
 function updateLevel1() {
@@ -91,4 +102,7 @@ function updateLevel1() {
     this.interactionBubble.setVisible(false);
     hideNPCDialogue(this);
   }
+
+  const sprites = [this.player, this.npc];
+  sprites.forEach((sprite) => sprite.setDepth(sprite.y));
 }
