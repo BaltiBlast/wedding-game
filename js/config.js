@@ -6,7 +6,7 @@ const GameConfig = {
   backgroundColor: "#000000",
   physics: {
     default: "arcade",
-    arcade: { debug: true },
+    arcade: { debug: false },
   },
   // Constantes du jeu
   WEDDING_DATE: "27.09.25",

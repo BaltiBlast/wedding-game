@@ -186,3 +186,50 @@ function updatePlayerMovement(scene) {
   }
   scene.wasMoving = isMoving;
 }
+
+function checkProximity(scene, target, stateKey, threshold, onEnter, onExit) {
+  const distance = Phaser.Math.Distance.Between(scene.player.x, scene.player.y, target.x, target.y);
+
+  if (distance < threshold && !scene[stateKey]) {
+    scene[stateKey] = true;
+    if (onEnter) onEnter();
+  } else if (distance >= threshold && scene[stateKey]) {
+    scene[stateKey] = false;
+    if (onExit) onExit();
+  }
+}
+
+function checkButtonHover(scene, button, stateKey, onEnter, onExit) {
+  const pointer = scene.input.activePointer;
+  const isHovering = button.getBounds().contains(pointer.x, pointer.y);
+
+  if (isHovering && !scene[stateKey]) {
+    scene[stateKey] = true;
+    if (onEnter) onEnter();
+  } else if (!isHovering && scene[stateKey]) {
+    scene[stateKey] = false;
+    if (onExit) onExit();
+  }
+}
+
+function stopPlayer(scene) {
+  if (scene.player.anims) {
+    const idleDirection = scene.lastDirection || "down";
+    scene.player.anims.play(`idle-${idleDirection}`, true);
+  }
+
+  if (scene.footstepSound && scene.footstepSound.isPlaying) {
+    scene.footstepSound.stop();
+  }
+
+  scene.cursors.left.isDown = false;
+  scene.cursors.right.isDown = false;
+  scene.cursors.up.isDown = false;
+  scene.cursors.down.isDown = false;
+  scene.wasdKeys.Q.isDown = false;
+  scene.wasdKeys.D.isDown = false;
+  scene.wasdKeys.Z.isDown = false;
+  scene.wasdKeys.S.isDown = false;
+
+  scene.player.body.setVelocity(0);
+}
