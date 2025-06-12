@@ -13,7 +13,8 @@ function preloadTitleScreen() {
   // Audio
   this.load.audio("character-select", "assets/sounds/title_screen/woosh.mp3");
   this.load.audio("ambiance", "assets/sounds/title_screen/ambiance.mp3");
-  this.load.audio("start", "assets/sounds/title_screen/start.wav");
+  this.load.audio("start", "assets/sounds/title_screen/start.mp3");
+  this.load.audio("music", "assets/sounds/title_screen/music_level.mp3");
 }
 
 function createTitleScreen() {
@@ -22,10 +23,17 @@ function createTitleScreen() {
 
   // Son ambiant
   const titleMusic = this.sound.add("ambiance", {
+    volume: 0.15,
+    loop: true,
+  });
+
+  const musicLevel = this.sound.add("music", {
     volume: 0.3,
     loop: true,
   });
+
   titleMusic.play();
+  musicLevel.play();
 
   // Image de fond
   this.add.image(512, 512, "title-background");
@@ -283,7 +291,7 @@ function createTitleScreen() {
   startButton.on("pointerdown", () => {
     this.cameras.main.fadeOut(500, 0, 0, 0);
     this.sound.stopAll();
-    this.sound.play("start", { volume: 0.3 });
+    this.sound.play("start", { volume: 0.05 });
 
     this.cameras.main.once("camerafadeoutcomplete", () => {
       this.scene.start("Level1");

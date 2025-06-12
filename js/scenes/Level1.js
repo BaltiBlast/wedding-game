@@ -31,7 +31,7 @@ function preloadLevel1() {
   this.load.audio("access_denied", "assets/sounds/level1/access_denied.mp3");
   this.load.audio("open", "assets/sounds/level1/open.wav");
   this.load.audio("access_granted", "assets/sounds/level1/access_granted.wav");
-  this.load.audio("music_level", "assets/sounds/level1/music_level.wav");
+  this.load.audio("music_level", "assets/sounds/level1/music_level.mp3");
 }
 
 function createLevel1() {
@@ -45,7 +45,7 @@ function createLevel1() {
 
   this.sound.play("music_level", {
     loop: true,
-    volume: 0.3,
+    volume: 0.1,
   });
 
   // Respiration naturelle
@@ -185,7 +185,7 @@ function createLevel1() {
   if (selectedCharacter === "Alexis") {
     this.npcDialogue = `Salut Alexis !\nSi tu veux sauver Vefa`;
   } else {
-    this.npcDialogue = `Nozvezh vat Vefa !\nSi tu veux sauver Alexis`;
+    this.npcDialogue = `Demat Vefa !\nSi tu veux sauver Alexis`;
   }
 
   // ------------------------------------------------------------ //

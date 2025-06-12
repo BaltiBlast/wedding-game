@@ -24,5 +24,11 @@ const GameConfig = {
       create: createLevel1,
       update: updateLevel1,
     },
+    {
+      key: "Level2",
+      preload: preloadLevel2,
+      create: createLevel2,
+      update: updateLevel2,
+    },
   ],
 };
