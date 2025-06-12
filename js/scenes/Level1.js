@@ -3,21 +3,26 @@ function preloadLevel1() {
   this.load.image("lvl1-background", "assets/images/level1/lvl1_background.png");
   this.load.image("npc-sprite", "assets/images/level1/Ardoise.png");
   this.load.image("alexis-game-sprite", "assets/images/characters/Alexis.png");
+  this.load.image("vefa-game-sprite", "assets/images/characters/Vefa.png");
   this.load.image("poteau1", "assets/images/level1/poteau1.png");
   this.load.image("poteau2", "assets/images/level1/poteau2.png");
   this.load.image("poteau3", "assets/images/level1/poteau3.png");
   this.load.image("maison", "assets/images/level1/maison.png");
   this.load.image("sapin", "assets/images/level1/sapin.png");
 
-  // this.load.image("vefa-game-sprite", "assets/images/characters/vefa-game.png");
   this.load.spritesheet("alexis-spritesheet", "assets/images/characters/alexis-spritesheet.png", {
     frameWidth: 270,
     frameHeight: 600,
   });
 
-  this.load.spritesheet("campfire", "assets/images/level1/campfire.png", {
-    frameWidth: 32,
-    frameHeight: 64,
+  this.load.spritesheet("vefa-spritesheet", "assets/images/characters/vefa-spritesheet.png", {
+    frameWidth: 270,
+    frameHeight: 600,
+  });
+
+  this.load.spritesheet("campfire", "assets/images/title_screen/fire_spark.png", {
+    frameWidth: 48,
+    frameHeight: 48,
   });
 
   // Audio
@@ -137,7 +142,7 @@ function createLevel1() {
   });
 
   // mur invisible feu de camp
-  this.roundRock = createRoundInvisibleWall(this, 550, 660, 50);
+  this.roundRock = createRoundInvisibleWall(this, 550, 635, 55);
 
   // mur invisible bas
   this.wallBottom = createInvisibleWall(this, 512, 1000, 1024, 200);
@@ -158,8 +163,8 @@ function createLevel1() {
     repeat: -1, // boucle infinie
   });
 
-  this.campfire = this.add.sprite(550, 600, "campfire");
-  this.campfire.setScale(3.3); // si tu veux l’agrandir
+  this.campfire = this.add.sprite(547, 595, "campfire");
+  this.campfire.setScale(4); // si tu veux l’agrandir
   this.campfire.setDepth(this.campfire.y); // pour qu'il soit bien trié
   this.campfire.play("campfire");
 

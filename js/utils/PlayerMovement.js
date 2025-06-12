@@ -62,8 +62,67 @@ function createAnimatedPlayer(scene, x, y, selectedCharacter) {
     player.play("idle-down");
     return player;
   } else {
-    // Garder l'image statique pour Vefa
-    return scene.add.image(x, y, "vefa-game-sprite");
+    // Créer toutes les animations d'Alexis
+    scene.anims.create({
+      key: "idle-down",
+      frames: [{ key: "vefa-spritesheet", frame: 0 }],
+      frameRate: 1,
+      repeat: 0,
+    });
+
+    scene.anims.create({
+      key: "idle-up",
+      frames: [{ key: "vefa-spritesheet", frame: 1 }],
+      frameRate: 1,
+      repeat: 0,
+    });
+
+    scene.anims.create({
+      key: "idle-left",
+      frames: [{ key: "vefa-spritesheet", frame: 2 }],
+      frameRate: 1,
+      repeat: 0,
+    });
+
+    scene.anims.create({
+      key: "idle-right",
+      frames: [{ key: "vefa-spritesheet", frame: 3 }],
+      frameRate: 1,
+      repeat: 0,
+    });
+
+    scene.anims.create({
+      key: "walk-down",
+      frames: scene.anims.generateFrameNumbers("vefa-spritesheet", { start: 4, end: 5 }),
+      frameRate: 6,
+      repeat: -1,
+    });
+
+    scene.anims.create({
+      key: "walk-up",
+      frames: scene.anims.generateFrameNumbers("vefa-spritesheet", { start: 8, end: 9 }),
+      frameRate: 6,
+      repeat: -1,
+    });
+
+    scene.anims.create({
+      key: "walk-left",
+      frames: scene.anims.generateFrameNumbers("vefa-spritesheet", { start: 12, end: 13 }),
+      frameRate: 8,
+      repeat: -1,
+    });
+
+    scene.anims.create({
+      key: "walk-right",
+      frames: scene.anims.generateFrameNumbers("vefa-spritesheet", { start: 16, end: 17 }),
+      frameRate: 8,
+      repeat: -1,
+    });
+
+    // Créer le sprite animé
+    const player = scene.add.sprite(x, y, "vefa-spritesheet");
+    player.play("idle-down");
+    return player;
   }
 }
 
