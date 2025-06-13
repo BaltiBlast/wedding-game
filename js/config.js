@@ -13,11 +13,7 @@ const GameConfig = {
 
   // Scènes du jeu
   scenes: [
-    // {
-    //   key: "TitleScreen",
-    //   preload: preloadTitleScreen,
-    //   create: createTitleScreen,
-    // },
+    ScreenTitle,
     // {
     //   key: "Level1",
     //   preload: preloadLevel1,
@@ -30,11 +26,11 @@ const GameConfig = {
     //   create: createElevator,
     //   update: updateElevator,
     // },
-    {
-      key: "Level2",
-      preload: preloadLevel2,
-      create: createLevel2,
-      update: updateLevel2,
-    },
+    // {
+    //   key: "Level2",
+    //   preload: preloadLevel2,
+    //   create: createLevel2,
+    //   update: updateLevel2,
+    // },
   ],
 };
