@@ -175,7 +175,6 @@ function createLevel2() {
               ease: "Expo.easeIn",
               onComplete: () => {
                 shake.stop();
-                console.log("Vaisseau a quitté l'écran");
               },
             });
           },
@@ -183,6 +182,14 @@ function createLevel2() {
       },
     });
   });
+
+  this.enterCockpit = function () {
+    this.allowPlayerMovement = false;
+    this.add.image(512, 512, "cockpit").setDepth(0);
+    this.spaceship.setVisible(false);
+    this.fences.setVisible(false);
+    startHologramForm(this, initialQuestions); // <-- ajout ici
+  }.bind(this);
 
   this.spaceshipNoBtn.on("pointerdown", () => {
     this.hideSpaceshipUI();
