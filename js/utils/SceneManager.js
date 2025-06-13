@@ -1,4 +1,4 @@
-const durationDefault = 1000;
+const durationDefault = 2000;
 
 class SceneManager {
   static fadeInScene(scene, duration = durationDefault, r = 0, g = 0, b = 0) {
@@ -16,7 +16,7 @@ class SceneManager {
     });
   }
 
-  static changeSceneWithFadeAndAudio(currentScene, nextSceneKey, fadeOutDuration = durationDefault) {
+  static changeSceneWithFade(currentScene, nextSceneKey, fadeOutDuration = durationDefault) {
     this.fadeOutScene(currentScene, fadeOutDuration);
     currentScene.cameras.main.once("camerafadeoutcomplete", () => {
       currentScene.scene.start(nextSceneKey);

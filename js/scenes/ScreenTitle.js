@@ -235,7 +235,14 @@ class ScreenTitle extends Phaser.Scene {
 
     this.startButton.on("pointerdown", () => {
       AudioManager.playSound(this, "sfx_button_start", 0.05);
-      SceneManager.changeSceneWithFadeAndAudio(this, "Level1", 500);
+
+      const OWTitleTheme = this.sound.get("ow_title_theme");
+      AudioManager.stopSoundFadeOut(this, OWTitleTheme, 1500);
+
+      const ambTitleAtmosphere = this.sound.get("amb_title_atmosphere");
+      AudioManager.stopSoundFadeOut(this, ambTitleAtmosphere, 1500);
+
+      SceneManager.changeSceneWithFade(this, "Level1", 2000);
     });
   }
 
