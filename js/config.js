@@ -6,30 +6,30 @@ const GameConfig = {
   backgroundColor: "#000000",
   physics: {
     default: "arcade",
-    arcade: { debug: false },
+    arcade: { debug: true },
   },
   // Constantes du jeu
   WEDDING_DATE: "27.09.25",
 
   // Scènes du jeu
   scenes: [
-    {
-      key: "TitleScreen",
-      preload: preloadTitleScreen,
-      create: createTitleScreen,
-    },
-    {
-      key: "Level1",
-      preload: preloadLevel1,
-      create: createLevel1,
-      update: updateLevel1,
-    },
-    {
-      key: "Elevator",
-      preload: preloadElevator,
-      create: createElevator,
-      update: updateElevator,
-    },
+    // {
+    //   key: "TitleScreen",
+    //   preload: preloadTitleScreen,
+    //   create: createTitleScreen,
+    // },
+    // {
+    //   key: "Level1",
+    //   preload: preloadLevel1,
+    //   create: createLevel1,
+    //   update: updateLevel1,
+    // },
+    // {
+    //   key: "Elevator",
+    //   preload: preloadElevator,
+    //   create: createElevator,
+    //   update: updateElevator,
+    // },
     {
       key: "Level2",
       preload: preloadLevel2,
