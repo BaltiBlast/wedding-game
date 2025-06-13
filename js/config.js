@@ -25,6 +25,12 @@ const GameConfig = {
       update: updateLevel1,
     },
     {
+      key: "Elevator",
+      preload: preloadElevator,
+      create: createElevator,
+      update: updateElevator,
+    },
+    {
       key: "Level2",
       preload: preloadLevel2,
       create: createLevel2,

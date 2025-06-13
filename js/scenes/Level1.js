@@ -43,10 +43,11 @@ function createLevel1() {
   this.player.setScale(0.2);
   this.player.setOrigin(0.5, 1);
 
-  this.sound.play("music_level", {
+  this.musicLevel = this.sound.add("music_level", {
     loop: true,
     volume: 0.1,
   });
+  this.musicLevel.play();
 
   // Respiration naturelle
   this.tweens.add({
@@ -404,6 +405,16 @@ function createLevel1() {
       // Code correct !
       this.hideElevatorUI();
 
+      // Fondu de la musique
+      this.tweens.add({
+        targets: this.musicLevel,
+        volume: 0,
+        duration: 1000,
+        onComplete: () => {
+          this.musicLevel.stop();
+        },
+      });
+
       // Animation de transition
       this.cameras.main.fadeOut(1000, 0, 0, 0);
 
@@ -415,7 +426,7 @@ function createLevel1() {
 
       // Transition vers le niveau 2 après le fade
       this.cameras.main.once("camerafadeoutcomplete", () => {
-        this.scene.start("Level2"); // Vous devrez créer Level2
+        this.scene.start("Elevator");
       });
     } else {
       // Code incorrect

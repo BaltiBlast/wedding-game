@@ -14,7 +14,7 @@ function preloadTitleScreen() {
   this.load.audio("character-select", "assets/sounds/title_screen/woosh.mp3");
   this.load.audio("ambiance", "assets/sounds/title_screen/ambiance.mp3");
   this.load.audio("start", "assets/sounds/title_screen/start.mp3");
-  this.load.audio("music", "assets/sounds/title_screen/music_level.mp3");
+  this.load.audio("music", "assets/sounds/title_screen/ow_remake.mp3");
 }
 
 function createTitleScreen() {
@@ -27,13 +27,13 @@ function createTitleScreen() {
     loop: true,
   });
 
-  const musicLevel = this.sound.add("music", {
+  const musicScreenTitle = this.sound.add("music", {
     volume: 0.3,
     loop: true,
   });
 
   titleMusic.play();
-  musicLevel.play();
+  musicScreenTitle.play();
 
   // Image de fond
   this.add.image(512, 512, "title-background");
