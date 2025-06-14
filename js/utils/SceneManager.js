@@ -16,13 +16,6 @@ class SceneManager {
     });
   }
 
-  static changeSceneWithFade(currentScene, nextSceneKey, fadeOutDuration = durationDefault) {
-    this.fadeOutScene(currentScene, fadeOutDuration);
-    currentScene.cameras.main.once("camerafadeoutcomplete", () => {
-      currentScene.scene.start(nextSceneKey);
-    });
-  }
-
   static restartSceneWithFade(scene, fadeOutDuration = durationDefault) {
     this.fadeOutScene(scene, fadeOutDuration);
     scene.cameras.main.once("camerafadeoutcomplete", () => {

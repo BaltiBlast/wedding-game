@@ -1,349 +1,495 @@
-function preloadLevel1() {
-  // Images
-  this.load.image("lvl1-background", "assets/images/level1/lvl1_background.png");
-  this.load.image("npc-sprite", "assets/images/level1/Ardoise.png");
-  this.load.image("alexis-game-sprite", "assets/images/characters/Alexis.png");
-  this.load.image("vefa-game-sprite", "assets/images/characters/Vefa.png");
-  this.load.image("poteau1", "assets/images/level1/poteau1.png");
-  this.load.image("poteau2", "assets/images/level1/poteau2.png");
-  this.load.image("poteau3", "assets/images/level1/poteau3.png");
-  this.load.image("maison", "assets/images/level1/maison.png");
-  this.load.image("sapin", "assets/images/level1/sapin.png");
-  this.load.image("paper", "assets/images/level1/paper.png");
-
-  this.load.spritesheet("alexis-spritesheet", "assets/images/characters/alexis-spritesheet.png", {
-    frameWidth: 270,
-    frameHeight: 600,
-  });
-
-  this.load.spritesheet("vefa-spritesheet", "assets/images/characters/vefa-spritesheet.png", {
-    frameWidth: 270,
-    frameHeight: 600,
-  });
-
-  this.load.spritesheet("campfire", "assets/images/title_screen/fire_spark.png", {
-    frameWidth: 48,
-    frameHeight: 48,
-  });
-
-  // Audio
-  this.load.audio("footstep", "assets/sounds/step_walk/grass.mp3");
-  this.load.audio("access_denied", "assets/sounds/level1/access_denied.mp3");
-  this.load.audio("open", "assets/sounds/level1/open.wav");
-  this.load.audio("access_granted", "assets/sounds/level1/access_granted.wav");
-  this.load.audio("music_level", "assets/sounds/level1/music_level.mp3");
-}
-
-function createLevel1() {
-  this.cameras.main.fadeIn(1000, 0, 0, 0);
-  this.add.image(512, 512, "lvl1-background");
-
-  const selectedCharacter = this.registry.get("selectedCharacter") || "Vefa";
-  this.player = createAnimatedPlayer(this, 430, 570, selectedCharacter);
-  this.player.setScale(0.2);
-  this.player.setOrigin(0.5, 1);
-
-  this.musicLevel = this.sound.add("music_level", {
-    loop: true,
-    volume: 0.1,
-  });
-  this.musicLevel.play();
-
-  // Respiration naturelle
-  this.tweens.add({
-    targets: this.player,
-    scaleY: 0.205,
-    duration: 1000,
-    ease: "Sine.easeInOut",
-    yoyo: true,
-    repeat: -1,
-  });
-
-  // ------------------------------------------------------------ //
-  // Déplacement - STOCKER DANS THIS
-  createPlayerMovement(this, this.player, 135);
-  createPlayerDialogue(this);
-
-  // ------------------------------------------------------------ //
-  // COLIDERS DU NIVEAU
-  // ------------------------------------------------------------ //
-
-  // npc
-  this.npc = createObstacle(this, 680, 690, "npc-sprite", {
-    scale: 0.13,
-    size: { width: 750, height: 500 },
-    offset: { x: 200, y: 500 },
-  });
-
-  // poteau 1
-  this.poteau1 = createObstacle(this, 830, 710, "poteau1", {
-    scale: 1.1,
-    size: { width: 15, height: 20 },
-    offset: { x: 15, y: 100 },
-  });
-
-  // poteau 2
-  this.poteau2 = createObstacle(this, 490, 480, "poteau2", {
-    scale: 1.1,
-    size: { width: 15, height: 20 },
-    offset: { x: 10, y: 100 },
-  });
-
-  // poteau 3
-  this.poteau3 = createObstacle(this, 245, 580, "poteau3", {
-    scale: 1,
-    size: { width: 80, height: 30 },
-    offset: { x: 10, y: 100 },
-  });
-
-  // sapin 1
-  this.sapin1 = createObstacle(this, 60, 700, "sapin", {
-    scale: 1.2,
-    size: { width: 50, height: 30 },
-    offset: { x: 50, y: 250 },
-  });
-
-  // sapin 2
-  this.sapin2 = createObstacle(this, 900, 850, "sapin", {
-    scale: 0.8,
-    size: { width: 50, height: 30 },
-    offset: { x: 50, y: 250 },
-  });
-
-  // sapin 3
-  this.sapin3 = createObstacle(this, 90, 400, "sapin", {
-    scale: 0.9,
-    size: { width: 50, height: 30 },
-    offset: { x: 50, y: 250 },
-  });
-
-  // sapin 4
-  this.sapin4 = createObstacle(this, 990, 730, "sapin", {
-    scale: 1.2,
-    size: { width: 50, height: 30 },
-    offset: { x: 50, y: 250 },
-  });
-
-  // sapin 5
-  this.sapin5 = createObstacle(this, 250, 850, "sapin", {
-    scale: 1,
-    size: { width: 50, height: 30 },
-    offset: { x: 50, y: 250 },
-  });
-
-  // maison
-  this.maison = createObstacle(this, 839, 484, "maison", {
-    scale: 1,
-    size: { width: 180, height: 70 },
-    offset: { x: 20, y: 130 },
-  });
-
-  // ------------------------------------------------------------ //
-  // MUR INVISIBLE
-  // ------------------------------------------------------------ //
-
-  // mur feu de camp
-  this.roundRock = createRoundInvisibleWall(this, 550, 635, 55);
-
-  // mur bas
-  this.wallBottom = createInvisibleWall(this, 512, 1000, 1024, 200);
-
-  // mur haut
-  this.wallTop = createInvisibleWall(this, 512, 150, 1024, 350);
-
-  // mur gauche
-  this.wallLeft = createInvisibleWall(this, 20, 512, 40, 1024);
-
-  // mur droit
-  this.wallRight = createInvisibleWall(this, 1000, 512, 40, 1024);
-
-  // ------------------------------------------------------------ //
-  // SPRITESHEET FEU DE CAMP
-  // ------------------------------------------------------------ //
-
-  this.anims.create({
-    key: "campfire",
-    frames: this.anims.generateFrameNumbers("campfire", { start: 0, end: 7 }),
-    frameRate: 7,
-    repeat: -1,
-  });
-
-  this.campfire = this.add.sprite(547, 595, "campfire");
-  this.campfire.setScale(4);
-  this.campfire.setDepth(this.campfire.y);
-  this.campfire.play("campfire");
-
-  // Bulle d'interaction - STOCKER DANS THIS
-  this.interactionBubble = this.add.text(this.npc.x, this.npc.y).setOrigin(0.5).setVisible(false);
-
-  // Variables - STOCKER DANS THIS
-  this.interactionDistance = 80;
-  this.nearNPC = false;
-
-  createNPCDialogue(this);
-
-  // Texte du dialogue
-  if (selectedCharacter === "Alexis") {
-    this.npcDialogue = `Salut Alexis !\nSi tu veux sauver Vefa`;
-  } else {
-    this.npcDialogue = `Demat Vefa !\nSi tu veux sauver Alexis`;
+class Level1 extends Phaser.Scene {
+  constructor() {
+    super({ key: "Level1" });
   }
 
-  // ------------------------------------------------------------ //
-  // PAPIER AVEC LE CODE
-  // ------------------------------------------------------------ //
+  // ------------------------------------------------------------------------------------------ //
+  // PRELOAD SCENE'S ASSETS
+  // ------------------------------------------------------------------------------------------ //
+  preload() {
+    // Images
+    this.load.image("bg_level1", "assets/images/level1/bg_level1.png");
+    this.load.image("npc_ardoise", "assets/images/level1/npc_ardoise.png");
+    this.load.image("char_alexis_game", "assets/images/characters/char_alexis_game.png");
+    this.load.image("char_vefa_game", "assets/images/characters/char_vefa_game.png");
+    this.load.image("prop_pole1", "assets/images/level1/prop_pole1.png");
+    this.load.image("prop_pole2", "assets/images/level1/prop_pole2.png");
+    this.load.image("prop_pole3", "assets/images/level1/prop_pole3.png");
+    this.load.image("prop_house", "assets/images/level1/prop_house.png");
+    this.load.image("prop_tree", "assets/images/level1/prop_tree.png");
+    this.load.image("item_paper", "assets/images/level1/item_paper.png");
 
-  // Position du papier (ajustez selon votre map)
-  this.paper = this.add.image(200, 850, "paper");
-  this.paper.setScale(0.8);
+    // Spritesheets
+    this.load.spritesheet("char_alexis_spritesheet", "assets/images/characters/char_alexis_spritesheet.png", {
+      frameWidth: 270,
+      frameHeight: 600,
+    });
 
-  // Bulle d'information pour le papier
-  this.paperBubble = this.add
-    .text(this.paper.x, this.paper.y - 80, GameConfig.WEDDING_DATE, {
-      fontSize: "24px",
-      fill: "#64FFDA",
-      align: "center",
-      backgroundColor: "#1a1a2e",
-      padding: { x: 15, y: 10 },
-      stroke: "#64FFDA",
-      strokeThickness: 2,
-    })
-    .setOrigin(0.5)
-    .setDepth(999)
-    .setVisible(false);
+    this.load.spritesheet("char_vefa_spritesheet", "assets/images/characters/char_vefa_spritesheet.png", {
+      frameWidth: 270,
+      frameHeight: 600,
+    });
 
-  // Variables pour le papier
-  this.nearPaper = false;
-  this.paperFound = false;
+    this.load.spritesheet("fx_campfire", "assets/images/title_screen/fx_fire_animation.png", {
+      frameWidth: 48,
+      frameHeight: 48,
+    });
 
-  // ------------------------------------------------------------ //
-  // NOUVEAU : ASCENSEUR
-  // ------------------------------------------------------------ //
+    // Audio
+    this.load.audio("sfx_footstep_grass", "assets/sounds/step_walk/sfx_footstep_grass.mp3");
+    this.load.audio("sfx_access_denied", "assets/sounds/level1/sfx_access_denied.mp3");
+    this.load.audio("sfx_open", "assets/sounds/level1/sfx_open.wav");
+    this.load.audio("sfx_access_granted", "assets/sounds/level1/sfx_access_granted.wav");
+    this.load.audio("mus_level1_theme", "assets/sounds/level1/mus_level1_theme.mp3");
+  }
 
-  // Position de l'ascenseur (ajustez selon votre map)
-  this.elevator = createInvisibleWall(this, 210, 300, 80, 50);
+  // ------------------------------------------------------------------------------------------ //
+  // CREATE SCENE'S ELEMENTS
+  // ------------------------------------------------------------------------------------------ //
+  create() {
+    // Scene transition
+    this.setupTransition();
 
-  // Bulle d'interaction pour l'ascenseur
-  this.elevatorBubble = this.add
-    .text(this.elevator.x, this.elevator.y - 100, "🔐", {
-      fontSize: "32px",
-    })
-    .setOrigin(0.5)
-    .setVisible(false);
+    // Background
+    this.add.image(512, 512, "bg_level1");
 
-  // Variables pour l'ascenseur
-  this.nearElevator = false;
-  this.elevatorUIVisible = false;
+    // Audio setup
+    this.setupAudio();
 
-  // ------------------------------------------------------------ //
-  // INTERFACE DE L'ASCENSEUR
-  // ------------------------------------------------------------ //
+    // Player setup
+    this.createPlayer();
 
-  // Fond de l'interface
-  this.elevatorUI = this.add.rectangle(512, 512, 400, 300, 0x1a1a2e, 0.95);
-  this.elevatorUI.setStrokeStyle(4, 0x64ffda);
-  this.elevatorUI.setVisible(false);
-  this.elevatorUI.setDepth(1000);
+    // Level obstacles
+    this.createObstacles();
 
-  // Titre
-  this.elevatorTitle = this.add
-    .text(512, 420, "CODE DE L'ASCENSEUR", {
-      fontSize: "24px",
-      fill: "#64FFDA",
-      fontWeight: "bold",
-    })
-    .setOrigin(0.5)
-    .setVisible(false)
-    .setDepth(1001);
+    // Invisible walls
+    this.createInvisibleWalls();
 
-  // Input visuel
-  this.codeInputBG = this.add.rectangle(512, 480, 250, 50, 0x2d4a22);
-  this.codeInputBG.setStrokeStyle(2, 0x64ffda);
-  this.codeInputBG.setVisible(false);
-  this.codeInputBG.setDepth(1001);
+    // Decorative elements
+    this.createDecorativeElements();
 
-  this.codeInputText = this.add
-    .text(512, 480, "", {
-      fontSize: "20px",
-      fill: "#ffffff",
-      backgroundColor: "#2d4a22",
-      padding: { x: 10, y: 8 },
-    })
-    .setOrigin(0.5)
-    .setVisible(false)
-    .setDepth(1002);
+    // Interactive elements
+    this.createInteractiveElements();
 
-  // Placeholder
-  this.inputPlaceholder = this.add
-    .text(512, 480, "Entrez le code...", {
-      fontSize: "18px",
-      fill: "#888888",
-    })
-    .setOrigin(0.5)
-    .setVisible(false)
-    .setDepth(1002);
+    // Elevator UI
+    this.createElevatorUI();
+  }
 
-  // Bouton valider
-  this.validateButton = this.add.rectangle(512, 550, 150, 40, 0x64ffda);
-  this.validateButton.setStrokeStyle(2, 0x64ffda);
-  this.validateButton.setVisible(false);
-  this.validateButton.setInteractive({ useHandCursor: true });
-  this.validateButton.setDepth(1001);
+  // ------------------------------------------------------------------------------------------ //
+  // UPDATE LOOP
+  // ------------------------------------------------------------------------------------------ //
+  update() {
+    if (!this.elevatorUIVisible) {
+      PlayerManager.updatePlayerMovement(this);
+    }
 
-  this.validateButtonText = this.add
-    .text(512, 550, "VALIDER", {
-      fontSize: "16px",
-      fill: "#1a1a2e",
-      fontWeight: "bold",
-    })
-    .setOrigin(0.5)
-    .setVisible(false)
-    .setDepth(1002);
+    this.updateInteractions();
+    this.updateDynamicDepth();
+  }
 
-  // Bouton fermer
-  this.closeButton = this.add.rectangle(512, 600, 100, 30, 0x1a1a2e);
-  this.closeButton.setStrokeStyle(2, 0x666666);
-  this.closeButton.setVisible(false);
-  this.closeButton.setInteractive({ useHandCursor: true });
-  this.closeButton.setDepth(1001);
+  // ------------------------------------------------------------------------------------------ //
+  // INTERACTIONS UPDATE
+  // ------------------------------------------------------------------------------------------ //
+  updateInteractions() {
+    if (this.elevatorUIVisible) return; // Skip interactions when UI is open
 
-  this.closeButtonText = this.add
-    .text(512, 600, "FERMER", {
-      fontSize: "14px",
-      fill: "#ffffff",
-    })
-    .setOrigin(0.5)
-    .setVisible(false)
-    .setDepth(1002);
+    // NPC interaction
+    checkProximity(
+      this,
+      this.npc,
+      "nearNPC",
+      this.interactionDistance,
+      () => {
+        this.interactionBubble.setVisible(true);
+        DialogueManager.showNPCDialogue(this, this.npcDialogue, "npc_ardoise", "Ardoise");
+      },
+      () => {
+        this.interactionBubble.setVisible(false);
+        DialogueManager.hideNPCDialogue(this);
+      }
+    );
 
-  // Message d'erreur
-  this.errorMessage = this.add
-    .text(512, 380, "", {
-      fontSize: "16px",
-      fill: "#ff6b6b",
-      fontWeight: "bold",
-    })
-    .setOrigin(0.5)
-    .setVisible(false)
-    .setDepth(1002);
+    // Paper interaction
+    checkProximity(
+      this,
+      this.paper,
+      "nearPaper",
+      this.interactionDistance,
+      () => {
+        this.paperBubble.setVisible(true);
+      },
+      () => {
+        this.paperBubble.setVisible(false);
+      }
+    );
 
-  // Variables pour la saisie du code
-  this.currentCode = "";
-  this.maxCodeLength = 8;
+    // Elevator interaction
+    checkProximity(
+      this,
+      this.elevator,
+      "nearElevator",
+      this.interactionDistance,
+      () => {
+        if (!this.elevatorUIVisible) {
+          this.elevatorBubble.setVisible(true);
+          this.showElevatorUI();
+        }
+      },
+      () => {
+        this.elevatorBubble.setVisible(false);
+        if (this.elevatorUIVisible) {
+          this.hideElevatorUI();
+        }
+      }
+    );
 
-  // ------------------------------------------------------------ //
-  // MÉTHODES DE L'ASCENSEUR (attachées à this)
-  // ------------------------------------------------------------ //
+    // Button hover effects
+    this.updateButtonHovers();
+  }
 
-  this.showElevatorUI = function () {
+  updateButtonHovers() {
+    if (!this.elevatorUIVisible) return;
+
+    // Validate button hover
+    checkButtonHover(
+      this,
+      this.validateButton,
+      "hoveringValidateButton",
+      () => this.validateButton.setFillStyle(0x85ffe4),
+      () => this.validateButton.setFillStyle(0x64ffda)
+    );
+
+    // Close button hover
+    checkButtonHover(
+      this,
+      this.closeButton,
+      "hoveringCloseButton",
+      () => this.closeButton.setFillStyle(0x2b2b44),
+      () => this.closeButton.setFillStyle(0x1a1a2e)
+    );
+  }
+
+  // ------------------------------------------------------------------------------------------ //
+  // DYNAMIC DEPTH MANAGEMENT
+  // ------------------------------------------------------------------------------------------ //
+  updateDynamicDepth() {
+    this.dynamicDepthObjects = [
+      this.player,
+      this.npc,
+      this.poteau1,
+      this.poteau2,
+      this.poteau3,
+      this.sapin1,
+      this.sapin2,
+      this.sapin3,
+      this.sapin4,
+      this.sapin5,
+      this.maison,
+    ];
+
+    this.dynamicDepthObjects.forEach((obj) => {
+      if (obj) {
+        obj.setDepth(obj.y);
+      }
+    });
+  }
+
+  // ------------------------------------------------------------------------------------------ //
+  // SCENE TRANSITION SETUP
+  // ------------------------------------------------------------------------------------------ //
+  setupTransition() {
+    SceneManager.fadeInScene(this);
+  }
+
+  // ------------------------------------------------------------------------------------------ //
+  // AUDIO SETUP
+  // ------------------------------------------------------------------------------------------ //
+  setupAudio() {
+    this.musicLevel = AudioManager.playMusic(this, "mus_level1_theme", 0.1);
+  }
+
+  // ------------------------------------------------------------------------------------------ //
+  // PLAYER SETUP
+  // ------------------------------------------------------------------------------------------ //
+  createPlayer() {
+    const selectedCharacter = this.registry.get("selectedCharacter") || "Vefa";
+    this.player = PlayerManager.setupCompletePlayer(this, 430, 570, selectedCharacter, 135);
+  }
+
+  // ------------------------------------------------------------------------------------------ //
+  // OBSTACLES SETUP
+  // ------------------------------------------------------------------------------------------ //
+  createObstacles() {
+    // NPC
+    this.npc = ObstacleManager.createNPC(this, 680, 690, "npc_ardoise", {
+      scale: 0.13,
+      size: { width: 750, height: 500 },
+      offset: { x: 200, y: 500 },
+    });
+
+    // Poles
+    this.poteau1 = ObstacleManager.createPole(this, 830, 710, "prop_pole1", 1.1, 15, 20);
+    this.poteau2 = ObstacleManager.createPole(this, 490, 480, "prop_pole2", 1.1, 15, 20);
+    this.poteau3 = ObstacleManager.createPole(this, 245, 580, "prop_pole3", 1, 80, 30);
+
+    // Trees
+    this.sapin1 = ObstacleManager.createTree(this, 60, 700, "prop_tree", 1.2);
+    this.sapin2 = ObstacleManager.createTree(this, 900, 850, "prop_tree", 0.8);
+    this.sapin3 = ObstacleManager.createTree(this, 90, 400, "prop_tree", 0.9);
+    this.sapin4 = ObstacleManager.createTree(this, 990, 730, "prop_tree", 1.2);
+    this.sapin5 = ObstacleManager.createTree(this, 250, 850, "prop_tree", 1);
+
+    // House
+    this.maison = ObstacleManager.createHouse(this, 839, 484, "prop_house");
+  }
+
+  // ------------------------------------------------------------------------------------------ //
+  // INVISIBLE WALLS SETUP
+  // ------------------------------------------------------------------------------------------ //
+  createInvisibleWalls() {
+    // Level boundaries
+    this.wallBottom = ObstacleManager.createInvisibleWall(this, 512, 1000, 1024, 200);
+    this.wallTop = ObstacleManager.createInvisibleWall(this, 512, 150, 1024, 350);
+    this.wallLeft = ObstacleManager.createInvisibleWall(this, 20, 512, 40, 1024);
+    this.wallRight = ObstacleManager.createInvisibleWall(this, 1000, 512, 40, 1024);
+
+    // Special walls
+    this.roundRock = ObstacleManager.createRoundInvisibleWall(this, 550, 635, 55);
+  }
+
+  // ------------------------------------------------------------------------------------------ //
+  // DECORATIVE ELEMENTS SETUP
+  // ------------------------------------------------------------------------------------------ //
+  createDecorativeElements() {
+    // Campfire animation
+    this.anims.create({
+      key: "fx_campfire",
+      frames: this.anims.generateFrameNumbers("fx_campfire", { start: 0, end: 7 }),
+      frameRate: 7,
+      repeat: -1,
+    });
+
+    this.campfire = this.add.sprite(547, 595, "fx_campfire");
+    this.campfire.setScale(4);
+    this.campfire.setDepth(this.campfire.y);
+    this.campfire.play("fx_campfire");
+  }
+
+  // ------------------------------------------------------------------------------------------ //
+  // INTERACTIVE ELEMENTS SETUP
+  // ------------------------------------------------------------------------------------------ //
+  createInteractiveElements() {
+    // NPC dialogue setup
+    this.interactionBubble = this.add.text(this.npc.x, this.npc.y).setOrigin(0.5).setVisible(false);
+    this.interactionDistance = 80;
+    this.nearNPC = false;
+
+    // Paper with code
+    this.paper = this.add.image(200, 850, "item_paper");
+    this.paper.setScale(0.8);
+
+    this.paperBubble = this.add
+      .text(this.paper.x, this.paper.y - 80, GameConfig.WEDDING_DATE, {
+        fontSize: "24px",
+        fill: "#64FFDA",
+        align: "center",
+        backgroundColor: "#1a1a2e",
+        padding: { x: 15, y: 10 },
+        stroke: "#64FFDA",
+        strokeThickness: 2,
+      })
+      .setOrigin(0.5)
+      .setDepth(999)
+      .setVisible(false);
+
+    this.nearPaper = false;
+    this.paperFound = false;
+
+    // Elevator
+    this.elevator = ObstacleManager.createInvisibleWall(this, 210, 300, 80, 50);
+
+    this.elevatorBubble = this.add
+      .text(this.elevator.x, this.elevator.y - 100, "🔐", {
+        fontSize: "32px",
+      })
+      .setOrigin(0.5)
+      .setVisible(false);
+
+    this.nearElevator = false;
+    this.elevatorUIVisible = false;
+
+    // Setup dialogue
+    DialogueManager.createNPCDialogue(this);
+    const selectedCharacter = this.registry.get("selectedCharacter") || "Vefa";
+    if (selectedCharacter === "Alexis") {
+      this.npcDialogue = `Salut Alexis !\nSi tu veux sauver Vefa`;
+    } else {
+      this.npcDialogue = `Demat Vefa !\nSi tu veux sauver Alexis`;
+    }
+  }
+
+  // ------------------------------------------------------------------------------------------ //
+  // ELEVATOR UI SETUP
+  // ------------------------------------------------------------------------------------------ //
+  createElevatorUI() {
+    // Background
+    this.elevatorUI = this.add.rectangle(512, 512, 400, 300, 0x1a1a2e, 0.95);
+    this.elevatorUI.setStrokeStyle(4, 0x64ffda);
+    this.elevatorUI.setVisible(false);
+    this.elevatorUI.setDepth(1000);
+
+    // Title
+    this.elevatorTitle = this.add
+      .text(512, 420, "CODE DE L'ASCENSEUR", {
+        fontSize: "24px",
+        fill: "#64FFDA",
+        fontWeight: "bold",
+      })
+      .setOrigin(0.5)
+      .setVisible(false)
+      .setDepth(1001);
+
+    // Input field
+    this.codeInputBG = this.add.rectangle(512, 480, 250, 50, 0x2d4a22);
+    this.codeInputBG.setStrokeStyle(2, 0x64ffda);
+    this.codeInputBG.setVisible(false);
+    this.codeInputBG.setDepth(1001);
+
+    this.codeInputText = this.add
+      .text(512, 480, "", {
+        fontSize: "20px",
+        fill: "#ffffff",
+        backgroundColor: "#2d4a22",
+        padding: { x: 10, y: 8 },
+      })
+      .setOrigin(0.5)
+      .setVisible(false)
+      .setDepth(1002);
+
+    // Placeholder
+    this.inputPlaceholder = this.add
+      .text(512, 480, "Entrez le code...", {
+        fontSize: "18px",
+        fill: "#888888",
+      })
+      .setOrigin(0.5)
+      .setVisible(false)
+      .setDepth(1002);
+
+    // Validate button
+    this.validateButton = this.add.rectangle(512, 550, 150, 40, 0x64ffda);
+    this.validateButton.setStrokeStyle(2, 0x64ffda);
+    this.validateButton.setVisible(false);
+    this.validateButton.setInteractive({ useHandCursor: true });
+    this.validateButton.setDepth(1001);
+
+    this.validateButtonText = this.add
+      .text(512, 550, "VALIDER", {
+        fontSize: "16px",
+        fill: "#1a1a2e",
+        fontWeight: "bold",
+      })
+      .setOrigin(0.5)
+      .setVisible(false)
+      .setDepth(1002);
+
+    // Close button
+    this.closeButton = this.add.rectangle(512, 600, 100, 30, 0x1a1a2e);
+    this.closeButton.setStrokeStyle(2, 0x666666);
+    this.closeButton.setVisible(false);
+    this.closeButton.setInteractive({ useHandCursor: true });
+    this.closeButton.setDepth(1001);
+
+    this.closeButtonText = this.add
+      .text(512, 600, "FERMER", {
+        fontSize: "14px",
+        fill: "#ffffff",
+      })
+      .setOrigin(0.5)
+      .setVisible(false)
+      .setDepth(1002);
+
+    // Error message
+    this.errorMessage = this.add
+      .text(512, 380, "", {
+        fontSize: "16px",
+        fill: "#ff6b6b",
+        fontWeight: "bold",
+      })
+      .setOrigin(0.5)
+      .setVisible(false)
+      .setDepth(1002);
+
+    // Variables
+    this.currentCode = "";
+    this.maxCodeLength = 8;
+
+    // Setup interactions
+    this.setupElevatorInteractions();
+  }
+
+  // ------------------------------------------------------------------------------------------ //
+  // ELEVATOR INTERACTIONS SETUP
+  // ------------------------------------------------------------------------------------------ //
+  setupElevatorInteractions() {
+    // Button events
+    this.validateButton.on("pointerdown", () => {
+      this.validateCode();
+    });
+
+    this.validateButton.on("pointerover", () => {
+      this.validateButton.setFillStyle(0x7cffea);
+      this.validateButtonText.setColor("#1a1a2e");
+    });
+
+    this.validateButton.on("pointerout", () => {
+      this.validateButton.setFillStyle(0x64ffda);
+      this.validateButtonText.setColor("#1a1a2e");
+    });
+
+    this.closeButton.on("pointerdown", () => {
+      this.hideElevatorUI();
+    });
+
+    this.closeButton.on("pointerover", () => {
+      this.closeButton.setFillStyle(0x555555);
+      this.closeButtonText.setColor("#ffffff");
+    });
+
+    this.closeButton.on("pointerout", () => {
+      this.closeButton.setFillStyle(0x444444);
+      this.closeButtonText.setColor("#ffffff");
+    });
+
+    // Keyboard input
+    this.input.keyboard.on("keydown", (event) => {
+      if (this.elevatorUIVisible) {
+        event.preventDefault();
+
+        if (event.key === "Backspace") {
+          this.currentCode = this.currentCode.slice(0, -1);
+          this.updateCodeDisplay();
+        } else if (event.key === "Enter") {
+          this.validateCode();
+        } else if (event.key.length === 1 && this.currentCode.length < this.maxCodeLength) {
+          if (/[a-zA-Z0-9\.\-\/]/.test(event.key)) {
+            this.currentCode += event.key;
+            this.updateCodeDisplay();
+          }
+        }
+      }
+    });
+  }
+
+  // ------------------------------------------------------------------------------------------ //
+  // ELEVATOR UI MANAGEMENT
+  // ------------------------------------------------------------------------------------------ //
+  showElevatorUI() {
     this.elevatorUIVisible = true;
 
-    // Forcer l'arrêt du mouvement en réinitialisant les états des touches
-    stopPlayer(this);
-
-    this.sound.play("open", {
-      volume: 0.3,
-    });
+    // Stop player movement
+    PlayerManager.stopPlayer(this);
+    AudioManager.playSound(this, "sfx_open", 0.3);
 
     this.elevatorElements = [
       this.elevatorUI,
@@ -358,34 +504,34 @@ function createLevel1() {
       this.errorMessage,
     ];
 
-    // Afficher tous les éléments de l'UI
+    // Show all elements
     this.elevatorElements.forEach((el) => el.setVisible(true));
 
-    // Cacher la bulle d'interaction
+    // Hide interaction bubble
     this.elevatorBubble.setVisible(false);
 
-    // Reset du code
+    // Reset code
     this.currentCode = "";
     this.updateCodeDisplay();
     this.errorMessage.setVisible(false);
-  };
+  }
 
-  this.hideElevatorUI = function () {
+  hideElevatorUI() {
     this.elevatorUIVisible = false;
 
     this.elevatorElements.forEach((el) => el.setVisible(false));
 
-    // Reset du code quand on ferme
+    // Reset code
     this.currentCode = "";
 
-    // Remettre le joueur en animation idle dans la dernière direction
+    // Reset player idle animation
     if (this.player.anims) {
       const idleDirection = this.lastDirection || "down";
       this.player.anims.play(`idle-${idleDirection}`, true);
     }
-  };
+  }
 
-  this.updateCodeDisplay = function () {
+  updateCodeDisplay() {
     if (this.currentCode.length > 0) {
       this.codeInputText.setText(this.currentCode);
       this.codeInputText.setVisible(true);
@@ -395,49 +541,33 @@ function createLevel1() {
       this.codeInputText.setVisible(false);
       this.inputPlaceholder.setVisible(true);
     }
-  };
+  }
 
-  this.validateCode = function () {
-    // Effacer le message d'erreur précédent
+  validateCode() {
+    // Clear previous error
     this.errorMessage.setVisible(false);
 
     if (this.currentCode === GameConfig.WEDDING_DATE) {
-      // Code correct !
+      // Correct code!
       this.hideElevatorUI();
 
-      // Fondu de la musique
-      this.tweens.add({
-        targets: this.musicLevel,
-        volume: 0,
-        duration: 1000,
-        onComplete: () => {
-          this.musicLevel.stop();
-        },
-      });
+      // Fade out music
+      const musLevel1Theme = this.sound.get("mus_level1_theme");
+      AudioManager.stopSoundFadeOut(this, musLevel1Theme, 1000);
 
-      // Animation de transition
-      this.cameras.main.fadeOut(1000, 0, 0, 0);
+      // Success sound
+      AudioManager.playSound(this, "sfx_access_granted", 0.3);
 
-      // Message de succès avant la transition
-
-      this.sound.play("access_granted", {
-        volume: 0.3,
-      });
-
-      // Transition vers le niveau 2 après le fade
-      this.cameras.main.once("camerafadeoutcomplete", () => {
-        this.scene.start("Elevator");
-      });
+      // Scene transition
+      SceneManager.changeSceneWithFade(this, "Elevator", 1000);
     } else {
-      // Code incorrect
+      // Incorrect code
       this.errorMessage.setText("Code incorrect !");
       this.errorMessage.setVisible(true);
 
-      this.sound.play("access_denied", {
-        volume: 0.3,
-      });
+      AudioManager.playSound(this, "sfx_access_denied", 0.3);
 
-      // Faire clignoter l'input en rouge
+      // Flash input red
       this.tweens.add({
         targets: this.codeInputBG,
         alpha: 0.3,
@@ -449,188 +579,9 @@ function createLevel1() {
         },
       });
 
-      // Effacer le code après 2 secondes
-      this.time.delayedCall(2000, () => {
-        this.currentCode = "";
-        this.updateCodeDisplay();
-        this.errorMessage.setVisible(false);
-      });
+      this.currentCode = "";
+      this.updateCodeDisplay();
+      this.errorMessage.setVisible(false);
     }
-  };
-
-  // ------------------------------------------------------------ //
-  // GESTION DU CLAVIER POUR L'INPUT
-  // ------------------------------------------------------------ //
-
-  this.input.keyboard.on("keydown", (event) => {
-    if (this.elevatorUIVisible) {
-      event.preventDefault();
-
-      if (event.key === "Backspace") {
-        this.currentCode = this.currentCode.slice(0, -1);
-        this.updateCodeDisplay();
-      } else if (event.key === "Enter") {
-        this.validateCode();
-      } else if (event.key.length === 1 && this.currentCode.length < this.maxCodeLength) {
-        if (/[a-zA-Z0-9\.\-\/]/.test(event.key)) {
-          this.currentCode += event.key;
-          this.updateCodeDisplay();
-        }
-      }
-    }
-  });
-
-  // ------------------------------------------------------------ //
-  // EVENTS DES BOUTONS
-  // ------------------------------------------------------------ //
-
-  this.validateButton.on("pointerdown", () => {
-    this.validateCode();
-  });
-
-  this.validateButton.on("pointerover", () => {
-    this.validateButton.setFillStyle(0x7cffea);
-    this.validateButtonText.setColor("#1a1a2e");
-  });
-
-  this.validateButton.on("pointerout", () => {
-    this.validateButton.setFillStyle(0x64ffda);
-    this.validateButtonText.setColor("#1a1a2e");
-  });
-
-  this.closeButton.on("pointerdown", () => {
-    this.hideElevatorUI();
-  });
-
-  this.closeButton.on("pointerover", () => {
-    this.closeButton.setFillStyle(0x555555);
-    this.closeButtonText.setColor("#ffffff");
-  });
-
-  this.closeButton.on("pointerout", () => {
-    this.closeButton.setFillStyle(0x444444);
-    this.closeButtonText.setColor("#ffffff");
-  });
-
-  // ------------------------------------------------------------ //
-  // PLAYER
-  this.physics.add.existing(this.player);
-  this.player.body.setSize(250, 75);
-  this.player.body.setOffset(0, 500);
-}
-
-function updateLevel1() {
-  if (!this.elevatorUIVisible) {
-    updatePlayerMovement(this);
   }
-
-  // ------------------------------------------------------------ //
-  // GESTION NPC (existant)
-  // ------------------------------------------------------------ //
-  checkProximity(
-    this,
-    this.npc,
-    "nearNPC",
-    this.interactionDistance,
-    () => {
-      this.interactionBubble.setVisible(true);
-      showNPCDialogue(this, this.npcDialogue, "npc-sprite", "Ardoise");
-    },
-    () => {
-      this.interactionBubble.setVisible(false);
-      hideNPCDialogue(this);
-    }
-  );
-
-  // ------------------------------------------------------------ //
-  // NOUVEAU : GESTION DU PAPIER
-  // ------------------------------------------------------------ //
-  // Papier
-  checkProximity(
-    this,
-    this.paper,
-    "nearPaper",
-    this.interactionDistance,
-    () => {
-      this.paperBubble.setVisible(true);
-    },
-    () => {
-      this.paperBubble.setVisible(false);
-    }
-  );
-
-  // ------------------------------------------------------------ //
-  // NOUVEAU : GESTION DE L'ASCENSEUR
-  // ------------------------------------------------------------ //
-  // Ascenseur
-  checkProximity(
-    this,
-    this.elevator,
-    "nearElevator",
-    this.interactionDistance,
-    () => {
-      if (!this.elevatorUIVisible) {
-        this.elevatorBubble.setVisible(true);
-        this.showElevatorUI(); // Bouton valider
-        checkButtonHover(
-          this,
-          this.validateButton,
-          "hoveringValidateButton",
-          () => this.validateButton.setFillStyle(0x64ffda),
-          () => this.validateButton.setFillStyle(0x1a1a2e)
-        );
-
-        // Bouton fermer
-        checkButtonHover(
-          this,
-          this.closeButton,
-          "hoveringCloseButton",
-          () => this.closeButton.setFillStyle(0x64ffda),
-          () => this.closeButton.setFillStyle(0x1a1a2e)
-        );
-      }
-    },
-    () => {
-      this.elevatorBubble.setVisible(false);
-      if (this.elevatorUIVisible) {
-        this.hideElevatorUI();
-      }
-    }
-  );
-
-  // Bouton valider
-  checkButtonHover(
-    this,
-    this.validateButton,
-    "hoveringValidateButton",
-    () => this.validateButton.setFillStyle(0x85ffe4),
-    () => this.validateButton.setFillStyle(0x64ffda)
-  );
-
-  // Bouton fermer
-  checkButtonHover(
-    this,
-    this.closeButton,
-    "hoveringCloseButton",
-    () => this.closeButton.setFillStyle(0x2b2b44),
-    () => this.closeButton.setFillStyle(0x1a1a2e)
-  );
-
-  this.dynamicDepthObjects = [
-    this.player,
-    this.npc,
-    this.poteau1,
-    this.poteau2,
-    this.poteau3,
-    this.sapin1,
-    this.sapin2,
-    this.sapin3,
-    this.sapin4,
-    this.sapin5,
-    this.maison,
-  ];
-
-  this.dynamicDepthObjects.forEach((obj) => {
-    obj.setDepth(obj.y);
-  });
 }

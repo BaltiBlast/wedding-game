@@ -28,9 +28,19 @@ class PlayerManager {
   }
 
   static stopPlayer(scene) {
-    if (typeof stopPlayer === "function") {
-      stopPlayer(scene);
+    if (!scene.player || !scene.player.body) return;
+    scene.player.body.setVelocity(0);
+
+    if (scene.player.anims) {
+      const idleDirection = scene.lastDirection || "down";
+      scene.player.anims.play(`idle-${idleDirection}`, true);
     }
+
+    if (scene.footstepSound && scene.footstepSound.isPlaying) {
+      scene.footstepSound.stop();
+    }
+
+    scene.wasMoving = false;
   }
 
   static createPlayerMovement(scene, player, moveSpeed) {

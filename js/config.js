@@ -6,7 +6,7 @@ const GameConfig = {
   backgroundColor: "#000000",
   physics: {
     default: "arcade",
-    arcade: { debug: true },
+    arcade: { debug: false },
   },
   // Constantes du jeu
   WEDDING_DATE: "27.09.25",
@@ -14,12 +14,8 @@ const GameConfig = {
   // Scènes du jeu
   scenes: [
     ScreenTitle,
-    // {
-    //   key: "Level1",
-    //   preload: preloadLevel1,
-    //   create: createLevel1,
-    //   update: updateLevel1,
-    // },
+    Level1,
+
     // {
     //   key: "Elevator",
     //   preload: preloadElevator,
