@@ -38,6 +38,7 @@ function createLevel2() {
   this.player.setScale(0.25);
   this.player.setOrigin(0.5, 1);
 
+  this.footSteps = this.sound.get("");
   createPlayerMovement(this, this.player, 135);
 
   this.tweens.add({
@@ -188,7 +189,7 @@ function createLevel2() {
     this.add.image(512, 512, "cockpit").setDepth(0);
     this.spaceship.setVisible(false);
     this.fences.setVisible(false);
-    startHologramForm(this, initialQuestions); // <-- ajout ici
+    startHologramForm(this, initialQuestions);
   }.bind(this);
 
   this.spaceshipNoBtn.on("pointerdown", () => {

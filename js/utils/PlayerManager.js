@@ -43,15 +43,15 @@ class PlayerManager {
     scene.wasMoving = false;
   }
 
-  static createPlayerMovement(scene, player, moveSpeed) {
+  static createPlayerMovement(scene, player, moveSpeed, footstepSoundKey) {
     scene.player = player;
     scene.cursors = scene.input.keyboard.createCursorKeys();
     scene.wasdKeys = scene.input.keyboard.addKeys("Z,Q,S,D");
     scene.moveSpeed = moveSpeed;
 
-    scene.footstepSound = scene.sound.add("sfx_footstep_grass", {
+    scene.footstepSound = scene.sound.add(footstepSoundKey, {
       loop: true,
-      volume: 0.5,
+      volume: 0.2,
     });
     scene.wasMoving = false;
   }
@@ -232,10 +232,21 @@ class PlayerManager {
     scene.wasMoving = isMoving;
   }
 
-  static setupCompletePlayer(scene, x, y, selectedCharacter, speed = 135) {
+  static playerFadeout(scene, currentPlayer) {
+    scene.tweens.add({
+      targets: currentPlayer,
+      alpha: 0,
+      duration: 500,
+      onComplete: () => {
+        currentPlayer.setVisible(false);
+      },
+    });
+  }
+
+  static setupCompletePlayer(scene, x, y, selectedCharacter, speed = 135, footstepSoundKey) {
     const player = this.createPlayer(scene, x, y, selectedCharacter);
     this.addBreathingAnimation(scene, player);
-    this.createPlayerMovement(scene, player, speed);
+    this.createPlayerMovement(scene, player, speed, footstepSoundKey);
     this.setupPlayerDialogue(scene);
     return player;
   }

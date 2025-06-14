@@ -84,11 +84,10 @@ class Elevator extends Phaser.Scene {
     this.tweens.add({
       targets: this.musicLevel,
       volume: 0,
-      delay: 8000,
-      duration: 4000,
+      delay: 10000,
       onComplete: () => {
         AudioManager.stopSoundFadeOut(this, this.musicLevel);
-        SceneManager.changeSceneWithFade(this, "level2");
+        SceneManager.changeSceneWithFade(this, "Level2");
       },
     });
   }

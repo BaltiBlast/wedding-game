@@ -213,7 +213,7 @@ class Level1 extends Phaser.Scene {
   // ------------------------------------------------------------------------------------------ //
   createPlayer() {
     const selectedCharacter = this.registry.get("selectedCharacter") || "Vefa";
-    this.player = PlayerManager.setupCompletePlayer(this, 430, 570, selectedCharacter, 135);
+    this.player = PlayerManager.setupCompletePlayer(this, 430, 570, selectedCharacter, 135, "sfx_footstep_grass");
   }
 
   // ------------------------------------------------------------------------------------------ //
