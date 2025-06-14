@@ -1,3 +1,5 @@
+const audioDurationDefault = 2000;
+
 class AudioManager {
   static playSound(scene, soundKey, volume, loop = false) {
     const sound = scene.sound.add(soundKey, {
@@ -9,7 +11,7 @@ class AudioManager {
     return sound;
   }
 
-  static playSoundFadeIn(scene, soundKey, targetVolume = 1, duration = 1000, loop = false) {
+  static playSoundFadeIn(scene, soundKey, targetVolume = 1, duration = audioDurationDefault, loop = false) {
     const sound = scene.sound.add(soundKey, {
       volume: 0,
       loop: loop,
@@ -27,7 +29,7 @@ class AudioManager {
     return sound;
   }
 
-  static stopSoundFadeOut(scene, sound, duration = 1000) {
+  static stopSoundFadeOut(scene, sound, duration = audioDurationDefault) {
     scene.tweens.add({
       targets: sound,
       volume: 0,
@@ -47,7 +49,7 @@ class AudioManager {
     return this.playSound(scene, musicKey, volume, true);
   }
 
-  static playMusicFadeIn(scene, musicKey, targetVolume = 0.5, duration = 1000) {
+  static playMusicFadeIn(scene, musicKey, targetVolume = 0.5, duration = audioDurationDefault) {
     return this.playSoundFadeIn(scene, musicKey, targetVolume, duration, true);
   }
 }

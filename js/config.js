@@ -10,18 +10,13 @@ const GameConfig = {
   },
   // Constantes du jeu
   WEDDING_DATE: "27.09.25",
+  defaultDuration: 2000,
 
   // Scènes du jeu
   scenes: [
     ScreenTitle,
     Level1,
-
-    // {
-    //   key: "Elevator",
-    //   preload: preloadElevator,
-    //   create: createElevator,
-    //   update: updateElevator,
-    // },
+    Elevator,
     // {
     //   key: "Level2",
     //   preload: preloadLevel2,

@@ -1,69 +1,95 @@
-function preloadElevator() {
-  // Images
-  this.load.image("elevator", "assets/images/elevator/elevator.png");
-  this.load.image("alexis-game-sprite", "assets/images/characters/Alexis.png");
-  this.load.image("vefa-game-sprite", "assets/images/characters/Vefa.png");
-
-  // Musique
-  this.load.audio("music_elevator", "assets/sounds/elevator/music_level.mp3");
-}
-function createElevator() {
-  const SCENE_DURATION = 10000; // Durée totale de la scène en ms
-  const MUSIC_FADE_DURATION = 2000;
-  this.cameras.main.fadeIn(1000, 0, 0, 0);
-
-  // Placeholder de la cage d’ascenseur
-  this.elevatorCage = this.add.image(512, 512, "elevator");
-
-  // Joueur visible dans l’ascenseur (sprite à ajuster selon le personnage)
-  const selectedCharacter = this.registry.get("selectedCharacter") || "Alexis";
-
-  if (selectedCharacter === "Vefa") {
-    this.player = this.add.sprite(430, 650, `${selectedCharacter.toLowerCase()}-game-sprite`);
-    this.player.setScale(0.6);
-  } else {
-    this.player = this.add.sprite(430, 620, `${selectedCharacter.toLowerCase()}-game-sprite`);
-    this.player.setScale(2);
+class Elevator extends Phaser.Scene {
+  constructor() {
+    super({ key: "Elevator" });
   }
 
-  this.player.setDepth(2);
+  preload() {
+    // Images
+    this.load.image("bg_elevator", "assets/images/elevator/bg_elevator.png");
+    this.load.image("char_alexis_game", "assets/images/characters/char_alexis_game.png");
+    this.load.image("char_vefa_game", "assets/images/characters/char_vefa_game.png");
 
-  // Animation de tremblement de la cage
-  this.tweens.add({
-    targets: this.elevatorCage,
-    x: "+=2",
-    duration: 100,
-    yoyo: true,
-    repeat: -1,
-  });
+    // Musique
+    this.load.audio("mus_elevator_theme", "assets/sounds/elevator/mus_elevator_theme.mp3");
+  }
 
-  const musicElevatorLevel = this.sound.add("music_elevator", {
-    volume: 0,
-    loop: true,
-  });
+  create() {
+    // Scene transition
+    this.setupTransition();
 
-  musicElevatorLevel.play();
+    // Audio setup
+    this.setupAudio();
 
-  // Fade in de la musique
-  this.tweens.add({
-    targets: musicElevatorLevel,
-    volume: 0.05,
-    duration: 2000,
-  });
+    // Background
+    this.elevatorCage = this.add.image(512, 512, "bg_elevator");
 
-  // Fade out après 8 secondes et transition
-  this.tweens.add({
-    targets: musicElevatorLevel,
-    volume: 0,
-    delay: SCENE_DURATION - MUSIC_FADE_DURATION,
-    duration: 2000,
-    onComplete: () => {
-      musicElevatorLevel.stop();
-      this.cameras.main.fadeOut(1000, 0, 0, 0);
-      this.time.delayedCall(MUSIC_FADE_DURATION, () => {
-        this.scene.start("Level2");
-      });
-    },
-  });
+    // Display current character selected
+    this.currentCharacter();
+
+    // Elevator's animation
+    this.elevatorAnimation();
+
+    // Scene fade out
+    this.fadeOutScene();
+  }
+
+  update() {}
+
+  // ------------------------------------------------------------------------------------------ //
+  // SCENE TRANSITION SETUP
+  // ------------------------------------------------------------------------------------------ //
+  setupTransition() {
+    SceneManager.fadeInScene(this);
+  }
+
+  // ------------------------------------------------------------------------------------------ //
+  // CURRENT CHARACTER SELECTED SETUP
+  // ------------------------------------------------------------------------------------------ //
+  currentCharacter() {
+    const selectedCharacter = this.registry.get("selectedCharacter") || "Vefa";
+    const selectedCharacterNormalize = selectedCharacter.toLowerCase();
+    if (selectedCharacter === "Vefa") {
+      this.player = this.add.sprite(430, 650, `char_${selectedCharacterNormalize}_game`);
+      this.player.setScale(0.6);
+    } else {
+      this.player = this.add.sprite(430, 620, `char_${selectedCharacterNormalize}_game`);
+      this.player.setScale(2);
+    }
+  }
+
+  // ------------------------------------------------------------------------------------------ //
+  // ELEVATOR ANIMATION
+  // ------------------------------------------------------------------------------------------ //
+  elevatorAnimation() {
+    this.tweens.add({
+      targets: this.elevatorCage,
+      x: "+=2",
+      duration: 100,
+      yoyo: true,
+      repeat: -1,
+    });
+  }
+
+  // ------------------------------------------------------------------------------------------ //
+  // AUDIO SETUP
+  // ------------------------------------------------------------------------------------------ //
+  setupAudio() {
+    this.musicLevel = AudioManager.playSoundFadeIn(this, "mus_elevator_theme", 0.1);
+  }
+
+  // ------------------------------------------------------------------------------------------ //
+  // SCENE FADEOUT
+  // ------------------------------------------------------------------------------------------ //
+  fadeOutScene() {
+    this.tweens.add({
+      targets: this.musicLevel,
+      volume: 0,
+      delay: 8000,
+      duration: 4000,
+      onComplete: () => {
+        AudioManager.stopSoundFadeOut(this, this.musicLevel);
+        SceneManager.changeSceneWithFade(this, "level2");
+      },
+    });
+  }
 }
-function updateElevator() {}
