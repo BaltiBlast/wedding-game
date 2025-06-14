@@ -17,12 +17,7 @@ const GameConfig = {
     // ScreenTitle,
     // Level1,
     // Elevator,
-    Level2,
-    // {
-    //   key: "Level2",
-    //   preload: preloadLevel2,
-    //   create: createLevel2,
-    //   update: updateLevel2,
-    // },
+    // Level2,
+    StartshipCockpit,
   ],
 };

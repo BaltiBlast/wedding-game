@@ -221,6 +221,10 @@ class Level2 extends Phaser.Scene {
 
   enterStarshipCockpit() {
     this.hideSpaceshipUi();
+
+    this.scene.pause();
+    this.scene.launch("StartshipCockpit");
+
     AudioManager.playSound(this, "fx_enter_door", 0.1);
     PlayerManager.playerFadeout(this, this.player);
   }
