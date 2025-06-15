@@ -6,18 +6,21 @@ const GameConfig = {
   backgroundColor: "#000000",
   physics: {
     default: "arcade",
-    arcade: { debug: true },
+    arcade: { debug: false },
   },
   // Constantes du jeu
   WEDDING_DATE: "27.09.25",
   defaultDuration: 2000,
 
+  dom: {
+    createContainer: true,
+  },
   // Scènes du jeu
   scenes: [
     // ScreenTitle,
     // Level1,
     // Elevator,
-    // Level2,
+    Level2,
     StartshipCockpit,
   ],
 };

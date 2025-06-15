@@ -29,6 +29,7 @@ class StartshipCockpit extends Phaser.Scene {
     });
     // Audio
     this.load.audio("mus_cockpit_theme", "assets/sounds/cockpit/mus_cockpit_theme.mp3");
+    this.load.audio("sfx_alarm", "assets/sounds/cockpit/sfx_alarm.mp3");
   }
 
   create() {
@@ -38,14 +39,13 @@ class StartshipCockpit extends Phaser.Scene {
     // Background
     this.add.image(512, 512, "bg_cockpit");
 
-    // Decorative elements
-    // this.createDecorativeElements();
-
     // Audio setup
     this.setupAudio();
 
-    this.setupAudio();
+    // 4. Écouter la soumission du formulaire (IMPORTANT)
+    window.addEventListener("formSubmitted", this.onFormSubmitted.bind(this));
   }
+
   update() {}
 
   // ------------------------------------------------------------------------------------------ //
@@ -53,6 +53,9 @@ class StartshipCockpit extends Phaser.Scene {
   // ------------------------------------------------------------------------------------------ //
   setupTransition() {
     SceneManager.fadeInScene(this);
+    this.cameras.main.once("camerafadeincomplete", () => {
+      this.fadeInForm();
+    });
   }
 
   // ------------------------------------------------------------------------------------------ //
@@ -109,5 +112,75 @@ class StartshipCockpit extends Phaser.Scene {
 
     this.light2 = this.add.sprite(75, 785, "holo_planet_spritesheet");
     this.light2.play("holo_planet_spritesheet");
+  }
+
+  // ------------------------------------------------------------------------------------------ //
+  // FORM GESTION SETUP
+  // ------------------------------------------------------------------------------------------ //
+  fadeOutForm(callback) {
+    const form = document.getElementById("form_starship");
+    const display = document.getElementById("cockpit-display");
+
+    if (!form || !display) {
+      if (callback) callback();
+      return;
+    }
+
+    this.tweens.add({
+      targets: { alpha: 1 },
+      alpha: 0,
+      duration: 600,
+      onUpdate: (tween) => {
+        const val = tween.getValue();
+        form.style.opacity = val;
+        display.style.opacity = val;
+      },
+      onComplete: () => {
+        form.style.display = "none";
+        display.style.display = "none";
+        if (callback) callback();
+      },
+    });
+  }
+
+  fadeInForm() {
+    const form = document.getElementById("form_starship");
+    const display = document.getElementById("cockpit-display");
+
+    if (!form || !display) {
+      this.time.delayedCall(50, () => this.fadeInForm());
+      return;
+    }
+
+    form.style.display = "block";
+    display.style.display = "block";
+    form.style.opacity = 0;
+    display.style.opacity = 0;
+
+    this.tweens.add({
+      targets: { alpha: 0 },
+      alpha: 1,
+      duration: 600,
+      onUpdate: (tween) => {
+        const val = tween.getValue();
+        form.style.opacity = val;
+        display.style.opacity = val;
+      },
+    });
+  }
+
+  onFormSubmitted(e) {
+    const data = e.detail.data;
+    console.log("Phaser a reçu le formulaire :", data);
+
+    this.createDecorativeElements();
+    this.musicLevel = AudioManager.playMusic(this, "sfx_alarm", 0.05);
+
+    this.time.delayedCall(5000, () => {
+      this.fadeOutForm(() => {
+        this.scene.resume("Level2");
+        this.scene.stop("StartshipCockpit");
+      });
+    });
   }
 }

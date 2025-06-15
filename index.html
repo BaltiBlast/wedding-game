@@ -13,13 +13,13 @@
   <body>
     <div id="game-container" x-data="starshipForm()">
       <!-- Zone d'affichage des réponses validées -->
-      <div id="cockpit-display">
+      <div id="cockpit-display" style="display: none">
         <template x-for="(response, index) in validatedResponses" :key="index">
           <div><span x-text="response.label"></span>: <span x-text="response.value"></span></div>
         </template>
       </div>
 
-      <form id="form_starship" @submit.prevent="handleSubmit">
+      <form id="form_starship" @submit.prevent="handleSubmit" style="display: none">
         <div x-show="getCurrentField()">
           <!-- Input text: Nom du commandant de bord -->
           <template x-if="getCurrentField().key === 'commander_name'">
@@ -142,7 +142,7 @@
                     x-model="formData.has_restrictions"
                     :required="getCurrentField().required"
                   />
-                  <span x-text="option"></span>
+                  <span x-show="!isTyping" x-text="option"></span>
                 </label>
               </template>
             </div>

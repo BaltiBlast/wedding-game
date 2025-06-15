@@ -245,6 +245,18 @@ function starshipForm() {
         });
 
         this.currentFieldIndex++;
+
+        if (currentField.key === "presence" && value === "Non") {
+          const fields = this.getActiveFields();
+          const verificationIndex = fields.findIndex((f) => f.key === "verification");
+          if (verificationIndex !== -1) {
+            this.currentFieldIndex = verificationIndex;
+            this.displayedLabel = fields[verificationIndex].label;
+            this.displayedText = fields[verificationIndex].text;
+            return;
+          }
+        }
+
         this.showButtons = false;
 
         // Si on arrive à l'étape de vérification, pas d'animation
@@ -306,8 +318,15 @@ function starshipForm() {
     },
 
     handleSubmit() {
-      console.log("Formulaire soumis:", this.formData);
-      console.log("Réponses validées:", this.validatedResponses);
+      // Événement custom vers Phaser
+      window.dispatchEvent(
+        new CustomEvent("formSubmitted", {
+          detail: {
+            data: this.formData,
+            responses: this.validatedResponses,
+          },
+        })
+      );
     },
   };
 }

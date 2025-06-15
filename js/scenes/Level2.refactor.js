@@ -222,11 +222,15 @@ class Level2 extends Phaser.Scene {
   enterStarshipCockpit() {
     this.hideSpaceshipUi();
 
+    this.input.keyboard.removeAllListeners();
+    this.input.keyboard.manager.clearCaptures();
+    this.input.keyboard.enabled = false;
+
     this.scene.pause();
     this.scene.launch("StartshipCockpit");
 
     AudioManager.playSound(this, "fx_enter_door", 0.1);
-    PlayerManager.playerFadeout(this, this.player);
+    this.player.setVisible(false);
   }
 
   // ------------------------------------------------------------------------------------------ //
@@ -235,8 +239,6 @@ class Level2 extends Phaser.Scene {
   updateInteractions() {
     InteractionManager.checkProximity(this, this.spaceship, "nearStartship", this.interactionDistance, () => {
       this.showSpaceshipUi();
-      // this.interactionBubble.setVisible(true);
-      // DialogueManager.showNPCDialogue(this, this.npcDialogue, "npc_ardoise", "Ardoise");
     });
   }
 }
