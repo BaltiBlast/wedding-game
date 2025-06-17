@@ -290,7 +290,29 @@ class Level2 extends Phaser.Scene {
               ease: "Expo.easeIn",
               onComplete: () => {
                 shake.stop();
-                this.scene.start("Level3");
+
+                if (this.flame) {
+                  this.flame.anims.stop();
+                  this.flame.setVisible(false);
+                }
+
+                this.time.delayedCall(2000, () => {
+                  const music = this.sound.get("mus_launch_starship");
+
+                  if (music && music.isPlaying) {
+                    this.tweens.add({
+                      targets: music,
+                      volume: 0,
+                      duration: 1500,
+                      onComplete: () => {
+                        music.stop();
+                        this.scene.start("StarshipTraveling");
+                      },
+                    });
+                  } else {
+                    this.scene.start("StarshipTraveling");
+                  }
+                });
               },
             });
           },
