@@ -3,6 +3,9 @@ class StartshipCockpit extends Phaser.Scene {
     super({ key: "StartshipCockpit" });
   }
 
+  // ------------------------------------------------------------------------------------------ //
+  // PRELOAD SCENE
+  // ------------------------------------------------------------------------------------------ //
   preload() {
     // Image
     this.load.image("bg_cockpit", "assets/images/cockpit/bg_cockpit.png");
@@ -34,6 +37,9 @@ class StartshipCockpit extends Phaser.Scene {
     this.load.audio("sfx_impact", "assets/sounds/cockpit/sfx_impact.wav");
   }
 
+  // ------------------------------------------------------------------------------------------ //
+  // CREATE SCENE
+  // ------------------------------------------------------------------------------------------ //
   create() {
     // Scene transition
     this.setupTransition();
@@ -44,25 +50,9 @@ class StartshipCockpit extends Phaser.Scene {
     // Audio setup
     this.setupAudio();
 
-    // 4. Écouter la soumission du formulaire (IMPORTANT)
+    // Submit form listener / intercepter
     window.addEventListener("formSubmitted", this.onFormSubmitted.bind(this));
-
-    // Simulation de soumission du formulaire dès le début (pour tests)
-    // this.time.delayedCall(200, () => {
-    //   const fakeEvent = new CustomEvent("formSubmitted", {
-    //     detail: {
-    //       data: {
-    //         // Données fictives si tu veux simuler des réponses
-    //         pilote: "Test",
-    //         codeAcces: "1234",
-    //       },
-    //     },
-    //   });
-    //   window.dispatchEvent(fakeEvent);
-    // });
   }
-
-  update() {}
 
   // ------------------------------------------------------------------------------------------ //
   // SCENE TRANSITION SETUP
@@ -130,7 +120,10 @@ class StartshipCockpit extends Phaser.Scene {
     this.light2.play("holo_planet_spritesheet");
   }
 
-  displayMissionMessagesPhaser() {
+  // ------------------------------------------------------------------------------------------ //
+  // MISSION DISPLAY - PHASER TEXT + CURSOR + MESSAGES
+  // ------------------------------------------------------------------------------------------ //
+  displayMissionMessages() {
     this.missionMessages = [
       { text: "> Données reçues.", delay: 1000 },
       { text: "> Calculs en cours...", delay: 3000 },
@@ -162,7 +155,7 @@ class StartshipCockpit extends Phaser.Scene {
     this.printLine(0);
   }
 
-  displayLaunchCountdownPhaser() {
+  displayLaunchCountdown() {
     this.missionMessages = [
       { text: "> Contournement du protocole...", delay: 500 },
       { text: "> Décollage forcé imminent.", delay: 1000 },
@@ -307,8 +300,49 @@ class StartshipCockpit extends Phaser.Scene {
   }
 
   // ------------------------------------------------------------------------------------------ //
-  // FORM GESTION SETUP
+  // FORM SUBMISSION HANDLER
   // ------------------------------------------------------------------------------------------ //
+
+  onFormSubmitted(e) {
+    // const data = e.detail.data;
+    // WIP / TODO -> send data object to back
+    this.registry.set("fromCockpit", true);
+
+    this.cameras.main.shake(250, 0.02);
+    AudioManager.playSound(this, "sfx_impact", 0.5);
+    AudioManager.stopCurrentMusic();
+    this.fadeOutForm();
+
+    this.createDecorativeElements();
+
+    // Animation
+    GameUtils.delayCall(this, 800, this.displayMissionMessages, this);
+    GameUtils.delayCall(this, 4000, () => AudioManager.playSound(this, "mus_launch_starship", 0.2), this);
+    GameUtils.delayCall(this, 12000, this.clearMissionDisplay, this);
+    GameUtils.delayCall(this, 13000, this.displayLaunchCountdown, this);
+    GameUtils.delayCall(this, 25000, () => {
+      this.loopedLaunchSound = this.sound.add("sfx_alarm", {
+        loop: true,
+        volume: 0.2,
+      });
+      this.loopedLaunchSound.play();
+    });
+
+    GameUtils.delayCall(
+      this,
+      38700,
+      () => {
+        if (this.loopedLaunchSound && this.loopedLaunchSound.isPlaying) {
+          this.loopedLaunchSound.stop();
+        }
+      },
+      this
+    );
+
+    GameUtils.delayCall(this, 38750, () => this.scene.stop("StartshipCockpit"), this);
+    GameUtils.delayCall(this, 38750, () => this.scene.wake("Level2"), this);
+  }
+
   fadeOutForm() {
     const form = document.getElementById("form_starship");
     const display = document.getElementById("cockpit-display");
@@ -353,45 +387,5 @@ class StartshipCockpit extends Phaser.Scene {
         display.style.opacity = val;
       },
     });
-  }
-
-  onFormSubmitted(e) {
-    const data = e.detail.data;
-    this.registry.set("fromCockpit", true);
-
-    // 1. Tremblement + hit sound + arret musique + masquer form
-    this.cameras.main.shake(250, 0.02);
-    AudioManager.playSound(this, "sfx_impact", 0.5);
-    AudioManager.stopCurrentMusic();
-    this.fadeOutForm();
-
-    // 2. Lumière vaisseau + affichage donnée écran + musique
-    this.createDecorativeElements();
-
-    GameUtils.delayCall(this, 800, this.displayMissionMessagesPhaser, this);
-    GameUtils.delayCall(this, 4000, () => AudioManager.playSound(this, "mus_launch_starship", 0.2), this);
-    GameUtils.delayCall(this, 12000, this.clearMissionDisplay, this);
-    GameUtils.delayCall(this, 13000, this.displayLaunchCountdownPhaser, this);
-    GameUtils.delayCall(this, 25000, () => {
-      this.loopedLaunchSound = this.sound.add("sfx_alarm", {
-        loop: true,
-        volume: 0.2,
-      });
-      this.loopedLaunchSound.play();
-    });
-
-    GameUtils.delayCall(
-      this,
-      38700,
-      () => {
-        if (this.loopedLaunchSound && this.loopedLaunchSound.isPlaying) {
-          this.loopedLaunchSound.stop();
-        }
-      },
-      this
-    );
-
-    GameUtils.delayCall(this, 38750, () => this.scene.stop("StartshipCockpit"), this);
-    GameUtils.delayCall(this, 38750, () => this.scene.wake("Level2"), this);
   }
 }
