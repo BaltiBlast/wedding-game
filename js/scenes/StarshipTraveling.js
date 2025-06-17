@@ -223,7 +223,7 @@ class StarshipTraveling extends Phaser.Scene {
               });
 
               this.time.delayedCall(1000, () => {
-                this.scene.start("PlanetScene");
+                this.scene.start("Level3");
               });
             },
           });

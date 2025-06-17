@@ -22,6 +22,7 @@ const GameConfig = {
     // Elevator,
     // Level2,
     // StartshipCockpit,
-    StarshipTraveling,
+    // StarshipTraveling,
+    Level3,
   ],
 };
