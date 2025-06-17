@@ -237,13 +237,14 @@
             <button type="button" @click="prevField()" x-show="currentFieldIndex > 0">Retour</button>
 
             <!-- Bouton Décollage : visible seulement sur l'étape de vérification -->
-            <button type="submit" x-show="getCurrentField().key === 'verification'">🚀 DÉCOLLAGE</button>
+            <button type="button" x-show="getCurrentField().key === 'verification'">🚀 DÉCOLLAGE</button>
           </div>
         </div>
       </form>
     </div>
 
     <script src="js/scripts/starshipForm.js"></script>
+    <script src="js/utils/GameUtils.js"></script>
     <script src="js/utils/InteractionManager.js"></script>
     <script src="js/utils/ObstacleManager.js"></script>
     <script src="js/utils/PlayerDialogue.js"></script>
@@ -253,7 +254,7 @@
     <script src="js/utils/PlayerManager.js"></script>
     <script src="js/scenes/StarshipCockpit.js"></script>
     <script src="js/scenes/Elevator.js"></script>
-    <script src="js/scenes/Level2.refactor.js"></script>
+    <script src="js/scenes/Level2.js"></script>
     <script src="js/scenes/Level1.js"></script>
     <script src="js/scenes/ScreenTitle.js"></script>
     <script src="js/config.js"></script>

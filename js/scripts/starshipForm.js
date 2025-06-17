@@ -330,3 +330,12 @@ function starshipForm() {
     },
   };
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("form_starship");
+  form.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+    }
+  });
+});

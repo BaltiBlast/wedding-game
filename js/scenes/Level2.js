@@ -1,236 +1,335 @@
-function preloadLevel2() {
-  // Images
-  this.load.image("background", "assets/images/level2/lvl2_background.png");
-  this.load.image("fences", "assets/images/level2/fences.png");
-  this.load.image("spaceship", "assets/images/level2/spaceship.png");
-  this.load.spritesheet("alexis-spritesheet", "assets/images/characters/alexis-spritesheet.png", {
-    frameWidth: 270,
-    frameHeight: 600,
-  });
+class Level2 extends Phaser.Scene {
+  constructor() {
+    super({ key: "Level2" });
+  }
 
-  this.load.spritesheet("vefa-spritesheet", "assets/images/characters/vefa-spritesheet.png", {
-    frameWidth: 270,
-    frameHeight: 600,
-  });
+  preload() {
+    // Images
+    this.load.image("bg_level2", "assets/images/level2/bg_level2.png");
+    this.load.image("prop_fences", "assets/images/level2/prop_fences.png");
+    this.load.image("prop_spaceship", "assets/images/level2/prop_spaceship.png");
 
-  // Audio
-  this.load.audio("footstep", "assets/sounds/step_walk/wood.mp3");
-  this.load.audio("music_level", "assets/sounds/level2/kerbal.mp3");
-}
+    // Spritesheets
+    this.load.spritesheet("char_alexis_spritesheet", "assets/images/characters/char_alexis_spritesheet.png", {
+      frameWidth: 270,
+      frameHeight: 600,
+    });
 
-function createLevel2() {
-  // ----------------------------
-  // PARAMÈTRES RÉUTILISABLES
-  // ----------------------------
-  this.spaceshipTriggerDistance = 30;
-  this.nearShip = false;
-  this.cameras.main.fadeIn(1000, 0, 0, 0);
-  this.add.image(512, 512, "background");
+    this.load.spritesheet("char_vefa_spritesheet", "assets/images/characters/char_vefa_spritesheet.png", {
+      frameWidth: 270,
+      frameHeight: 600,
+    });
 
-  this.musicLevel = this.sound.add("music_level", {
-    loop: true,
-    volume: 0.1,
-  });
-  this.musicLevel.play();
+    this.load.spritesheet("fx_fire_animation", "assets/images/title_screen/fx_fire_animation.png", {
+      frameWidth: 48,
+      frameHeight: 48,
+    });
 
-  const selectedCharacter = this.registry.get("selectedCharacter") || "Vefa";
-  this.player = createAnimatedPlayer(this, 450, 900, selectedCharacter);
-  this.player.setScale(0.25);
-  this.player.setOrigin(0.5, 1);
+    // Audio
+    this.load.audio("sfx_footstep_wood", "assets/sounds/step_walk/sfx_footstep_wood.mp3");
+    this.load.audio("mus_level2_theme", "assets/sounds/level2/mus_level2_theme.mp3");
+    this.load.audio("fx_enter_door", "assets/sounds/level2/fx_enter_door.wav");
+  }
 
-  this.footSteps = this.sound.get("");
-  createPlayerMovement(this, this.player, 135);
+  create() {
+    // Scene transition
+    this.setupTransition();
 
-  this.tweens.add({
-    targets: this.player,
-    scaleY: 0.252,
-    duration: 1000,
-    ease: "Sine.easeInOut",
-    yoyo: true,
-    repeat: -1,
-  });
+    // Background
+    this.add.image(512, 512, "bg_level2");
 
-  this.fences = createObstacle(this, 512, 1020, "fences", {
-    scale: 1,
-    size: { width: 1024, height: 20 },
-    offset: { x: 0, y: 920 },
-  });
+    // Audio setup
+    this.setupAudio();
 
-  this.spaceship = createObstacle(this, 680, 750, "spaceship", {
-    scale: 0.45,
-    size: { width: 650, height: 20 },
-    offset: { x: 115, y: 645 },
-  });
+    // Player setup
+    this.createPlayer();
 
-  this.fencesTop = createInvisibleWall(this, 512, 580, 1024, 20);
-  this.fencesLeft1 = createInvisibleWall(this, 390, 830, 20, 150);
-  this.fencesLeft2 = createInvisibleWall(this, 300, 750, 20, 400);
-  this.fencesLeft3 = createInvisibleWall(this, 350, 765, 100, 20);
-  this.fencesRight = createInvisibleWall(this, 860, 750, 20, 400);
-  this.fencesBottomRight1 = createInvisibleWall(this, 750, 910, 70, 20);
-  this.fencesBottomRight2 = createInvisibleWall(this, 820, 880, 70, 20);
-  this.leftSpaceship = createInvisibleWall(this, 590, 650, 40, 200);
+    // Display invisible walls
+    this.createInvisibleWalls();
 
-  this.physics.add.existing(this.player);
-  this.player.body.setSize(250, 75);
-  this.player.body.setOffset(0, 500);
+    // Display obstacles
+    this.createObstacles();
 
-  // ----------------------------
-  // UI SPACESHIP
-  // ----------------------------
-  this.spaceshipPrompt = this.add
-    .rectangle(512, 820, 600, 150, 0x1a1a2e, 0.95)
-    .setStrokeStyle(3, 0x64ffda)
-    .setVisible(false)
-    .setDepth(2000);
-  this.spaceshipPromptText = this.add
-    .text(512, 780, "Entrer dans le vaisseau ?", { fontSize: "20px", fill: "#ffffff" })
-    .setOrigin(0.5)
-    .setVisible(false)
-    .setDepth(2001);
+    // Starship
+    this.createSpaceshipStatic();
 
-  this.spaceshipYesBtn = this.add
-    .rectangle(440, 850, 100, 40, 0x64ffda)
-    .setInteractive({ useHandCursor: true })
-    .setVisible(false)
-    .setDepth(2001);
-  this.spaceshipYesText = this.add
-    .text(440, 850, "Oui", { fontSize: "16px", fill: "#1a1a2e" })
-    .setOrigin(0.5)
-    .setVisible(false)
-    .setDepth(2002);
+    // Startship UI
+    this.createStarshipUI();
 
-  this.spaceshipNoBtn = this.add
-    .rectangle(580, 850, 100, 40, 0x64ffda)
-    .setInteractive({ useHandCursor: true })
-    .setVisible(false)
-    .setDepth(2001);
-  this.spaceshipNoText = this.add
-    .text(580, 850, "Non", { fontSize: "16px", fill: "#1a1a2e" })
-    .setOrigin(0.5)
-    .setVisible(false)
-    .setDepth(2002);
+    this.events.on("wake", () => {
+      if (this.registry.get("fromCockpit")) {
+        this.registry.remove("fromCockpit");
+        this.createSpaceshipWithFlame();
+        this.launchPostCockpitSequence();
+      }
+    });
+  }
 
-  this.spaceshipElements = [
-    this.spaceshipPrompt,
-    this.spaceshipPromptText,
-    this.spaceshipYesBtn,
-    this.spaceshipYesText,
-    this.spaceshipNoBtn,
-    this.spaceshipNoText,
-  ];
-  this.spaceshipUIVisible = false;
+  update() {
+    if (!this.spaceshipUIVisible) {
+      PlayerManager.updatePlayerMovement(this);
+    }
+    this.updateInteractions();
+    this.updateDynamicDepth();
+  }
 
-  this.showSpaceshipUI = function () {
-    if (this.spaceshipUIVisible) return;
-    stopPlayer(this);
-    this.allowPlayerMovement = false;
+  // ------------------------------------------------------------------------------------------ //
+  // SCENE TRANSITION SETUP
+  // ------------------------------------------------------------------------------------------ //
+  setupTransition() {
+    SceneManager.fadeInScene(this);
+  }
+
+  // ------------------------------------------------------------------------------------------ //
+  // AUDIO SETUP
+  // ------------------------------------------------------------------------------------------ //
+  setupAudio() {
+    this.musicLevel = AudioManager.playMusic(this, "mus_level2_theme", 0.1);
+  }
+
+  // ------------------------------------------------------------------------------------------ //
+  // PLAYER SETUP
+  // ------------------------------------------------------------------------------------------ //
+  createPlayer() {
+    const selectedCharacter = this.registry.get("selectedCharacter") || "Vefa";
+    this.player = PlayerManager.setupCompletePlayer(this, 450, 890, selectedCharacter, 135, "sfx_footstep_wood");
+  }
+
+  // ------------------------------------------------------------------------------------------ //
+  // INVISIBLE WALLS SETUP
+  // ------------------------------------------------------------------------------------------ //
+  createInvisibleWalls() {
+    this.fencesTop = ObstacleManager.createInvisibleWall(this, 512, 580, 1024, 20);
+    this.fencesLeft1 = ObstacleManager.createInvisibleWall(this, 390, 830, 20, 150);
+    this.fencesLeft2 = ObstacleManager.createInvisibleWall(this, 300, 750, 20, 400);
+    this.fencesLeft3 = ObstacleManager.createInvisibleWall(this, 350, 765, 100, 20);
+    this.fencesRight = ObstacleManager.createInvisibleWall(this, 860, 750, 20, 400);
+    this.fencesBottomRight1 = ObstacleManager.createInvisibleWall(this, 750, 910, 70, 20);
+    this.fencesBottomRight2 = ObstacleManager.createInvisibleWall(this, 820, 880, 70, 20);
+    this.leftSpaceship = ObstacleManager.createInvisibleWall(this, 590, 650, 40, 200);
+  }
+
+  // ------------------------------------------------------------------------------------------ //
+  // OBSTACLES SETUP
+  // ------------------------------------------------------------------------------------------ //
+  createObstacles() {
+    // Fences
+    this.fences = ObstacleManager.createObstacle(this, 512, 1020, "prop_fences", {
+      scale: 1,
+      size: { width: 1024, height: 20 },
+      offset: { x: 0, y: 920 },
+    });
+  }
+
+  createSpaceshipStatic() {
+    this.spaceship = ObstacleManager.createObstacle(this, 680, 750, "prop_spaceship", {
+      scale: 0.45,
+      size: { width: 650, height: 20 },
+      offset: { x: 115, y: 645 },
+    });
+  }
+
+  // ------------------------------------------------------------------------------------------ //
+  // DYNAMIC DEPTH MANAGEMENT
+  // ------------------------------------------------------------------------------------------ //
+  updateDynamicDepth() {
+    this.dynamicDepthObjects = [
+      this.player,
+      this.fences,
+      this.fencesTop,
+      this.fencesLeft1,
+      this.fencesLeft2,
+      this.fencesRight,
+      this.fencesBottomRight1,
+      this.fencesBottomRight2,
+      this.spaceship,
+      this.leftSpaceship,
+    ];
+
+    this.dynamicDepthObjects.forEach((obj) => {
+      if (obj) {
+        obj.setDepth(obj.y);
+      }
+    });
+  }
+
+  // ----------------------------------------------------------------------------------- //
+  // STARSHIP UI SETUP
+  // ------------------------------------------------------------------------------------------ //
+  createStarshipUI() {
+    this.interactionDistance = 20;
+
+    // Background
+    this.spaceshipPrompt = this.add
+      .rectangle(512, 820, 600, 150, 0x1a1a2e, 0.95)
+      .setStrokeStyle(3, 0x64ffda)
+      .setVisible(false)
+      .setDepth(2000);
+
+    // Title
+    this.spaceshipPromptText = this.add
+      .text(512, 780, "Entrer dans le vaisseau ?", { fontSize: "20px", fill: "#ffffff" })
+      .setOrigin(0.5)
+      .setVisible(false)
+      .setDepth(2001);
+
+    // "yes" button background
+    this.spaceshipYesBtn = this.add
+      .rectangle(440, 850, 100, 40, 0x64ffda)
+      .setInteractive({ useHandCursor: true })
+      .setVisible(false)
+      .setDepth(2001);
+
+    // "yes" button text
+    this.spaceshipYesText = this.add
+      .text(440, 850, "Oui", { fontSize: "16px", fill: "#1a1a2e" })
+      .setOrigin(0.5)
+      .setVisible(false)
+      .setDepth(2002);
+
+    // "no" button background
+    this.spaceshipNoBtn = this.add
+      .rectangle(580, 850, 100, 40, 0x64ffda)
+      .setInteractive({ useHandCursor: true })
+      .setVisible(false)
+      .setDepth(2001);
+
+    // "no" button text
+    this.spaceshipNoText = this.add
+      .text(580, 850, "Non", { fontSize: "16px", fill: "#1a1a2e" })
+      .setOrigin(0.5)
+      .setVisible(false)
+      .setDepth(2002);
+
+    this.spaceshipElements = [
+      this.spaceshipPrompt,
+      this.spaceshipPromptText,
+      this.spaceshipYesBtn,
+      this.spaceshipYesText,
+      this.spaceshipNoBtn,
+      this.spaceshipNoText,
+    ];
+
+    this.spaceshipNoBtn.on("pointerdown", () => {
+      this.hideSpaceshipUi();
+    });
+
+    this.spaceshipYesBtn.on("pointerdown", () => {
+      this.enterStarshipCockpit();
+    });
+  }
+
+  // ------------------------------------------------------------------------------------------ //
+  // STARSHIP INTERACTIONS SETUP
+  // ------------------------------------------------------------------------------------------ //
+  showSpaceshipUi() {
     this.spaceshipUIVisible = true;
+    PlayerManager.stopPlayer(this);
+    this.allowPlayerMovement = false;
     this.spaceshipElements.forEach((el) => el.setVisible(true));
-  }.bind(this);
+  }
 
-  this.hideSpaceshipUI = function () {
-    if (!this.spaceshipUIVisible) return;
+  hideSpaceshipUi() {
     this.spaceshipUIVisible = false;
     this.spaceshipElements.forEach((el) => el.setVisible(false));
     this.allowPlayerMovement = true;
-  }.bind(this);
+  }
 
-  this.spaceshipYesBtn.on("pointerdown", () => {
-    // this.sound.play("spaceship_entry", { volume: 0.5 });
-    this.spaceshipUsed = true;
+  enterStarshipCockpit() {
+    this.hideSpaceshipUi();
+
+    this.input.keyboard.removeAllListeners();
+    this.input.keyboard.manager.clearCaptures();
+    this.input.keyboard.enabled = false;
+
+    this.scene.sleep();
+    this.scene.launch("StartshipCockpit");
+
+    AudioManager.playSound(this, "fx_enter_door", 0.1);
     this.player.setVisible(false);
-    this.hideSpaceshipUI();
+    this.spaceship.setVisible(false);
+  }
 
-    // Étape 1 : secousse forte unique
+  // ------------------------------------------------------------------------------------------ //
+  // STARSHIP ANIMATION AFTER COCKPIT
+  // ------------------------------------------------------------------------------------------ //
+
+  launchPostCockpitSequence() {
+    this.playSpaceshipLaunchAnimation();
+  }
+
+  playSpaceshipLaunchAnimation() {
     this.tweens.add({
-      targets: this.spaceship,
-      x: this.spaceship.x - 10,
-      y: this.spaceship.y - 10,
+      targets: this.spaceshipContainer,
+      x: this.spaceshipContainer.x - 10,
+      y: this.spaceshipContainer.y - 10,
       duration: 100,
       yoyo: true,
       repeat: 2,
       ease: "Power1",
       onComplete: () => {
-        // Étape 2 : décollage lent à mi-hauteur avec tremblement léger en continu
         const shake = this.tweens.add({
-          targets: this.spaceship,
-          x: { from: this.spaceship.x - 1, to: this.spaceship.x + 1 },
-          y: { from: this.spaceship.y - 1, to: this.spaceship.y + 1 },
+          targets: this.spaceshipContainer,
+          x: { from: this.spaceshipContainer.x - 1, to: this.spaceshipContainer.x + 1 },
+          y: { from: this.spaceshipContainer.y - 1, to: this.spaceshipContainer.y + 1 },
           duration: 100,
           yoyo: true,
           repeat: -1,
         });
 
         this.tweens.add({
-          targets: this.spaceship,
-          y: this.spaceship.y - 150,
+          targets: this.spaceshipContainer,
+          y: this.spaceshipContainer.y - 150,
           duration: 2000,
           ease: "Sine.easeInOut",
           onComplete: () => {
-            // Étape 3 : accélération vers le haut pour quitter l'écran
             this.tweens.add({
-              targets: this.spaceship,
-              y: this.spaceship.y - 800,
+              targets: this.spaceshipContainer,
+              y: this.spaceshipContainer.y - 800,
               duration: 2500,
               ease: "Expo.easeIn",
               onComplete: () => {
                 shake.stop();
+                this.scene.start("Level3");
               },
             });
           },
         });
       },
     });
-  });
-
-  this.enterCockpit = function () {
-    this.allowPlayerMovement = false;
-    this.add.image(512, 512, "cockpit").setDepth(0);
-    this.spaceship.setVisible(false);
-    this.fences.setVisible(false);
-    startHologramForm(this, initialQuestions);
-  }.bind(this);
-
-  this.spaceshipNoBtn.on("pointerdown", () => {
-    this.hideSpaceshipUI();
-  });
-}
-
-function updateLevel2() {
-  if (this.allowPlayerMovement !== false) {
-    updatePlayerMovement(this);
-  } else {
-    this.player.body.setVelocity(0);
   }
 
-  const distanceToShip = Phaser.Math.Distance.Between(this.player.x, this.player.y, this.spaceship.x, this.spaceship.y);
-  if (
-    !this.spaceshipUIVisible &&
-    !this.spaceshipUsed &&
-    distanceToShip < this.spaceshipTriggerDistance &&
-    !this.nearShip
-  ) {
-    this.nearShip = true;
-    this.showSpaceshipUI();
-  }
-  if (distanceToShip >= this.spaceshipTriggerDistance && this.nearShip) {
-    this.nearShip = false;
+  createSpaceshipWithFlame() {
+    this.spaceshipContainer = this.add.container(680, 585);
+
+    this.flameBack = this.add.sprite(-100, 120, "fx_fire_animation").setScale(4).setRotation(Phaser.Math.DegToRad(180));
+    this.spaceshipContainer.add(this.flameBack);
+
+    this.spaceship = this.add.image(0, 0, "prop_spaceship").setScale(0.45);
+    this.spaceshipContainer.add(this.spaceship);
+
+    this.flame = this.add.sprite(100, 125, "fx_fire_animation").setScale(4).setRotation(Phaser.Math.DegToRad(180));
+    this.spaceshipContainer.add(this.flame);
+
+    this.anims.create({
+      key: "flame_burn",
+      frames: this.anims.generateFrameNumbers("fx_fire_animation", { start: 0, end: 3 }),
+      frameRate: 15,
+      repeat: -1,
+    });
+
+    this.flameBack.play("flame_burn");
+    this.flame.play("flame_burn");
+
+    this.leftSpaceship = ObstacleManager.createInvisibleWall(this, 590, 650, 40, 200);
   }
 
-  this.dynamicDepthObjects = [
-    this.player,
-    this.fences,
-    this.fencesTop,
-    this.fencesLeft1,
-    this.fencesLeft2,
-    this.fencesRight,
-    this.fencesBottomRight1,
-    this.fencesBottomRight2,
-    this.spaceship,
-    this.leftSpaceship,
-  ];
-  this.dynamicDepthObjects.forEach((obj) => {
-    obj.setDepth(obj.y);
-  });
+  // ------------------------------------------------------------------------------------------ //
+  // INTERACTIONS UPDATE
+  // ------------------------------------------------------------------------------------------ //
+  updateInteractions() {
+    InteractionManager.checkProximity(this, this.spaceship, "nearStartship", this.interactionDistance, () => {
+      this.showSpaceshipUi();
+    });
+  }
 }

@@ -19,11 +19,16 @@ class AudioManager {
 
     sound.play();
 
+    const volume = 0;
+
     scene.tweens.add({
       targets: sound,
       volume: targetVolume,
       duration: duration,
       ease: "Linear",
+      onUpdate: () => {
+        sound.setVolume(volume);
+      },
     });
 
     return sound;
@@ -45,8 +50,20 @@ class AudioManager {
     scene.sound.stopAll();
   }
 
+  static stopCurrentMusic() {
+    if (this.currentMusic && this.currentMusic.isPlaying) {
+      this.currentMusic.stop();
+      this.currentMusic = null;
+    }
+  }
+
   static playMusic(scene, musicKey, volume = 0.5) {
-    return this.playSound(scene, musicKey, volume, true);
+    if (this.currentMusic && this.currentMusic.isPlaying) {
+      this.currentMusic.stop();
+    }
+
+    this.currentMusic = this.playSound(scene, musicKey, volume, true);
+    return this.currentMusic;
   }
 
   static playMusicFadeIn(scene, musicKey, targetVolume = 0.5, duration = audioDurationDefault) {

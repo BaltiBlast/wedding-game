@@ -30,6 +30,8 @@ class StartshipCockpit extends Phaser.Scene {
     // Audio
     this.load.audio("mus_cockpit_theme", "assets/sounds/cockpit/mus_cockpit_theme.mp3");
     this.load.audio("sfx_alarm", "assets/sounds/cockpit/sfx_alarm.mp3");
+    this.load.audio("mus_launch_starship", "assets/sounds/cockpit/mus_launch_starship.mp3");
+    this.load.audio("sfx_impact", "assets/sounds/cockpit/sfx_impact.wav");
   }
 
   create() {
@@ -44,6 +46,20 @@ class StartshipCockpit extends Phaser.Scene {
 
     // 4. Écouter la soumission du formulaire (IMPORTANT)
     window.addEventListener("formSubmitted", this.onFormSubmitted.bind(this));
+
+    // Simulation de soumission du formulaire dès le début (pour tests)
+    // this.time.delayedCall(200, () => {
+    //   const fakeEvent = new CustomEvent("formSubmitted", {
+    //     detail: {
+    //       data: {
+    //         // Données fictives si tu veux simuler des réponses
+    //         pilote: "Test",
+    //         codeAcces: "1234",
+    //       },
+    //     },
+    //   });
+    //   window.dispatchEvent(fakeEvent);
+    // });
   }
 
   update() {}
@@ -62,7 +78,7 @@ class StartshipCockpit extends Phaser.Scene {
   // AUDIO SETUP
   // ------------------------------------------------------------------------------------------ //
   setupAudio() {
-    // this.musicLevel = AudioManager.playMusic(this, "mus_cockpit_theme", 0.05);
+    this.musicLevel = AudioManager.playMusic(this, "mus_cockpit_theme", 0.05);
   }
 
   // ------------------------------------------------------------------------------------------ //
@@ -114,22 +130,193 @@ class StartshipCockpit extends Phaser.Scene {
     this.light2.play("holo_planet_spritesheet");
   }
 
+  displayMissionMessagesPhaser() {
+    this.missionMessages = [
+      { text: "> Données reçues.", delay: 1000 },
+      { text: "> Calculs en cours...", delay: 3000 },
+      { text: "> Anomalie détectée.", delay: 500 },
+      { text: "> Instabilité gravitationnelle.", delay: 800 },
+    ];
+
+    this.messageStartX = 325;
+    this.messageStartY = 627;
+    this.messageLineHeight = 25;
+    this.messageTexts = [];
+
+    // Curseur
+    this.cursorVisible = true;
+    this.cursor = this.add.text(this.messageStartX, this.messageStartY, "|", {
+      font: "20px monospace",
+      fill: "#00ff88",
+    });
+
+    this.cursorTimer = this.time.addEvent({
+      delay: 500,
+      loop: true,
+      callback: () => {
+        this.cursorVisible = !this.cursorVisible;
+        this.cursor.setVisible(this.cursorVisible);
+      },
+    });
+
+    this.printLine(0);
+  }
+
+  displayLaunchCountdownPhaser() {
+    this.missionMessages = [
+      { text: "> Contournement du protocole...", delay: 500 },
+      { text: "> Décollage forcé imminent.", delay: 1000 },
+      { text: "> 10", delay: 2750 },
+      { text: "> 9", delay: 2750 },
+      { text: "> 8", delay: 2500 },
+      { text: "> 7", delay: 2500 },
+      { text: "> 6", delay: 2500 },
+      { text: "> 5", delay: 0 },
+      { text: "> Moteur principal allumé", delay: 1350 },
+      { text: "> 4", delay: 1600 },
+      { text: "> 3", delay: 1600 },
+      { text: "> 2", delay: 1600 },
+      { text: "> 1", delay: 1000 },
+    ];
+
+    this.messageStartX = 325;
+    this.messageStartY = 627;
+    this.messageLineHeight = 25;
+    this.messageTexts = [];
+
+    this.cursorVisible = true;
+    this.cursor = this.add.text(this.messageStartX, this.messageStartY, "|", {
+      font: "20px monospace",
+      fill: "#00ff88",
+    });
+
+    this.cursorTimer = this.time.addEvent({
+      delay: 500,
+      loop: true,
+      callback: () => {
+        this.cursorVisible = !this.cursorVisible;
+        this.cursor.setVisible(this.cursorVisible);
+      },
+    });
+
+    this.printLine(0);
+  }
+
+  printLine(lineIndex) {
+    const messages = this.missionMessages;
+    if (lineIndex >= messages.length) return;
+
+    const { text: message, delay } = messages[lineIndex];
+    const x = this.messageStartX;
+    const visibleIndex = Math.min(this.messageTexts.length, 6);
+    const y = this.messageStartY + visibleIndex * this.messageLineHeight;
+
+    let currentText = "";
+    const textObject = this.add.text(x, y, "", {
+      font: "20px monospace",
+      fill: "#00ff88",
+    });
+
+    this.messageTexts.push(textObject);
+
+    if (this.messageTexts.length > 6) {
+      const oldText = this.messageTexts.shift();
+      this.tweens.add({
+        targets: oldText,
+        alpha: 0,
+        duration: 200,
+        onComplete: () => {
+          oldText.destroy();
+        },
+      });
+
+      this.messageTexts.forEach((text, i) => {
+        this.tweens.add({
+          targets: text,
+          y: this.messageStartY + i * this.messageLineHeight,
+          duration: 200,
+          ease: "Linear",
+        });
+      });
+
+      this.tweens.add({
+        targets: this.cursor,
+        y: this.messageStartY + this.messageTexts.length * this.messageLineHeight,
+        duration: 200,
+        ease: "Linear",
+      });
+    }
+
+    let charIndex = 0;
+
+    const charTimer = this.time.addEvent({
+      delay: 30,
+      loop: true,
+      callback: () => {
+        currentText += message[charIndex];
+        textObject.setText(currentText);
+        this.cursor.setY(textObject.y + this.messageLineHeight);
+
+        charIndex++;
+
+        if (charIndex >= message.length) {
+          charTimer.remove(false);
+          this.time.delayedCall(delay, () => {
+            this.printLine(lineIndex + 1);
+          });
+        }
+      },
+    });
+  }
+
+  clearMissionDisplay() {
+    const fadeDuration = 400;
+
+    // Fade out progressif des textes
+    this.messageTexts.forEach((text) => {
+      this.tweens.add({
+        targets: text,
+        alpha: 0,
+        duration: fadeDuration,
+        onComplete: () => {
+          text.destroy();
+        },
+      });
+    });
+
+    this.messageTexts = [];
+
+    // Curseur
+    if (this.cursor) {
+      this.tweens.add({
+        targets: this.cursor,
+        alpha: 0,
+        duration: fadeDuration,
+        onComplete: () => {
+          this.cursor.destroy();
+          this.cursor = null;
+        },
+      });
+    }
+
+    // Timer du curseur
+    if (this.cursorTimer) {
+      this.cursorTimer.remove();
+      this.cursorTimer = null;
+    }
+  }
+
   // ------------------------------------------------------------------------------------------ //
   // FORM GESTION SETUP
   // ------------------------------------------------------------------------------------------ //
-  fadeOutForm(callback) {
+  fadeOutForm() {
     const form = document.getElementById("form_starship");
     const display = document.getElementById("cockpit-display");
-
-    if (!form || !display) {
-      if (callback) callback();
-      return;
-    }
 
     this.tweens.add({
       targets: { alpha: 1 },
       alpha: 0,
-      duration: 600,
+      duration: 100,
       onUpdate: (tween) => {
         const val = tween.getValue();
         form.style.opacity = val;
@@ -138,7 +325,6 @@ class StartshipCockpit extends Phaser.Scene {
       onComplete: () => {
         form.style.display = "none";
         display.style.display = "none";
-        if (callback) callback();
       },
     });
   }
@@ -160,7 +346,7 @@ class StartshipCockpit extends Phaser.Scene {
     this.tweens.add({
       targets: { alpha: 0 },
       alpha: 1,
-      duration: 600,
+      duration: 800,
       onUpdate: (tween) => {
         const val = tween.getValue();
         form.style.opacity = val;
@@ -171,16 +357,41 @@ class StartshipCockpit extends Phaser.Scene {
 
   onFormSubmitted(e) {
     const data = e.detail.data;
-    console.log("Phaser a reçu le formulaire :", data);
+    this.registry.set("fromCockpit", true);
 
+    // 1. Tremblement + hit sound + arret musique + masquer form
+    this.cameras.main.shake(250, 0.02);
+    AudioManager.playSound(this, "sfx_impact", 0.5);
+    AudioManager.stopCurrentMusic();
+    this.fadeOutForm();
+
+    // 2. Lumière vaisseau + affichage donnée écran + musique
     this.createDecorativeElements();
-    this.musicLevel = AudioManager.playMusic(this, "sfx_alarm", 0.05);
 
-    this.time.delayedCall(5000, () => {
-      this.fadeOutForm(() => {
-        this.scene.resume("Level2");
-        this.scene.stop("StartshipCockpit");
+    GameUtils.delayCall(this, 800, this.displayMissionMessagesPhaser, this);
+    GameUtils.delayCall(this, 4000, () => AudioManager.playSound(this, "mus_launch_starship", 0.2), this);
+    GameUtils.delayCall(this, 12000, this.clearMissionDisplay, this);
+    GameUtils.delayCall(this, 13000, this.displayLaunchCountdownPhaser, this);
+    GameUtils.delayCall(this, 25000, () => {
+      this.loopedLaunchSound = this.sound.add("sfx_alarm", {
+        loop: true,
+        volume: 0.2,
       });
+      this.loopedLaunchSound.play();
     });
+
+    GameUtils.delayCall(
+      this,
+      38700,
+      () => {
+        if (this.loopedLaunchSound && this.loopedLaunchSound.isPlaying) {
+          this.loopedLaunchSound.stop();
+        }
+      },
+      this
+    );
+
+    GameUtils.delayCall(this, 38750, () => this.scene.stop("StartshipCockpit"), this);
+    GameUtils.delayCall(this, 38750, () => this.scene.wake("Level2"), this);
   }
 }
