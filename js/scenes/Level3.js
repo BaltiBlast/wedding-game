@@ -85,7 +85,7 @@ class Level3 extends Phaser.Scene {
   // ------------------------------------------------------------------------------------------ //
   setupAudio() {
     this.bgMusic = this.sound.add("mus_level3", { loop: true, volume: 0.15 });
-    // this.bgMusic.play();
+    this.bgMusic.play();
   }
 
   // ------------------------------------------------------------------------------------------ //
@@ -243,6 +243,7 @@ class Level3 extends Phaser.Scene {
 
       this.playerPortrait.setTexture(isVefa ? "char_alexis_portrait" : "char_vefa_portrait");
       this.playerCharacterName.setText(isVefa ? "Alexis" : "Vefa");
+
       this.playerDialogueText.setText(
         "Tu es enfin là...\nMon vaisseau s’est écrasé à l’atterrissage… J’ai cru que je n’allais jamais pouvoir rentrer.\nHeureusement que t’es venu me chercher.\nOn a un mariage à préparer, non ?"
       );
@@ -294,12 +295,7 @@ class Level3 extends Phaser.Scene {
               onComplete: () => {
                 heart.destroy();
                 this.cameras.main.fadeOut(1000, 0, 0, 0);
-                this.tweens.add({
-                  targets: this.bgMusic,
-                  volume: 0,
-                  duration: 1000,
-                  onComplete: () => this.bgMusic.stop(),
-                });
+                this.scene.start("ScreenEnding");
               },
             });
           },

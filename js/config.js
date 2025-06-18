@@ -1,6 +1,7 @@
 const GameConfig = {
   width: 1024,
   height: 1024,
+  pixelArt: true,
   type: Phaser.AUTO,
   parent: "game-container",
   backgroundColor: "#000000",
@@ -18,11 +19,12 @@ const GameConfig = {
   // Scènes du jeu
   scenes: [
     // ScreenTitle,
-    // Level1,
-    // Elevator,
-    // Level2,
-    // StartshipCockpit,
-    // StarshipTraveling,
+    Level1,
+    Elevator,
+    Level2,
+    StartshipCockpit,
+    StarshipTraveling,
     Level3,
+    ScreenEnding,
   ],
 };

@@ -61,7 +61,7 @@ class ScreenTitle extends Phaser.Scene {
   // ------------------------------------------------------------------------------------------ //
   createTitle() {
     this.title = this.add
-      .text(512, 120, "Stelar Wedding", {
+      .text(512, 120, "Stellar Wedding", {
         fontFamily: "Doto",
         fontSize: "80px",
         fontWeight: "500",

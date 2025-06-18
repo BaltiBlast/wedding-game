@@ -68,7 +68,7 @@ class StartshipCockpit extends Phaser.Scene {
   // AUDIO SETUP
   // ------------------------------------------------------------------------------------------ //
   setupAudio() {
-    this.musicLevel = AudioManager.playMusic(this, "mus_cockpit_theme", 0.05);
+    this.musicLevel = AudioManager.playMusic(this, "mus_cockpit_theme", 0.03);
   }
 
   // ------------------------------------------------------------------------------------------ //
