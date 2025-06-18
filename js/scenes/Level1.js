@@ -61,7 +61,7 @@ class Level1 extends Phaser.Scene {
     KeyboardGuide.displayKeyboardGuide(this, 150, 150, 3.5);
 
     // Audio setup
-    // this.setupAudio();
+    AudioManager.setBackgroundMusic(this, "mus_level1_theme", 0.1, true, 2500);
 
     // Player setup
     this.createPlayer();
@@ -206,13 +206,6 @@ class Level1 extends Phaser.Scene {
   // ------------------------------------------------------------------------------------------ //
   setupTransition() {
     SceneManager.fadeInScene(this);
-  }
-
-  // ------------------------------------------------------------------------------------------ //
-  // AUDIO SETUP
-  // ------------------------------------------------------------------------------------------ //
-  setupAudio() {
-    this.musicLevel = AudioManager.playMusic(this, "mus_level1_theme", 0.1);
   }
 
   // ------------------------------------------------------------------------------------------ //
@@ -496,7 +489,7 @@ class Level1 extends Phaser.Scene {
 
     // Stop player movement
     PlayerManager.stopPlayer(this);
-    AudioManager.playSound(this, "sfx_open", 0.3);
+    AudioManager.playSoundEffects(this, "sfx_open", 0.3);
 
     this.elevatorElements = [
       this.elevatorUI,
@@ -555,24 +548,19 @@ class Level1 extends Phaser.Scene {
     this.errorMessage.setVisible(false);
 
     if (this.currentCode === GameConfig.WEDDING_DATE) {
-      // Correct code!
+      // Correct code
       this.hideElevatorUI();
-
-      // Fade out music
-      const musLevel1Theme = this.sound.get("mus_level1_theme");
-      AudioManager.stopSoundFadeOut(this, musLevel1Theme, 1000);
-
-      // Success sound
-      AudioManager.playSound(this, "sfx_access_granted", 0.3);
+      AudioManager.playSoundEffects(this, "sfx_access_granted", 0.3);
+      AudioManager.stopBackgroundMusic(this, "mus_level1_theme", 2500);
 
       // Scene transition
-      SceneManager.changeSceneWithFade(this, "Elevator", 1000);
+      SceneManager.changeSceneWithFade(this, "Elevator", 2600);
     } else {
       // Incorrect code
       this.errorMessage.setText("Code incorrect !");
       this.errorMessage.setVisible(true);
 
-      AudioManager.playSound(this, "sfx_access_denied", 0.3);
+      AudioManager.playSoundEffects(this, "sfx_access_denied", 0.3);
 
       // Flash input red
       this.tweens.add({
