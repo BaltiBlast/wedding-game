@@ -55,8 +55,7 @@ class Level3 extends Phaser.Scene {
     // Scene transition
     this.setupTransition();
 
-    // Audio setup
-    this.setupAudio();
+    AudioManager.setBackgroundMusic(this, "mus_level3", 0.15, true, 2500);
 
     // Background
     this.add.image(512, 512, "bg_level3");
@@ -69,23 +68,10 @@ class Level3 extends Phaser.Scene {
   }
 
   // ------------------------------------------------------------------------------------------ //
-  // UPDATE SCENE
-  // ------------------------------------------------------------------------------------------ //
-  update() {}
-
-  // ------------------------------------------------------------------------------------------ //
   // SCENE TRANSITION SETUP
   // ------------------------------------------------------------------------------------------ //
   setupTransition() {
     SceneManager.fadeInScene(this);
-  }
-
-  // ------------------------------------------------------------------------------------------ //
-  // AUDIO SETUP
-  // ------------------------------------------------------------------------------------------ //
-  setupAudio() {
-    this.bgMusic = this.sound.add("mus_level3", { loop: true, volume: 0.15 });
-    this.bgMusic.play();
   }
 
   // ------------------------------------------------------------------------------------------ //
@@ -122,8 +108,7 @@ class Level3 extends Phaser.Scene {
     this.shipContainer.setDepth(1000);
 
     // Démarre le son de réacteur
-    const engine = this.sound.add("sfx_landing_reactor", { volume: 0.05 });
-    engine.play();
+    AudioManager.setBackgroundMusic(this, "sfx_landing_reactor", 0.05, false);
 
     // Descente rapide
     this.tweens.add({
@@ -151,17 +136,10 @@ class Level3 extends Phaser.Scene {
               ease: "Sine.easeIn",
               onComplete: () => {
                 // Début du fade-out du son des réacteurs
-                this.tweens.add({
-                  targets: engine,
-                  volume: 0,
-                  duration: 300,
-                  onComplete: () => {
-                    engine.stop();
-                  },
-                });
+                AudioManager.stopBackgroundMusic(this, "sfx_landing_reactor", 500);
 
                 // 💥 ➤ C'est ici que tu peux jouer le son d'impact de l'atterrissage
-                this.sound.play("sfx_landing_starchip", { volume: 0.3 });
+                AudioManager.playSoundEffects(this, "sfx_landing_starchip", 0.3, false);
 
                 // Rebond après impact
                 this.tweens.add({
@@ -193,13 +171,13 @@ class Level3 extends Phaser.Scene {
 
   spawnPlayerFromShip() {
     this.time.delayedCall(1000, () => {
-      this.sound.play("fx_enter_door", { volume: 0.3 });
+      AudioManager.playSoundEffects(this, "fx_enter_door", 0.3, false);
 
       // Création du joueur via le manager
       this.player = PlayerManager.createPlayer(this, 300, 700, this.currentPlayer).setScale(0.15);
       this.player.setAlpha(0);
-      this.footstepSound = this.sound.add("sfx_footstep_grass", { loop: true, volume: 0.15 });
-      this.footstepSound.play();
+
+      AudioManager.playSoundEffects(this, "sfx_footstep_grass", 0.15, false);
 
       this.tweens.add({
         targets: this.player,
@@ -208,7 +186,6 @@ class Level3 extends Phaser.Scene {
         onComplete: () => {
           // Une fois apparu, on le fait marcher vers le bas
           this.player.play("walk-up");
-          this.footstepSound.stop();
 
           this.tweens.add({
             targets: this.player,
@@ -282,7 +259,7 @@ class Level3 extends Phaser.Scene {
             });
 
             // Son de bisou
-            this.sound.play("sfx_kiss", { volume: 0.5 });
+            AudioManager.playSoundEffects(this, "sfx_kiss", 0.5, false);
 
             // Ajout d'un petit coeur animé
             const heart = this.add.image(400, 620, "prop_heart").setScale(0.03).setDepth(2000);
