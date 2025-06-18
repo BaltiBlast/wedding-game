@@ -53,12 +53,15 @@ class Level1 extends Phaser.Scene {
     // Scene transition
     this.setupTransition();
 
+    // Show stage banner
+    StageBanner.showStageBanner(this, "Atrebois", 2600);
+
     // Background
     this.add.image(512, 512, "bg_level1");
 
     // Display keyboard guide
     KeyboardGuide.createKeyboardGuideAnimations(this);
-    KeyboardGuide.displayKeyboardGuide(this, 150, 150, 3.5);
+    KeyboardGuide.displayKeyboardGuide(this, 512, 900, 3.5);
 
     // Audio setup
     AudioManager.setBackgroundMusic(this, "mus_level1_theme", 0.1, true, 2500);
