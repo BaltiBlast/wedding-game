@@ -31,7 +31,7 @@ class StarshipTraveling extends Phaser.Scene {
     this.setupTransition();
 
     // Audio setup
-    this.setupAudio();
+    AudioManager.setBackgroundMusic(this, "mus_traveling_level", 0.1, true, 2500);
 
     // Animated background
     this.bg = this.add.tileSprite(0, 0, 1024, 1024, "bg_starship_traveling").setOrigin(0).setScrollFactor(0);
@@ -63,13 +63,6 @@ class StarshipTraveling extends Phaser.Scene {
     StarshipManager.updateMovement();
     AsteroidManager.updateAsteroides();
     this.planetAnimationUpdate();
-  }
-
-  // ------------------------------------------------------------------------------------------ //
-  // AUDIO SETUP
-  // ------------------------------------------------------------------------------------------ //
-  setupAudio() {
-    this.musicLevel = AudioManager.playMusic(this, "mus_traveling_level", 0.1);
   }
 
   // ------------------------------------------------------------------------------------------ //
@@ -108,7 +101,7 @@ class StarshipTraveling extends Phaser.Scene {
 
     this.lastLoopingTime = now;
 
-    AudioManager.playSound(this, "sfx_space_impact", 0.05);
+    AudioManager.playSoundEffects(this, "sfx_space_impact", 0.05);
 
     this.tweens.add({
       targets: spaceship,
