@@ -44,11 +44,11 @@ class StartshipCockpit extends Phaser.Scene {
     // Scene transition
     this.setupTransition();
 
+    // Audio setup
+    AudioManager.setBackgroundMusic(this, "mus_cockpit_theme", 0.03, true, 2500);
+
     // Background
     this.add.image(512, 512, "bg_cockpit");
-
-    // Audio setup
-    this.setupAudio();
 
     // Submit form listener / intercepter
     window.addEventListener("formSubmitted", this.onFormSubmitted.bind(this));
@@ -62,13 +62,6 @@ class StartshipCockpit extends Phaser.Scene {
     this.cameras.main.once("camerafadeincomplete", () => {
       this.fadeInForm();
     });
-  }
-
-  // ------------------------------------------------------------------------------------------ //
-  // AUDIO SETUP
-  // ------------------------------------------------------------------------------------------ //
-  setupAudio() {
-    this.musicLevel = AudioManager.playMusic(this, "mus_cockpit_theme", 0.03);
   }
 
   // ------------------------------------------------------------------------------------------ //
@@ -309,36 +302,19 @@ class StartshipCockpit extends Phaser.Scene {
     this.registry.set("fromCockpit", true);
 
     this.cameras.main.shake(250, 0.02);
-    AudioManager.playSound(this, "sfx_impact", 0.5);
-    AudioManager.stopCurrentMusic();
-    this.fadeOutForm();
+    AudioManager.playSoundEffects(this, "sfx_impact", 0.5);
+    AudioManager.stopBackgroundMusic(this, "mus_cockpit_theme", 100);
 
+    this.fadeOutForm();
     this.createDecorativeElements();
 
     // Animation
     GameUtils.delayCall(this, 800, this.displayMissionMessages, this);
-    GameUtils.delayCall(this, 4000, () => AudioManager.playSound(this, "mus_launch_starship", 0.2), this);
+    GameUtils.delayCall(this, 4000, () => AudioManager.setBackgroundMusic(this, "mus_launch_starship", 0.2, true, 0));
     GameUtils.delayCall(this, 12000, this.clearMissionDisplay, this);
     GameUtils.delayCall(this, 13000, this.displayLaunchCountdown, this);
-    GameUtils.delayCall(this, 25000, () => {
-      this.loopedLaunchSound = this.sound.add("sfx_alarm", {
-        loop: true,
-        volume: 0.2,
-      });
-      this.loopedLaunchSound.play();
-    });
-
-    GameUtils.delayCall(
-      this,
-      38700,
-      () => {
-        if (this.loopedLaunchSound && this.loopedLaunchSound.isPlaying) {
-          this.loopedLaunchSound.stop();
-        }
-      },
-      this
-    );
-
+    GameUtils.delayCall(this, 25000, () => AudioManager.setBackgroundMusic(this, "sfx_alarm", 0.2, true));
+    GameUtils.delayCall(this, 38700, () => AudioManager.stopBackgroundMusic(this, "sfx_alarm", 0));
     GameUtils.delayCall(this, 38750, () => this.scene.stop("StartshipCockpit"), this);
     GameUtils.delayCall(this, 38750, () => this.scene.wake("Level2"), this);
   }
