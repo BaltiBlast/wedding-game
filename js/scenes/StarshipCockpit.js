@@ -310,7 +310,7 @@ class StartshipCockpit extends Phaser.Scene {
 
     // Animation
     GameUtils.delayCall(this, 800, this.displayMissionMessages, this);
-    GameUtils.delayCall(this, 4000, () => AudioManager.setBackgroundMusic(this, "mus_launch_starship", 0.2, true, 0));
+    GameUtils.delayCall(this, 4000, () => AudioManager.setBackgroundMusic(this, "mus_launch_starship", 0.2, false, 0));
     GameUtils.delayCall(this, 12000, this.clearMissionDisplay, this);
     GameUtils.delayCall(this, 13000, this.displayLaunchCountdown, this);
     GameUtils.delayCall(this, 25000, () => AudioManager.setBackgroundMusic(this, "sfx_alarm", 0.2, true));

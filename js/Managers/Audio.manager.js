@@ -11,13 +11,13 @@
 // AudioManager.setBackgroundMusic(this, key, volume, loop, fadeInDuration);
 // explains : this = scene // key = "music_lvl" // volume = level musique // loop = music loopable // fadeInDuration = fade in if > 0
 //
-// -- use for stop audio (music)
-// AudioManager.stopBackgroundMusic(this, key, fadeOutDuration);
-// explains this = scene // key = "music_lvl" // fadeInDuration = fade out if > 0
-//
 // -- use for play sound (sfx - sound effect)
 // AudioManager.playSoundEffects(this, key, fadeOutDuration);
 // explains this = scene // key = "sfx_sound" // volume = level sound // loop = sound loopable
+//
+// -- use for stop audio (music)
+// AudioManager.stopBackgroundMusic(this, key, fadeOutDuration);
+// explains this = scene // key = "music_lvl" // fadeInDuration = fade out if > 0
 // ======================================================================== //
 
 class AudioManager {
@@ -47,6 +47,15 @@ class AudioManager {
   }
 
   //-------------------------------------------------------------------------------------------- //
+  static playSoundEffects(scene, key, volume = 1, loop = false) {
+    const sound = scene.sound.add(key, {
+      volume: volume,
+      loop: loop,
+    });
+    sound.play();
+  }
+
+  //-------------------------------------------------------------------------------------------- //
   static stopBackgroundMusic(scene, key, fadeOutDuration = 0) {
     const sound = this.sounds[key];
 
@@ -61,15 +70,9 @@ class AudioManager {
           delete this.sounds[key];
         },
       });
+    } else {
+      sound.stop();
+      delete this.sounds[key];
     }
-  }
-
-  //-------------------------------------------------------------------------------------------- //
-  static playSoundEffects(scene, key, volume = 1, loop = false) {
-    const sound = scene.sound.add(key, {
-      volume: volume,
-      loop: loop,
-    });
-    sound.play();
   }
 }
