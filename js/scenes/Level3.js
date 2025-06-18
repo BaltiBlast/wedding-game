@@ -50,7 +50,7 @@ class Level3 extends Phaser.Scene {
   // CREATE SCENE
   // ------------------------------------------------------------------------------------------ //
   create() {
-    this.currentPlayer = this.registry.get("playerName") || "Vefa";
+    this.currentPlayer = this.registry.get("selectedCharacter");
 
     // Scene transition
     this.setupTransition();
