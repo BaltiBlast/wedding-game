@@ -7,6 +7,9 @@ class StarshipTraveling extends Phaser.Scene {
   // PRELOAD SCENE
   // ------------------------------------------------------------------------------------------ //
   preload() {
+    // Keyboard guide assets
+    KeyboardGuide.preloadKeyboardGuide(this);
+
     // Images
     this.load.image("bg_starship_traveling", "assets/images/traveling/bg_starship_traveling.png");
     this.load.image("prop_spaceship", "assets/images/level2/prop_spaceship.png");
@@ -29,6 +32,10 @@ class StarshipTraveling extends Phaser.Scene {
 
     // Scene transition
     this.setupTransition();
+
+    // Set up keyboard guide
+    KeyboardGuide.createKeyboardGuideAnimations(this);
+    KeyboardGuide.displayKeyboardGuide(this, 850, 900, 4);
 
     // Audio setup
     AudioManager.setBackgroundMusic(this, "mus_traveling_level", 0.1, true, 2500);
@@ -152,7 +159,7 @@ class StarshipTraveling extends Phaser.Scene {
   // PLANET WALLS SETUP
   // ------------------------------------------------------------------------------------------ //
   planetSetUp() {
-    this.time.delayedCall(20000, () => {
+    this.time.delayedCall(25000, () => {
       this.planetSequenceStarted = true;
       this.planet = this.add.image(-200, 250, "prop_green_planet").setScale(0.2).setDepth(0);
       this.planetTargetX = 200;
@@ -198,6 +205,11 @@ class StarshipTraveling extends Phaser.Scene {
             .setScale(0.5)
             .setDepth(10);
 
+          // Démarre en même temps les deux fadeouts
+          AudioManager.stopBackgroundMusic(this, "mus_traveling_level", 2500);
+          this.cameras.main.fadeOut(2600, 0, 0, 0);
+
+          // Animation de l'étoile
           this.tweens.add({
             targets: sparkle,
             scale: 3,
@@ -206,19 +218,12 @@ class StarshipTraveling extends Phaser.Scene {
             ease: "Sine.easeOut",
             onComplete: () => {
               sparkle.destroy();
-
-              this.cameras.main.fadeOut(1000, 0, 0, 0);
-              this.tweens.add({
-                targets: this.musicLevel,
-                volume: 0,
-                duration: 1000,
-                ease: "Linear",
-              });
-
-              this.time.delayedCall(1000, () => {
-                this.scene.start("Level3");
-              });
             },
+          });
+
+          // Changement de scène après que la caméra ait fini de fader
+          this.cameras.main.once("camerafadeoutcomplete", () => {
+            this.scene.start("Level3");
           });
         });
       },
