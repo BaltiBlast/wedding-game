@@ -17,14 +17,5 @@ const GameConfig = {
     createContainer: true,
   },
   // Scènes du jeu
-  scenes: [
-    // ScreenTitle,
-    // Level1,
-    // Elevator,
-    Level2,
-    StartshipCockpit,
-    StarshipTraveling,
-    Level3,
-    ScreenEnding,
-  ],
+  scenes: [ScreenTitle, Level1, Elevator, Level2, StartshipCockpit, StarshipTraveling, Level3, ScreenEnding],
 };
