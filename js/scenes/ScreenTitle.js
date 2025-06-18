@@ -36,7 +36,8 @@ class ScreenTitle extends Phaser.Scene {
     this.setUpTransition();
 
     // Audio setup
-    this.setupAudio();
+    AudioManager.setBackgroundMusic(this, "amb_title_atmosphere", 0.1, true, 5000);
+    AudioManager.setBackgroundMusic(this, "ow_title_theme", 0.3, true, 5000);
 
     // Title
     this.createTitle();
@@ -155,14 +156,14 @@ class ScreenTitle extends Phaser.Scene {
 
   setupCharacterInteractions() {
     this.alexisSprite.on("pointerdown", () => {
-      AudioManager.playSound(this, "sfx_character_select", 0.1);
+      AudioManager.playSoundEffects(this, "sfx_character_select", 0.1);
       this.selectedCharacter = "Alexis";
       this.registry.set("selectedCharacter", this.selectedCharacter);
       this.updateCharacterSelection();
     });
 
     this.vefaSprite.on("pointerdown", () => {
-      AudioManager.playSound(this, "sfx_character_select", 0.1);
+      AudioManager.playSoundEffects(this, "sfx_character_select", 0.1);
       this.selectedCharacter = "Vefa";
       this.registry.set("selectedCharacter", this.selectedCharacter);
       this.updateCharacterSelection();
@@ -234,15 +235,10 @@ class ScreenTitle extends Phaser.Scene {
     });
 
     this.startButton.on("pointerdown", () => {
-      AudioManager.playSound(this, "sfx_button_start", 0.05);
-
-      const OWTitleTheme = this.sound.get("ow_title_theme");
-      AudioManager.stopSoundFadeOut(this, OWTitleTheme, 1500);
-
-      const ambTitleAtmosphere = this.sound.get("amb_title_atmosphere");
-      AudioManager.stopSoundFadeOut(this, ambTitleAtmosphere, 1500);
-
-      SceneManager.changeSceneWithFade(this, "Level1", 2000);
+      AudioManager.playSoundEffects(this, "sfx_button_start", 0.03);
+      AudioManager.stopBackgroundMusic(this, "ow_title_theme", 2500);
+      AudioManager.stopBackgroundMusic(this, "amb_title_atmosphere", 2500);
+      SceneManager.changeSceneWithFade(this, "Level1", 2600);
     });
   }
 
@@ -300,14 +296,6 @@ class ScreenTitle extends Phaser.Scene {
     this.time.delayedCall(1600, () => {
       this.updateCharacterSelection();
     });
-  }
-
-  // ------------------------------------------------------------------------------------------ //
-  // AUDIO SCENE SETUP
-  // ------------------------------------------------------------------------------------------ //
-  setupAudio() {
-    AudioManager.playMusic(this, "amb_title_atmosphere", 0.15);
-    AudioManager.playMusic(this, "ow_title_theme", 0.3);
   }
 
   // ------------------------------------------------------------------------------------------ //
