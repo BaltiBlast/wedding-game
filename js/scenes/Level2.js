@@ -41,6 +41,9 @@ class Level2 extends Phaser.Scene {
     // Background
     this.add.image(512, 512, "bg_level2");
 
+    // Show stage banner
+    StageBanner.showStageBanner(this, "Plateforme de lancement", 2600);
+
     // Set up keyboard guide
     KeyboardGuide.createKeyboardGuideAnimations(this);
     KeyboardGuide.displayKeyboardGuide(this, 150, 150, 3.5);

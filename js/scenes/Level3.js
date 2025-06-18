@@ -60,6 +60,9 @@ class Level3 extends Phaser.Scene {
     // Background
     this.add.image(512, 512, "bg_level3");
 
+    // Show stage banner
+    StageBanner.showStageBanner(this, "Gala", 2600);
+
     this.createObstacles();
 
     this.landingStarShipAnimation();
@@ -218,8 +221,8 @@ class Level3 extends Phaser.Scene {
       this.playerCharacterName.setVisible(true);
       this.playerDialogueText.setVisible(true);
 
-      this.playerPortrait.setTexture(isVefa ? "char_alexis_portrait" : "char_vefa_portrait");
-      this.playerCharacterName.setText(isVefa ? "Alexis" : "Vefa");
+      this.playerPortrait.setTexture(isVefa ? "char_vefa_portrait" : "char_alexis_portrait");
+      this.playerCharacterName.setText(isVefa ? "Vefa" : "Alexis");
 
       this.playerDialogueText.setText(
         "Tu es enfin là...\nMon vaisseau s’est écrasé à l’atterrissage… J’ai cru que je n’allais jamais pouvoir rentrer.\nHeureusement que t’es venu me chercher.\nOn a un mariage à préparer, non ?"

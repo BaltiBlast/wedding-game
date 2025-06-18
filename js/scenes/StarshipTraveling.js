@@ -44,6 +44,9 @@ class StarshipTraveling extends Phaser.Scene {
     this.bg = this.add.tileSprite(0, 0, 1024, 1024, "bg_starship_traveling").setOrigin(0).setScrollFactor(0);
     this.bgScrollSpeed = 1.5;
 
+    // Show stage banner
+    StageBanner.showStageBanner(this, "En route pour Gala", 2600);
+
     // Starship deplacement + animation
     this.starshipInit();
     this.createInvisibleWalls();
