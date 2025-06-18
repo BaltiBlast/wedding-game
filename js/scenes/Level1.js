@@ -19,6 +19,8 @@ class Level1 extends Phaser.Scene {
     this.load.image("prop_tree", "assets/images/level1/prop_tree.png");
     this.load.image("item_paper", "assets/images/level1/item_paper.png");
 
+    KeyboardGuide.preloadKeyboardGuide(this);
+
     // Spritesheets
     this.load.spritesheet("char_alexis_spritesheet", "assets/images/characters/char_alexis_spritesheet.png", {
       frameWidth: 270,
@@ -53,8 +55,12 @@ class Level1 extends Phaser.Scene {
     // Background
     this.add.image(512, 512, "bg_level1");
 
+    // Display keyboard guide
+    KeyboardGuide.createKeyboardGuideAnimations(this);
+    KeyboardGuide.displayKeyboardGuide(this, 850, 150, 4.8);
+
     // Audio setup
-    this.setupAudio();
+    // this.setupAudio();
 
     // Player setup
     this.createPlayer();
