@@ -4,6 +4,9 @@ class ScreenEnding extends Phaser.Scene {
   }
 
   preload() {
+    // Keyboard guide assets
+    KeyboardGuide.preloadKeyboardGuide(this);
+
     this.load.image("bg_starship_traveling", "assets/images/traveling/bg_starship_traveling.png");
     this.load.image("prop_spaceship", "assets/images/level2/prop_spaceship.png");
   }
@@ -15,6 +18,10 @@ class ScreenEnding extends Phaser.Scene {
     // Animated background
     this.bg = this.add.tileSprite(0, 0, 1024, 1024, "bg_starship_traveling").setOrigin(0).setScrollFactor(0);
     this.bgScrollSpeed = 1;
+
+    // Set up keyboard guide
+    KeyboardGuide.createKeyboardGuideAnimations(this);
+    KeyboardGuide.displayKeyboardGuide(this, 150, 150, 3.5);
 
     // Starship deplacement + animation
     this.starshipInit();
