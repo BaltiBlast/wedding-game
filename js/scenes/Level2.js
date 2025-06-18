@@ -46,7 +46,7 @@ class Level2 extends Phaser.Scene {
     KeyboardGuide.displayKeyboardGuide(this, 150, 150, 3.5);
 
     // Audio setup
-    this.setupAudio();
+    AudioManager.setBackgroundMusic(this, "mus_level2_theme", 0.1, true, 2500);
 
     // Player setup
     this.createPlayer();
@@ -85,13 +85,6 @@ class Level2 extends Phaser.Scene {
   // ------------------------------------------------------------------------------------------ //
   setupTransition() {
     SceneManager.fadeInScene(this);
-  }
-
-  // ------------------------------------------------------------------------------------------ //
-  // AUDIO SETUP
-  // ------------------------------------------------------------------------------------------ //
-  setupAudio() {
-    this.musicLevel = AudioManager.playMusic(this, "mus_level2_theme", 0.1);
   }
 
   // ------------------------------------------------------------------------------------------ //
@@ -249,12 +242,16 @@ class Level2 extends Phaser.Scene {
     this.input.keyboard.manager.clearCaptures();
     this.input.keyboard.enabled = false;
 
-    this.scene.sleep();
-    this.scene.launch("StartshipCockpit");
+    AudioManager.stopBackgroundMusic(this, "mus_level2_theme", 1000);
+    AudioManager.playSoundEffects(this, "fx_enter_door", 0.1);
 
-    AudioManager.playSound(this, "fx_enter_door", 0.1);
-    this.player.setVisible(false);
-    this.spaceship.setVisible(false);
+    this.time.delayedCall(1000, () => {
+      this.scene.sleep();
+      this.scene.launch("StartshipCockpit");
+
+      this.player.setVisible(false);
+      this.spaceship.setVisible(false);
+    });
   }
 
   // ------------------------------------------------------------------------------------------ //
