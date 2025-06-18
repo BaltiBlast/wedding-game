@@ -19,8 +19,8 @@ const GameConfig = {
   // Scènes du jeu
   scenes: [
     // ScreenTitle,
-    Level1,
-    Elevator,
+    // Level1,
+    // Elevator,
     Level2,
     StartshipCockpit,
     StarshipTraveling,

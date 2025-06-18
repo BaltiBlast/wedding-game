@@ -1,12 +1,16 @@
 // ======================================================================== //
 // USAGE
 //
-// 1. Add "KeyboardGuide.preloadKeyboardGuide(this);" in scene's preload
-// 2. Add "KeyboardGuide.createKeyboardGuideAnimations(this);" in scene's create
-// 3. Add "KeyboardGuide.displayKeyboardGuide(this, x, y, scale);" in scene's preload
+// 1. Add in scene's preload :
+// Keyboard guide assets
+// KeyboardGuide.preloadKeyboardGuide(this);
+//
+// 2. Add in scene's create :
+// Set up keyboard guide
+// KeyboardGuide.createKeyboardGuideAnimations(this);
+// KeyboardGuide.displayKeyboardGuide(this, x, y, scale);
 //
 // Explains : this = scene, x = position axe x, y = position axe y, scale = size (1 by default)
-//
 // ======================================================================== //
 
 class KeyboardGuide {
@@ -96,7 +100,7 @@ class KeyboardGuide {
       .play("keyboardRight");
 
     container.add([up, left, down, right]);
-    container.setDepth(1000);
+    container.setDepth(99999);
 
     // Hide block when a key has pushed
     this.hideOnArrowKeyPress(scene, container);

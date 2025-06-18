@@ -4,6 +4,9 @@ class Level2 extends Phaser.Scene {
   }
 
   preload() {
+    // Keyboard guide assets
+    KeyboardGuide.preloadKeyboardGuide(this);
+
     // Images
     this.load.image("bg_level2", "assets/images/level2/bg_level2.png");
     this.load.image("prop_fences", "assets/images/level2/prop_fences.png");
@@ -37,6 +40,10 @@ class Level2 extends Phaser.Scene {
 
     // Background
     this.add.image(512, 512, "bg_level2");
+
+    // Set up keyboard guide
+    KeyboardGuide.createKeyboardGuideAnimations(this);
+    KeyboardGuide.displayKeyboardGuide(this, 150, 150, 3.5);
 
     // Audio setup
     this.setupAudio();
