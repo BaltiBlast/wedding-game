@@ -42,7 +42,13 @@ class Level2 extends Phaser.Scene {
     this.add.image(512, 512, "bg_level2");
 
     // Show stage banner
-    StageBanner.showStageBanner(this, "Plateforme de lancement", 2600);
+    StageBanner.showStageBanner(this, "Plateforme de lancement", 1000);
+
+    const quests = ["🚀 - Rapproche-toi du vaisseau pour y entrer."];
+
+    this.time.delayedCall(5000, () => {
+      QuestSummary.showQuestsSummary(this, quests);
+    });
 
     // Set up keyboard guide
     KeyboardGuide.createKeyboardGuideAnimations(this);

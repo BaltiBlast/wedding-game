@@ -67,6 +67,7 @@ class Level1 extends Phaser.Scene {
     // Audio setup
     AudioManager.setBackgroundMusic(this, "mus_level1_theme", 0.1, true, 2500);
 
+    // Show quets summary
     const quests = [
       "🕹️ - Utilise les flèches directionnelles pour te déplacer.",
       "👀 - Approche-toi du feu de camp pour parler à l'extraterrestre Ardoise.",

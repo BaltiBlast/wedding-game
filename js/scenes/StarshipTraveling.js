@@ -45,7 +45,14 @@ class StarshipTraveling extends Phaser.Scene {
     this.bgScrollSpeed = 1.5;
 
     // Show stage banner
-    StageBanner.showStageBanner(this, "En route pour Gala", 2600);
+    StageBanner.showStageBanner(this, "En route pour Gala", 1000);
+
+    // Show quets summary
+    const quests = ["🪨 - Attention aux astéroïdes !"];
+
+    this.time.delayedCall(5000, () => {
+      QuestSummary.showQuestsSummary(this, quests);
+    });
 
     // Starship deplacement + animation
     this.starshipInit();
