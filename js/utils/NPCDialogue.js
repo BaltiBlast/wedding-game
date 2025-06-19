@@ -7,15 +7,15 @@ class DialogueManager {
       .setVisible(false);
 
     scene.portraitFrame = scene.add
-      .rectangle(780, 850, 120, 120, 0x2d4a22, 1)
+      .rectangle(880, 850, 120, 120, 0x2d4a22, 1)
       .setStrokeStyle(3, 0x64ffda)
       .setDepth(1000)
       .setVisible(false);
 
-    scene.portrait = scene.add.image(755, 890, "").setScale(0.2).setDepth(1000).setVisible(false);
+    scene.portrait = scene.add.image(860, 890, "").setScale(0.2).setDepth(1000).setVisible(false);
 
     scene.characterName = scene.add
-      .text(780, 930, "", {
+      .text(880, 930, "", {
         fontSize: "16px",
         fill: "#64FFDA",
         fontWeight: "bold",
@@ -25,11 +25,11 @@ class DialogueManager {
       .setVisible(false);
 
     scene.dialogueText = scene.add
-      .text(250, 850, "", {
-        fontSize: "18px",
+      .text(100, 855, "", {
+        fontSize: "16px",
         fill: "#ffffff",
         align: "left",
-        wordWrap: { width: 400 },
+        wordWrap: { width: 650 },
       })
       .setOrigin(0, 0.5)
       .setDepth(1000)

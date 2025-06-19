@@ -330,24 +330,12 @@ class Level1 extends Phaser.Scene {
 
     // Setup dialogue
     DialogueManager.createNPCDialogue(this);
-    const selectedCharacter = this.registry.get("selectedCharacter") || "Vefa";
-    if (selectedCharacter === "Alexis") {
-      this.npcDialogue = `Tiens te voilà !  C’est terrible, ta moitié s’est perdue dans l'espace !
-L’ascenseur et la tour pour rejoindre le vaisseau est juste là-haut. Mais… il est verrouillé.  
-Il faut entrer un code. C’était… euh…la date du mariage, justement !  Mais impossible de m’en souvenir…
-Je l’avais noté quelque part, sur un petit papier…  Et bien sûr, j’ai réussi à le perdre.
-Si tu le retrouves, tu pourras décoller. En attendant, profites-en pour explorer Atrebois.
-Peut-être qu’il est tombé quelque part dans le coin...
-`;
-    } else {
-      this.npcDialogue = `Tiens te voilà !  C’est terrible, ta moitié s’est perdue dans l'espace !
-L’ascenseur et la tour pour rejoindre le vaisseau est juste là-haut. Mais… il est verrouillé.  
-Il faut entrer un code. C’était… euh…la date du mariage, justement !  Mais impossible de m’en souvenir…
-Je l’avais noté quelque part, sur un petit papier…  Et bien sûr, j’ai réussi à le perdre.
-Si tu le retrouves, tu pourras décoller. En attendant, profites-en pour explorer Atrebois.
-Peut-être qu’il est tombé quelque part dans le coin...
-`;
-    }
+    this.npcDialogue = `dAh, te voilà ! C’est terrible, ta moitié s’est perdue dans l’espace !
+L’ascenseur pour rejoindre le vaisseau est juste là-haut… mais il est verrouillé.
+Il faut entrer la date du mariage. Évidemment, j’ai oublié…  
+Je l’avais notée sur un petit papier… que j’ai perdu.
+Si tu le retrouves, tu pourras décoller. En attendant, explore Atrebois.
+Avec un peu de chance, il traîne dans le coin...`;
   }
 
   // ------------------------------------------------------------------------------------------ //
