@@ -51,7 +51,7 @@ class StageBanner {
 
   //-------------------------------------------------------------------------------------------- //
   static hideStageBanner(scene, container) {
-    scene.time.delayedCall(5000, () => {
+    scene.time.delayedCall(2000, () => {
       scene.tweens.add({
         targets: container,
         y: -100,
