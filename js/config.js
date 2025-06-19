@@ -10,7 +10,7 @@ const GameConfig = {
     arcade: { debug: false },
   },
   // Constantes du jeu
-  WEDDING_DATE: "27.09.25",
+  WEDDING_DATE: "270925",
   defaultDuration: 2000,
 
   dom: {

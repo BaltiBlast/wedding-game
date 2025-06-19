@@ -209,7 +209,9 @@ class ScreenEnding extends Phaser.Scene {
 
       // Retour à l'écran titre après 2 minutes
       this.time.delayedCall(120000, () => {
-        this.cameras.main.fadeOut(2000, 0, 0, 0); // 2s, noir
+        this.cameras.main.fadeOut(2600, 0, 0, 0); // 2s, noir
+        AudioManager.stopBackgroundMusic(this, "mus_level3", 2000);
+
         this.time.delayedCall(2000, () => {
           this.registry.destroy();
           this.scene.start("ScreenTitle");
