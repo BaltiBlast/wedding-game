@@ -44,6 +44,7 @@ class Level1 extends Phaser.Scene {
     this.load.audio("sfx_open", "assets/sounds/level1/sfx_open.wav");
     this.load.audio("sfx_access_granted", "assets/sounds/level1/sfx_access_granted.wav");
     this.load.audio("mus_level1_theme", "assets/sounds/level1/mus_level1_theme.mp3");
+    this.load.audio("sfx_paper", "assets/sounds/level1/sfx_paper.wav");
   }
 
   // ------------------------------------------------------------------------------------------ //
@@ -54,7 +55,7 @@ class Level1 extends Phaser.Scene {
     this.setupTransition();
 
     // Show stage banner
-    StageBanner.showStageBanner(this, "Atrebois", 2600);
+    StageBanner.showStageBanner(this, "Atrebois", 1000);
 
     // Background
     this.add.image(512, 512, "bg_level1");
@@ -65,6 +66,15 @@ class Level1 extends Phaser.Scene {
 
     // Audio setup
     AudioManager.setBackgroundMusic(this, "mus_level1_theme", 0.1, true, 2500);
+
+    const quests = [
+      "🕹️ - Utilise les flèches directionnelles pour te déplacer.",
+      "👀 - Approche-toi du feu de camp pour parler à l'extraterrestre Ardoise.",
+    ];
+
+    this.time.delayedCall(5000, () => {
+      QuestSummary.showQuestsSummary(this, quests);
+    });
 
     // Player setup
     this.createPlayer();
@@ -120,18 +130,14 @@ class Level1 extends Phaser.Scene {
     );
 
     // Paper interaction
-    checkProximity(
-      this,
-      this.paper,
-      "nearPaper",
-      this.interactionDistance,
-      () => {
-        this.paperBubble.setVisible(true);
-      },
-      () => {
-        this.paperBubble.setVisible(false);
+    checkProximity(this, this.paper, "nearPaper", this.interactionDistance, () => {
+      this.paperBubble.setVisible(true);
+
+      if (!this.hasPlayedPaperSound) {
+        AudioManager.playSoundEffects(this, "sfx_paper", 0.15);
+        this.hasPlayedPaperSound = true;
       }
-    );
+    });
 
     // Elevator interaction
     checkProximity(
@@ -325,9 +331,21 @@ class Level1 extends Phaser.Scene {
     DialogueManager.createNPCDialogue(this);
     const selectedCharacter = this.registry.get("selectedCharacter") || "Vefa";
     if (selectedCharacter === "Alexis") {
-      this.npcDialogue = `Salut Alexis !\nSi tu veux sauver Vefa`;
+      this.npcDialogue = `Tiens te voilà !  C’est terrible, ta moitié s’est perdue dans l'espace !
+L’ascenseur et la tour pour rejoindre le vaisseau est juste là-haut. Mais… il est verrouillé.  
+Il faut entrer un code. C’était… euh…la date du mariage, justement !  Mais impossible de m’en souvenir…
+Je l’avais noté quelque part, sur un petit papier…  Et bien sûr, j’ai réussi à le perdre.
+Si tu le retrouves, tu pourras décoller. En attendant, profites-en pour explorer Atrebois.
+Peut-être qu’il est tombé quelque part dans le coin...
+`;
     } else {
-      this.npcDialogue = `Demat Vefa !\nSi tu veux sauver Alexis`;
+      this.npcDialogue = `Tiens te voilà !  C’est terrible, ta moitié s’est perdue dans l'espace !
+L’ascenseur et la tour pour rejoindre le vaisseau est juste là-haut. Mais… il est verrouillé.  
+Il faut entrer un code. C’était… euh…la date du mariage, justement !  Mais impossible de m’en souvenir…
+Je l’avais noté quelque part, sur un petit papier…  Et bien sûr, j’ai réussi à le perdre.
+Si tu le retrouves, tu pourras décoller. En attendant, profites-en pour explorer Atrebois.
+Peut-être qu’il est tombé quelque part dans le coin...
+`;
     }
   }
 
