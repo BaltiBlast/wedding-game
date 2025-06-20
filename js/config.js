@@ -5,21 +5,15 @@ const GameConfig = {
   type: Phaser.AUTO,
   parent: "game-container",
   backgroundColor: "#000000",
-  scale: {
-    mode: Phaser.Scale.FIT,
-    autoCenter: Phaser.Scale.CENTER_BOTH,
-  },
   physics: {
     default: "arcade",
     arcade: { debug: false },
   },
-  // Constantes du jeu
   WEDDING_DATE: "270925",
   defaultDuration: 2000,
 
   dom: {
     createContainer: true,
   },
-  // Scènes du jeu
-  scenes: [ScreenTitle, Level1, Elevator, Level2, StartshipCockpit, StarshipTraveling, Level3, ScreenEnding],
+  scenes: [Auth, ScreenTitle, Level1, Elevator, Level2, StartshipCockpit, StarshipTraveling, Level3, ScreenEnding],
 };
