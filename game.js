@@ -1,21 +1,22 @@
 const express = require("express");
 const app = express();
 const PORT = 3000;
+const session = require("express-session");
+require("dotenv").config();
+const router = require("./router");
 
 app.set("view engine", "ejs");
 app.use(express.static("public"));
+app.use(express.urlencoded({ extended: true }));
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+  })
+);
 
-app.get("/", (req, res) => {
-  res.render("index");
-});
-
-app.get("/game", (req, res) => {
-  res.render("game");
-});
-
-app.get("/mobile", (req, res) => {
-  res.render("mobile");
-});
+app.use(router);
 
 app.listen(PORT, () => {
   console.log(`Serveur lancé sur http://localhost:${PORT}`);
