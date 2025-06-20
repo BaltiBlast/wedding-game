@@ -8,9 +8,9 @@ const test = {
     const isSmallScreen = window.innerWidth < 768 || window.innerHeight < 500;
 
     if (isMobile || isSmallScreen) {
-      window.location.href = "views/mobile.html";
+      window.location.href = "/mobile";
     } else {
-      window.location.href = "views/game.html";
+      window.location.href = "/game";
     }
   },
 };

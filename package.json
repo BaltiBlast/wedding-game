@@ -1,0 +1,18 @@
+{
+  "name": "favexis-mariage",
+  "version": "1.0.0",
+  "description": "",
+  "main": "game.js",
+  "scripts": {
+    "start": "nodemon games.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "nodemon": "^3.1.10"
+  }
+}
