@@ -5,12 +5,12 @@ class Elevator extends Phaser.Scene {
 
   preload() {
     // Images
-    this.load.image("bg_elevator", "assets/images/elevator/bg_elevator.png");
-    this.load.image("char_alexis_game", "assets/images/characters/char_alexis_game.png");
-    this.load.image("char_vefa_game", "assets/images/characters/char_vefa_game.png");
+    this.load.image("bg_elevator", "../assets/images/elevator/bg_elevator.png");
+    this.load.image("char_alexis_game", "../assets/images/characters/char_alexis_game.png");
+    this.load.image("char_vefa_game", "../assets/images/characters/char_vefa_game.png");
 
     // Musique
-    this.load.audio("mus_elevator_theme", "assets/sounds/elevator/mus_elevator_theme.mp3");
+    this.load.audio("mus_elevator_theme", "../assets/sounds/elevator/mus_elevator_theme.mp3");
   }
 
   create() {

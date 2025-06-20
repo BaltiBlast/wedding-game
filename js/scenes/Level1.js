@@ -11,40 +11,40 @@ class Level1 extends Phaser.Scene {
     KeyboardGuide.preloadKeyboardGuide(this);
 
     // Images
-    this.load.image("bg_level1", "assets/images/level1/bg_level1.png");
-    this.load.image("npc_ardoise", "assets/images/level1/npc_ardoise.png");
-    this.load.image("char_alexis_game", "assets/images/characters/char_alexis_game.png");
-    this.load.image("char_vefa_game", "assets/images/characters/char_vefa_game.png");
-    this.load.image("prop_pole1", "assets/images/level1/prop_pole1.png");
-    this.load.image("prop_pole2", "assets/images/level1/prop_pole2.png");
-    this.load.image("prop_pole3", "assets/images/level1/prop_pole3.png");
-    this.load.image("prop_house", "assets/images/level1/prop_house.png");
-    this.load.image("prop_tree", "assets/images/level1/prop_tree.png");
-    this.load.image("item_paper", "assets/images/level1/item_paper.png");
+    this.load.image("bg_level1", "../assets/images/level1/bg_level1.png");
+    this.load.image("npc_ardoise", "../assets/images/level1/npc_ardoise.png");
+    this.load.image("char_alexis_game", "../assets/images/characters/char_alexis_game.png");
+    this.load.image("char_vefa_game", "../assets/images/characters/char_vefa_game.png");
+    this.load.image("prop_pole1", "../assets/images/level1/prop_pole1.png");
+    this.load.image("prop_pole2", "../assets/images/level1/prop_pole2.png");
+    this.load.image("prop_pole3", "../assets/images/level1/prop_pole3.png");
+    this.load.image("prop_house", "../assets/images/level1/prop_house.png");
+    this.load.image("prop_tree", "../assets/images/level1/prop_tree.png");
+    this.load.image("item_paper", "../assets/images/level1/item_paper.png");
 
     // Spritesheets
-    this.load.spritesheet("char_alexis_spritesheet", "assets/images/characters/char_alexis_spritesheet.png", {
+    this.load.spritesheet("char_alexis_spritesheet", "../assets/images/characters/char_alexis_spritesheet.png", {
       frameWidth: 270,
       frameHeight: 600,
     });
 
-    this.load.spritesheet("char_vefa_spritesheet", "assets/images/characters/char_vefa_spritesheet.png", {
+    this.load.spritesheet("char_vefa_spritesheet", "../assets/images/characters/char_vefa_spritesheet.png", {
       frameWidth: 270,
       frameHeight: 600,
     });
 
-    this.load.spritesheet("fx_campfire", "assets/images/title_screen/fx_fire_animation.png", {
+    this.load.spritesheet("fx_campfire", "../assets/images/title_screen/fx_fire_animation.png", {
       frameWidth: 48,
       frameHeight: 48,
     });
 
     // Audio
-    this.load.audio("sfx_footstep_grass", "assets/sounds/step_walk/sfx_footstep_grass.mp3");
-    this.load.audio("sfx_access_denied", "assets/sounds/level1/sfx_access_denied.mp3");
-    this.load.audio("sfx_open", "assets/sounds/level1/sfx_open.wav");
-    this.load.audio("sfx_access_granted", "assets/sounds/level1/sfx_access_granted.wav");
-    this.load.audio("mus_level1_theme", "assets/sounds/level1/mus_level1_theme.mp3");
-    this.load.audio("sfx_paper", "assets/sounds/level1/sfx_paper.wav");
+    this.load.audio("sfx_footstep_grass", "../assets/sounds/step_walk/sfx_footstep_grass.mp3");
+    this.load.audio("sfx_access_denied", "../assets/sounds/level1/sfx_access_denied.mp3");
+    this.load.audio("sfx_open", "../assets/sounds/level1/sfx_open.wav");
+    this.load.audio("sfx_access_granted", "../assets/sounds/level1/sfx_access_granted.wav");
+    this.load.audio("mus_level1_theme", "../assets/sounds/level1/mus_level1_theme.mp3");
+    this.load.audio("sfx_paper", "../assets/sounds/level1/sfx_paper.wav");
   }
 
   // ------------------------------------------------------------------------------------------ //

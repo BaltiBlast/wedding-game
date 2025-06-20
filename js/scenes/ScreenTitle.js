@@ -8,21 +8,21 @@ class ScreenTitle extends Phaser.Scene {
   // ------------------------------------------------------------------------------------------ //
   preload() {
     // Images
-    this.load.image("bg_title_screen", "assets/images/title_screen/bg_title_screen.png");
-    this.load.image("char_alexis_idle", "assets/images/title_screen/char_alexis_idle.png");
-    this.load.image("char_vefa_idle", "assets/images/title_screen/char_vefa_idle.png");
-    this.load.image("prop_astronaut", "assets/images/title_screen/prop_astronaut.png");
-    this.load.image("prop_lantern", "assets/images/title_screen/prop_lantern.png");
-    this.load.spritesheet("fx_fire_animation", "assets/images/title_screen/fx_fire_animation.png", {
+    this.load.image("bg_title_screen", "../assets/images/title_screen/bg_title_screen.png");
+    this.load.image("char_alexis_idle", "../assets/images/title_screen/char_alexis_idle.png");
+    this.load.image("char_vefa_idle", "../assets/images/title_screen/char_vefa_idle.png");
+    this.load.image("prop_astronaut", "../assets/images/title_screen/prop_astronaut.png");
+    this.load.image("prop_lantern", "../assets/images/title_screen/prop_lantern.png");
+    this.load.spritesheet("fx_fire_animation", "../assets/images/title_screen/fx_fire_animation.png", {
       frameWidth: 48,
       frameHeight: 48,
     });
 
     // Audio
-    this.load.audio("sfx_character_select", "assets/sounds/title_screen/sfx_character_select.mp3");
-    this.load.audio("amb_title_atmosphere", "assets/sounds/title_screen/amb_title_atmosphere.mp3");
-    this.load.audio("sfx_button_start", "assets/sounds/title_screen/sfx_button_start.mp3");
-    this.load.audio("ow_title_theme", "assets/sounds/title_screen/ow_title_theme.mp3");
+    this.load.audio("sfx_character_select", "../assets/sounds/title_screen/sfx_character_select.mp3");
+    this.load.audio("amb_title_atmosphere", "../assets/sounds/title_screen/amb_title_atmosphere.mp3");
+    this.load.audio("sfx_button_start", "../assets/sounds/title_screen/sfx_button_start.mp3");
+    this.load.audio("ow_title_theme", "../assets/sounds/title_screen/ow_title_theme.mp3");
   }
 
   // ------------------------------------------------------------------------------------------ //

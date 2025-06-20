@@ -15,5 +15,15 @@ const GameConfig = {
   dom: {
     createContainer: true,
   },
-  scenes: [Auth, ScreenTitle, Level1, Elevator, Level2, StartshipCockpit, StarshipTraveling, Level3, ScreenEnding],
+  scenes: [
+    // Auth,
+    ScreenTitle,
+    Level1,
+    Elevator,
+    Level2,
+    StartshipCockpit,
+    StarshipTraveling,
+    Level3,
+    ScreenEnding,
+  ],
 };

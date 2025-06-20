@@ -8,30 +8,30 @@ class Level2 extends Phaser.Scene {
     KeyboardGuide.preloadKeyboardGuide(this);
 
     // Images
-    this.load.image("bg_level2", "assets/images/level2/bg_level2.png");
-    this.load.image("prop_fences", "assets/images/level2/prop_fences.png");
-    this.load.image("prop_spaceship", "assets/images/level2/prop_spaceship.png");
+    this.load.image("bg_level2", "../assets/images/level2/bg_level2.png");
+    this.load.image("prop_fences", "../assets/images/level2/prop_fences.png");
+    this.load.image("prop_spaceship", "../assets/images/level2/prop_spaceship.png");
 
     // Spritesheets
-    this.load.spritesheet("char_alexis_spritesheet", "assets/images/characters/char_alexis_spritesheet.png", {
+    this.load.spritesheet("char_alexis_spritesheet", "../assets/images/characters/char_alexis_spritesheet.png", {
       frameWidth: 270,
       frameHeight: 600,
     });
 
-    this.load.spritesheet("char_vefa_spritesheet", "assets/images/characters/char_vefa_spritesheet.png", {
+    this.load.spritesheet("char_vefa_spritesheet", "../assets/images/characters/char_vefa_spritesheet.png", {
       frameWidth: 270,
       frameHeight: 600,
     });
 
-    this.load.spritesheet("fx_fire_animation", "assets/images/title_screen/fx_fire_animation.png", {
+    this.load.spritesheet("fx_fire_animation", "../assets/images/title_screen/fx_fire_animation.png", {
       frameWidth: 48,
       frameHeight: 48,
     });
 
     // Audio
-    this.load.audio("sfx_footstep_wood", "assets/sounds/step_walk/sfx_footstep_wood.mp3");
-    this.load.audio("mus_level2_theme", "assets/sounds/level2/mus_level2_theme.mp3");
-    this.load.audio("fx_enter_door", "assets/sounds/level2/fx_enter_door.wav");
+    this.load.audio("sfx_footstep_wood", "../assets/sounds/step_walk/sfx_footstep_wood.mp3");
+    this.load.audio("mus_level2_theme", "../assets/sounds/level2/mus_level2_theme.mp3");
+    this.load.audio("fx_enter_door", "../assets/sounds/level2/fx_enter_door.wav");
   }
 
   create() {

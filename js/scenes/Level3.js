@@ -8,42 +8,42 @@ class Level3 extends Phaser.Scene {
   // ------------------------------------------------------------------------------------------ //
   preload() {
     // Images
-    this.load.image("bg_level3", "assets/images/level3/bg_level3.png");
-    this.load.image("prop_palm1", "assets/images/level3/prop_palm1.png");
-    this.load.image("prop_palm2", "assets/images/level3/prop_palm2.png");
-    this.load.image("prop_palm3", "assets/images/level3/prop_palm3.png");
-    this.load.image("prop_crashed_spaceship", "assets/images/level3/prop_crashed_spaceship.png");
-    this.load.image("prop_spaceship", "assets/images/level2/prop_spaceship.png");
-    this.load.image("char_alexis", "assets/images/characters/char_alexis_game.png");
-    this.load.image("char_vefa", "assets/images/characters/char_vefa_game.png");
-    this.load.image("prop_heart", "assets/images/level3/prop_heart.png");
-    this.load.image("char_alexis_portrait", "assets/images/characters/char_alexis_portrait.png");
-    this.load.image("char_vefa_portrait", "assets/images/characters/char_vefa_portrait.png");
+    this.load.image("bg_level3", "../assets/images/level3/bg_level3.png");
+    this.load.image("prop_palm1", "../assets/images/level3/prop_palm1.png");
+    this.load.image("prop_palm2", "../assets/images/level3/prop_palm2.png");
+    this.load.image("prop_palm3", "../assets/images/level3/prop_palm3.png");
+    this.load.image("prop_crashed_spaceship", "../assets/images/level3/prop_crashed_spaceship.png");
+    this.load.image("prop_spaceship", "../assets/images/level2/prop_spaceship.png");
+    this.load.image("char_alexis", "../assets/images/characters/char_alexis_game.png");
+    this.load.image("char_vefa", "../assets/images/characters/char_vefa_game.png");
+    this.load.image("prop_heart", "../assets/images/level3/prop_heart.png");
+    this.load.image("char_alexis_portrait", "../assets/images/characters/char_alexis_portrait.png");
+    this.load.image("char_vefa_portrait", "../assets/images/characters/char_vefa_portrait.png");
 
     // Spritesheets
-    this.load.spritesheet("char_alexis_spritesheet", "assets/images/characters/char_alexis_spritesheet.png", {
+    this.load.spritesheet("char_alexis_spritesheet", "../assets/images/characters/char_alexis_spritesheet.png", {
       frameWidth: 270,
       frameHeight: 600,
     });
 
-    this.load.spritesheet("char_vefa_spritesheet", "assets/images/characters/char_vefa_spritesheet.png", {
+    this.load.spritesheet("char_vefa_spritesheet", "../assets/images/characters/char_vefa_spritesheet.png", {
       frameWidth: 270,
       frameHeight: 600,
     });
 
-    this.load.spritesheet("fx_fire_animation", "assets/images/title_screen/fx_fire_animation.png", {
+    this.load.spritesheet("fx_fire_animation", "../assets/images/title_screen/fx_fire_animation.png", {
       frameWidth: 48,
       frameHeight: 48,
     });
 
     // Audio
-    this.load.audio("mus_level3", "assets/sounds/level3/mus_level3.mp3");
-    this.load.audio("sfx_landing_starchip", "assets/sounds/level3/sfx_landing_starship.wav");
-    this.load.audio("sfx_landing_reactor", "assets/sounds/level3/sfx_starship_reactor.wav");
-    this.load.audio("fx_enter_door", "assets/sounds/level2/fx_enter_door.wav");
-    this.load.audio("sfx_footstep_grass", "assets/sounds/step_walk/sfx_footstep_grass.mp3");
-    this.load.audio("sfx_surprised", "assets/sounds/level3/sfx_surprised.wav");
-    this.load.audio("sfx_kiss", "assets/sounds/level3/sfx_kiss.wav");
+    this.load.audio("mus_level3", "../assets/sounds/level3/mus_level3.mp3");
+    this.load.audio("sfx_landing_starchip", "../assets/sounds/level3/sfx_landing_starship.wav");
+    this.load.audio("sfx_landing_reactor", "../assets/sounds/level3/sfx_starship_reactor.wav");
+    this.load.audio("fx_enter_door", "../assets/sounds/level2/fx_enter_door.wav");
+    this.load.audio("sfx_footstep_grass", "../assets/sounds/step_walk/sfx_footstep_grass.mp3");
+    this.load.audio("sfx_surprised", "../assets/sounds/level3/sfx_surprised.wav");
+    this.load.audio("sfx_kiss", "../assets/sounds/level3/sfx_kiss.wav");
   }
 
   // ------------------------------------------------------------------------------------------ //

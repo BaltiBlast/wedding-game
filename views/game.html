@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.70.0/dist/phaser.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Doto:wght@500&display=swap" rel="stylesheet" />
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="stylesheet" href="../css/style.css" />
+    <title>Stellar Wedding</title>
+  </head>
+
+  <body>
+    <div id="game-container" x-data="starshipForm()">
+      <!-- Zone d'affichage des réponses validées -->
+      <div id="cockpit-display" style="display: none">
+        <template x-for="(response, index) in validatedResponses" :key="index">
+          <div><span x-text="response.label"></span>: <span x-text="response.value"></span></div>
+        </template>
+      </div>
+
+      <form id="form_starship" @submit.prevent="handleSubmit" style="display: none">
+        <div x-show="getCurrentField()">
+          <!-- Input text: Nom du commandant de bord -->
+          <template x-if="getCurrentField().key === 'commander_name'">
+            <div>
+              <label x-text="displayedLabel"></label>
+              <p x-text="displayedText"></p>
+              <input
+                type="text"
+                x-show="!isTyping"
+                x-model="formData.commander_name"
+                :required="getCurrentField().required"
+              />
+            </div>
+          </template>
+
+          <!-- Input radio: Présence (Oui/Non) -->
+          <template x-if="getCurrentField().key === 'presence'">
+            <div>
+              <label x-text="displayedLabel"></label>
+              <p x-text="displayedText"></p>
+              <template x-for="option in getCurrentField().options">
+                <label>
+                  <input
+                    x-show="!isTyping"
+                    type="radio"
+                    :value="option"
+                    x-model="formData.presence"
+                    :required="getCurrentField().required"
+                  />
+                  <span x-show="!isTyping" x-text="option"></span>
+                </label>
+              </template>
+            </div>
+          </template>
+
+          <!-- Input number: Nombre d'adultes accompagnants -->
+          <template x-if="getCurrentField().key === 'adult_count'">
+            <div>
+              <label x-text="displayedLabel"></label>
+              <p x-text="displayedText"></p>
+              <input
+                x-show="!isTyping"
+                type="number"
+                x-model.number="formData.adult_count"
+                :required="getCurrentField().required"
+                min="0"
+              />
+            </div>
+          </template>
+
+          <!-- Input text: Nom adulte dynamique -->
+          <template x-if="getCurrentField().key && getCurrentField().key.startsWith('adult_name_')">
+            <div>
+              <label x-text="displayedLabel"></label>
+              <p x-text="displayedText"></p>
+              <input
+                x-show="!isTyping"
+                type="text"
+                x-model="formData[getCurrentField().key]"
+                :required="getCurrentField().required"
+              />
+            </div>
+          </template>
+
+          <!-- Input number: Nombre d'enfants -->
+          <template x-if="getCurrentField().key === 'children_count'">
+            <div>
+              <label x-text="displayedLabel"></label>
+              <p x-text="displayedText"></p>
+              <input
+                x-show="!isTyping"
+                type="number"
+                x-model.number="formData.children_count"
+                :required="getCurrentField().required"
+                min="0"
+              />
+            </div>
+          </template>
+
+          <!-- Input text: Nom enfant dynamique -->
+          <template x-if="getCurrentField().key && getCurrentField().key.startsWith('child_name_')">
+            <div>
+              <label x-text="displayedLabel"></label>
+              <p x-text="displayedText"></p>
+              <input
+                x-show="!isTyping"
+                type="text"
+                x-model="formData[getCurrentField().key]"
+                :required="getCurrentField().required"
+              />
+            </div>
+          </template>
+
+          <!-- Input number: Nombre de menus enfants -->
+          <template x-if="getCurrentField().key === 'children_menus'">
+            <div>
+              <label x-text="displayedLabel"></label>
+              <p x-text="displayedText"></p>
+              <input
+                x-show="!isTyping"
+                type="number"
+                x-model.number="formData.children_menus"
+                :required="getCurrentField().required"
+                min="0"
+              />
+            </div>
+          </template>
+
+          <!-- Input radio: Restrictions alimentaires (Oui/Non) -->
+          <template x-if="getCurrentField().key === 'has_restrictions'">
+            <div>
+              <label x-text="displayedLabel"></label>
+              <p x-text="displayedText"></p>
+              <template x-for="option in getCurrentField().options">
+                <label>
+                  <input
+                    x-show="!isTyping"
+                    type="radio"
+                    :value="option"
+                    x-model="formData.has_restrictions"
+                    :required="getCurrentField().required"
+                  />
+                  <span x-show="!isTyping" x-text="option"></span>
+                </label>
+              </template>
+            </div>
+          </template>
+
+          <!-- Input text: Détail des restrictions alimentaires -->
+          <template x-if="getCurrentField().key === 'restrictions_details'">
+            <div>
+              <label x-text="displayedLabel"></label>
+              <p x-text="displayedText"></p>
+              <input
+                x-show="!isTyping"
+                type="text"
+                x-model="formData.restrictions_details"
+                :required="getCurrentField().required"
+              />
+            </div>
+          </template>
+
+          <!-- Input text: Adresse postale -->
+          <template x-if="getCurrentField().key === 'postal_address'">
+            <div>
+              <label x-text="displayedLabel"></label>
+              <p x-text="displayedText"></p>
+              <input
+                x-show="!isTyping"
+                type="text"
+                x-model="formData.postal_address"
+                :required="getCurrentField().required"
+              />
+            </div>
+          </template>
+
+          <!-- Input email: Adresse email -->
+          <template x-if="getCurrentField().key === 'email_address'">
+            <div>
+              <label x-text="displayedLabel"></label>
+              <p x-text="displayedText"></p>
+              <input
+                x-show="!isTyping"
+                type="email"
+                x-model="formData.email_address"
+                :required="getCurrentField().required"
+              />
+            </div>
+          </template>
+
+          <!-- Input number: Nombre de discours -->
+          <template x-if="getCurrentField().key === 'speech_count'">
+            <div>
+              <label x-text="displayedLabel"></label>
+              <p x-text="displayedText"></p>
+              <input
+                x-show="!isTyping"
+                type="number"
+                x-model.number="formData.speech_count"
+                :required="getCurrentField().required"
+                min="0"
+              />
+            </div>
+          </template>
+
+          <!-- Input text: Nom orateur dynamique -->
+          <template x-if="getCurrentField().key && getCurrentField().key.startsWith('speaker_name_')">
+            <div>
+              <label x-text="displayedLabel"></label>
+              <p x-text="displayedText"></p>
+              <input
+                x-show="!isTyping"
+                type="text"
+                x-model="formData[getCurrentField().key]"
+                :required="getCurrentField().required"
+              />
+            </div>
+          </template>
+
+          <!-- Template de vérification -->
+          <template x-if="getCurrentField().key === 'verification'">
+            <div>
+              <label x-text="displayedLabel"></label>
+              <p x-text="displayedText"></p>
+            </div>
+          </template>
+
+          <!-- Boutons de navigation -->
+          <div style="margin-top: 20px">
+            <!-- Bouton Suivant : visible sauf sur l'étape de vérification -->
+            <button type="button" @click="nextField()" x-show="canGoNext() && getCurrentField().key !== 'verification'">
+              Suivant
+            </button>
+            <!-- Bouton Retour : toujours visible sauf sur la première question -->
+            <button type="button" @click="prevField()" x-show="currentFieldIndex > 0">Retour</button>
+
+            <!-- Bouton Décollage : visible seulement sur l'étape de vérification -->
+            <button type="submit" x-show="getCurrentField().key === 'verification'">🚀 DÉCOLLAGE</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <script src="../js/scripts/starshipForm.js"></script>
+    <script src="../js/utils/GameUtils.js"></script>
+    <script src="../js/utils/InteractionManager.js"></script>
+    <script src="../js/utils/ObstacleManager.js"></script>
+    <script src="../js/utils/PlayerDialogue.js"></script>
+    <script src="../js/utils/NPCDialogue.js"></script>
+    <script src="../js/utils/SceneManager.js"></script>
+    <script src="../js/utils/PlayerManager.js"></script>
+    <script src="../js/utils/StarshipManager.js"></script>
+    <script src="../js/utils/AsteroidManager.js"></script>
+
+    <!-- Managers -->
+    <script src="../js/Managers/Audio.manager.js"></script>
+
+    <!-- Composants -->
+    <script src="../js/Components/StageBanner.components.js"></script>
+    <script src="../js/Components/KeyboardGuide.components.js"></script>
+    <script src="../js/Components/QuestSummary.components.js"></script>
+
+    <!-- Stages -->
+    <script src="../js/scenes/Auth.stage.js"></script>
+    <script src="../js/scenes/ScreenEnding.js"></script>
+    <script src="../js/scenes/StarshipTraveling.js"></script>
+    <script src="../js/scenes/StarshipCockpit.js"></script>
+    <script src="../js/scenes/Elevator.js"></script>
+    <script src="../js/scenes/Level3.js"></script>
+    <script src="../js/scenes/Level2.js"></script>
+    <script src="../js/scenes/Level1.js"></script>
+    <script src="../js/scenes/ScreenTitle.js"></script>
+
+    <!-- Game config -->
+    <script src="../js/config.js"></script>
+    <script src="../js/game.js"></script>
+  </body>
+</html>

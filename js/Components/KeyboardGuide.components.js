@@ -16,7 +16,7 @@
 class KeyboardGuide {
   //-------------------------------------------------------------------------------------------- //
   static preloadKeyboardGuide(scene) {
-    scene.load.spritesheet("keyboard", "assets/images/spritesheets/keyboard.png", {
+    scene.load.spritesheet("keyboard", "../assets/images/spritesheets/keyboard.png", {
       frameWidth: 16,
       frameHeight: 16,
     });

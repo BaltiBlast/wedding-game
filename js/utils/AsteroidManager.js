@@ -6,9 +6,9 @@ class AsteroidManager {
   };
 
   static preloadAsteroides(scene) {
-    scene.load.image("asteroid_ron", "assets/images/traveling/prop_asteroide_ron.png");
-    scene.load.image("asteroid_flat", "assets/images/traveling/prop_asteroide_flat.png");
-    scene.load.image("asteroid_broken", "assets/images/traveling/prop_asteroide_broken.png");
+    scene.load.image("asteroid_ron", "../assets/images/traveling/prop_asteroide_ron.png");
+    scene.load.image("asteroid_flat", "../assets/images/traveling/prop_asteroide_flat.png");
+    scene.load.image("asteroid_broken", "../assets/images/traveling/prop_asteroide_broken.png");
   }
 
   static createAsteroides(scene) {

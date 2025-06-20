@@ -8,33 +8,33 @@ class StartshipCockpit extends Phaser.Scene {
   // ------------------------------------------------------------------------------------------ //
   preload() {
     // Image
-    this.load.image("bg_cockpit", "assets/images/cockpit/bg_cockpit.png");
+    this.load.image("bg_cockpit", "../assets/images/cockpit/bg_cockpit.png");
 
     // Spritesheets
-    this.load.spritesheet("bg_cockpit_danger_spritsheet", "assets/images/cockpit/bg_cockpit_danger_spritsheet.png", {
+    this.load.spritesheet("bg_cockpit_danger_spritsheet", "../assets/images/cockpit/bg_cockpit_danger_spritsheet.png", {
       frameWidth: 1024,
       frameHeight: 761,
     });
 
-    this.load.spritesheet("light1_spritesheet", "assets/images/cockpit/light1_spritesheet.png", {
+    this.load.spritesheet("light1_spritesheet", "../assets/images/cockpit/light1_spritesheet.png", {
       frameWidth: 55,
       frameHeight: 50,
     });
 
-    this.load.spritesheet("light2_spritesheet", "assets/images/cockpit/light2_spritesheet.png", {
+    this.load.spritesheet("light2_spritesheet", "../assets/images/cockpit/light2_spritesheet.png", {
       frameWidth: 64,
       frameHeight: 55,
     });
 
-    this.load.spritesheet("holo_planet_spritesheet", "assets/images/cockpit/holo_planet_spritesheet.png", {
+    this.load.spritesheet("holo_planet_spritesheet", "../assets/images/cockpit/holo_planet_spritesheet.png", {
       frameWidth: 118,
       frameHeight: 142,
     });
     // Audio
-    this.load.audio("mus_cockpit_theme", "assets/sounds/cockpit/mus_cockpit_theme.mp3");
-    this.load.audio("sfx_alarm", "assets/sounds/cockpit/sfx_alarm.mp3");
-    this.load.audio("mus_launch_starship", "assets/sounds/cockpit/mus_launch_starship.mp3");
-    this.load.audio("sfx_impact", "assets/sounds/cockpit/sfx_impact.wav");
+    this.load.audio("mus_cockpit_theme", "../assets/sounds/cockpit/mus_cockpit_theme.mp3");
+    this.load.audio("sfx_alarm", "../assets/sounds/cockpit/sfx_alarm.mp3");
+    this.load.audio("mus_launch_starship", "../assets/sounds/cockpit/mus_launch_starship.mp3");
+    this.load.audio("sfx_impact", "../assets/sounds/cockpit/sfx_impact.wav");
   }
 
   // ------------------------------------------------------------------------------------------ //

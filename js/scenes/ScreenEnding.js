@@ -7,8 +7,8 @@ class ScreenEnding extends Phaser.Scene {
     // Keyboard guide assets
     KeyboardGuide.preloadKeyboardGuide(this);
 
-    this.load.image("bg_starship_traveling", "assets/images/traveling/bg_starship_traveling.png");
-    this.load.image("prop_spaceship", "assets/images/level2/prop_spaceship.png");
+    this.load.image("bg_starship_traveling", "../assets/images/traveling/bg_starship_traveling.png");
+    this.load.image("prop_spaceship", "../assets/images/level2/prop_spaceship.png");
   }
 
   create() {

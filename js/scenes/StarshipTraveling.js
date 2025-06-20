@@ -11,15 +11,15 @@ class StarshipTraveling extends Phaser.Scene {
     KeyboardGuide.preloadKeyboardGuide(this);
 
     // Images
-    this.load.image("bg_starship_traveling", "assets/images/traveling/bg_starship_traveling.png");
-    this.load.image("prop_spaceship", "assets/images/level2/prop_spaceship.png");
-    this.load.image("prop_green_planet", "assets/images/traveling/prop_green_planet.png");
+    this.load.image("bg_starship_traveling", "../assets/images/traveling/bg_starship_traveling.png");
+    this.load.image("prop_spaceship", "../assets/images/level2/prop_spaceship.png");
+    this.load.image("prop_green_planet", "../assets/images/traveling/prop_green_planet.png");
 
     AsteroidManager.preloadAsteroides(this);
 
     // Audio
-    this.load.audio("sfx_space_impact", "assets/sounds/traveling/sfx_space_impact.mp3");
-    this.load.audio("mus_traveling_level", "assets/sounds/traveling/mus_traveling_level.mp3");
+    this.load.audio("sfx_space_impact", "../assets/sounds/traveling/sfx_space_impact.mp3");
+    this.load.audio("mus_traveling_level", "../assets/sounds/traveling/mus_traveling_level.mp3");
   }
 
   // ------------------------------------------------------------------------------------------ //
