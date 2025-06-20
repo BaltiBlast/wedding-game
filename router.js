@@ -8,7 +8,7 @@ const { getLogin, postLogin, getLogout } = require("./controllers/auth.controlle
 // Auth
 router.get("/login", getLogin);
 router.post("/login", postLogin);
-router.get("/logout", getLogout);
+router.get("/logout", isUserLogged, getLogout);
 
 // Game
 router.get("/", isUserLogged, getHome);
