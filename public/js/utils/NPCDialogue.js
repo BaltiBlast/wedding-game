@@ -1,7 +1,7 @@
 class DialogueManager {
   static createNPCDialogue(scene) {
     scene.dialogueBox = scene.add
-      .rectangle(512, 850, 900, 180, 0x1a1a2e, 0.8)
+      .rectangle(512, 855, 900, 180, 0x1a1a2e, 0.8)
       .setStrokeStyle(4, 0x64ffda)
       .setDepth(1000)
       .setVisible(false);
@@ -29,6 +29,7 @@ class DialogueManager {
         fontSize: "16px",
         fill: "#ffffff",
         align: "left",
+        lineSpacing: 5,
         wordWrap: { width: 650 },
       })
       .setOrigin(0, 0.5)

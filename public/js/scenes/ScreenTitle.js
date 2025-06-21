@@ -194,7 +194,7 @@ class ScreenTitle extends Phaser.Scene {
       this.alexisSprite.setAlpha(0.7);
 
       // Name above Vefa
-      this.characterNameText.setText("Vefa");
+      this.characterNameText.setText("Jenovefa");
       this.characterNameText.setPosition(this.vefaSprite.x, 400);
       this.characterNameText.setAlpha(1);
     }

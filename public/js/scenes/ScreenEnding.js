@@ -89,13 +89,13 @@ class ScreenEnding extends Phaser.Scene {
     // Liste de lignes de crédits (placeholder)
     const creditLines = [
       "Un jeu réalisé par :",
-      "Alexis & Vefa",
+      "Alexis & Jenovefa",
       "",
       "Scénario, level design & pixel props :",
       "Alexis",
       "",
       "Direction artistique & conseils :",
-      "Vefa",
+      "Jenovefa",
       "",
       "Programmation & intégration :",
       "Florian Fougeray (alias Balti)",
@@ -144,7 +144,7 @@ class ScreenEnding extends Phaser.Scene {
     this.tweens.add({
       targets: this.creditsContainer,
       y: -totalHeight,
-      duration: 40000, // durée du scroll (en ms)
+      duration: 50000, // durée du scroll (en ms)
       ease: "Linear",
     });
 

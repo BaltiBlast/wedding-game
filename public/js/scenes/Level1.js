@@ -330,12 +330,11 @@ class Level1 extends Phaser.Scene {
 
     // Setup dialogue
     DialogueManager.createNPCDialogue(this);
-    this.npcDialogue = `dAh, te voilà ! C’est terrible, ta moitié s’est perdue dans l’espace !
-L’ascenseur pour rejoindre le vaisseau est juste là-haut… mais il est verrouillé.
-Il faut entrer la date du mariage. Évidemment, j’ai oublié…  
-Je l’avais notée sur un petit papier… que j’ai perdu.
-Si tu le retrouves, tu pourras décoller. En attendant, explore Atrebois.
-Avec un peu de chance, il traîne dans le coin...`;
+    this.npcDialogue = `C’est terrible, ta moitié s’est perdue dans l'espace !
+L’ascenseur est verrouillé et la tour pour rejoindre le vaisseau est juste là-haut. 
+Le code. C’était… euh…la date du mariage !  Mais impossible de m’en souvenir…
+Je l’avais noté quelque part, sur un petit papier…  Et bien sûr, j’ai réussi à le perdre.
+Peut-être qu’il est tombé quelque part dans le coin...`;
   }
 
   // ------------------------------------------------------------------------------------------ //
