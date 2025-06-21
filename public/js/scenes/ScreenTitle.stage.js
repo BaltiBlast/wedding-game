@@ -238,7 +238,7 @@ class ScreenTitle extends Phaser.Scene {
       AudioManager.playSoundEffects(this, "sfx_button_start", 0.03);
       AudioManager.stopBackgroundMusic(this, "ow_title_theme", 2500);
       AudioManager.stopBackgroundMusic(this, "amb_title_atmosphere", 2500);
-      SceneManager.changeSceneWithFade(this, "Level1", 2600);
+      SceneManager.changeSceneWithFade(this, "Atrebois", 2600);
     });
   }
 

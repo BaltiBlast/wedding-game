@@ -1,6 +1,6 @@
-class Level2 extends Phaser.Scene {
+class LaunchPlatform extends Phaser.Scene {
   constructor() {
-    super({ key: "Level2" });
+    super({ key: "LaunchPlatform" });
   }
 
   preload() {

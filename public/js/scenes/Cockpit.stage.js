@@ -1,6 +1,6 @@
-class StartshipCockpit extends Phaser.Scene {
+class Cockpit extends Phaser.Scene {
   constructor() {
-    super({ key: "StartshipCockpit" });
+    super({ key: "Cockpit" });
   }
 
   // ------------------------------------------------------------------------------------------ //

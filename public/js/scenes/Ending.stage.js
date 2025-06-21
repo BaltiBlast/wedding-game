@@ -1,6 +1,6 @@
-class ScreenEnding extends Phaser.Scene {
+class Ending extends Phaser.Scene {
   constructor() {
-    super({ key: "ScreenEnding" });
+    super({ key: "Ending" });
   }
 
   preload() {

@@ -1,6 +1,6 @@
-class Level3 extends Phaser.Scene {
+class Leviathe extends Phaser.Scene {
   constructor() {
-    super({ key: "Level3" });
+    super({ key: "Leviathe" });
   }
 
   // ------------------------------------------------------------------------------------------ //
