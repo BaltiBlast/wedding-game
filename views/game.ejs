@@ -195,6 +195,26 @@
             </div>
           </template>
 
+          <!-- Input radio: Type de faire-part -->
+          <template x-if="getCurrentField().key === 'announcement'">
+            <div>
+              <label x-text="displayedLabel"></label>
+              <p x-text="displayedText"></p>
+              <template x-for="option in getCurrentField().options">
+                <label>
+                  <input
+                    x-show="!isTyping"
+                    type="radio"
+                    :value="option"
+                    x-model="formData.announcement"
+                    :required="getCurrentField().required"
+                  />
+                  <span x-show="!isTyping" x-text="option"></span>
+                </label>
+              </template>
+            </div>
+          </template>
+
           <!-- Input number: Nombre de discours -->
           <template x-if="getCurrentField().key === 'speech_count'">
             <div>

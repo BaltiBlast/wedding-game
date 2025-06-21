@@ -65,6 +65,14 @@ const initialQuestions = [
     required: true,
   },
   {
+    key: "announcement",
+    label: "Type de faire-part",
+    text: "Souhaitez-vous recevoir le faire-part en version papier ou numérique ?",
+    type: "radio",
+    options: ["Papier", "Numérique"],
+    required: true,
+  },
+  {
     key: "speech_count",
     label: "Discours",
     text: "Combien de personnes souhaitent faire un discours ?",
@@ -86,6 +94,7 @@ function starshipForm() {
       restrictions_details: "",
       postal_address: "",
       email_address: "",
+      announcement: "",
       speech_count: 0,
     },
 
@@ -318,15 +327,26 @@ function starshipForm() {
     },
 
     handleSubmit() {
-      // Événement custom vers Phaser
-      window.dispatchEvent(
-        new CustomEvent("formSubmitted", {
-          detail: {
-            data: this.formData,
-            responses: this.validatedResponses,
-          },
+      const payload = { ...this.formData };
+
+      fetch("/add-response", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      })
+        .then((res) => {
+          if (!res.ok) throw new Error("Erreur lors de l'envoi");
+          return res.text();
         })
-      );
+        .then((message) => {
+          console.log("Réponse du serveur :", message);
+          this.$dispatch("formSubmitted", { data: payload }); // tu dispatches ici si tu veux
+        })
+        .catch((err) => {
+          console.error("Erreur d'envoi :", err);
+        });
     },
   };
 }
