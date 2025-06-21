@@ -191,24 +191,24 @@ class PlayerManager {
     scene.player.body.setVelocity(0);
 
     // Déplacement avec velocity au lieu de position directe
-    if (scene.cursors.left.isDown || scene.wasdKeys.Q.isDown) {
+    if (scene.cursors.left.isDown) {
       scene.player.body.setVelocityX(-scene.moveSpeed);
       if (scene.player.anims) scene.player.anims.play("walk-left", true);
       scene.lastDirection = "left";
       isMoving = true;
-    } else if (scene.cursors.right.isDown || scene.wasdKeys.D.isDown) {
+    } else if (scene.cursors.right.isDown) {
       scene.player.body.setVelocityX(scene.moveSpeed);
       if (scene.player.anims) scene.player.anims.play("walk-right", true);
       scene.lastDirection = "right";
       isMoving = true;
     }
 
-    if (scene.cursors.up.isDown || scene.wasdKeys.Z.isDown) {
+    if (scene.cursors.up.isDown) {
       scene.player.body.setVelocityY(-scene.moveSpeed);
       if (scene.player.anims) scene.player.anims.play("walk-up", true);
       scene.lastDirection = "up";
       isMoving = true;
-    } else if (scene.cursors.down.isDown || scene.wasdKeys.S.isDown) {
+    } else if (scene.cursors.down.isDown) {
       scene.player.body.setVelocityY(scene.moveSpeed);
       if (scene.player.anims) scene.player.anims.play("walk-down", true);
       scene.lastDirection = "down";
