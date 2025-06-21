@@ -18,7 +18,7 @@ class Elevator extends Phaser.Scene {
     this.setupTransition();
 
     // Audio setup
-    AudioManager.setBackgroundMusic(this, "mus_elevator_theme", 0.1, false, 2500);
+    AudioManager.setBackgroundMusic(this, "mus_elevator_theme", 0.1, false);
 
     // Background
     this.elevatorCage = this.add.image(512, 512, "bg_elevator");
@@ -76,7 +76,7 @@ class Elevator extends Phaser.Scene {
   fadeOutScene() {
     this.time.delayedCall(10000, () => {
       AudioManager.stopBackgroundMusic(this, "mus_elevator_theme", 2500);
-      SceneManager.changeSceneWithFade(this, "Level2", 2600);
+      SceneManager.changeSceneWithFade(this, "LaunchPlatform", 2600);
     });
   }
 }

@@ -55,13 +55,13 @@ class Leviathe extends Phaser.Scene {
     // Scene transition
     this.setupTransition();
 
-    AudioManager.setBackgroundMusic(this, "mus_level3", 0.15, true, 2500);
+    AudioManager.setBackgroundMusic(this, "mus_level3", 0.15, true);
 
     // Background
     this.add.image(512, 512, "bg_level3");
 
     // Show stage banner
-    StageBanner.showStageBanner(this, "Gala", 2600);
+    StageBanner.showStageBanner(this, "Léviathe", 2600);
 
     this.createObstacles();
 
@@ -275,7 +275,7 @@ class Leviathe extends Phaser.Scene {
               onComplete: () => {
                 heart.destroy();
                 this.cameras.main.fadeOut(1000, 0, 0, 0);
-                this.scene.start("ScreenEnding");
+                this.scene.start("Ending");
               },
             });
           },

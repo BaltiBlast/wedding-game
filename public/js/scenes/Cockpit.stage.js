@@ -45,7 +45,7 @@ class Cockpit extends Phaser.Scene {
     this.setupTransition();
 
     // Audio setup
-    AudioManager.setBackgroundMusic(this, "mus_cockpit_theme", 0.03, true, 2500);
+    AudioManager.setBackgroundMusic(this, "mus_cockpit_theme", 0.03, true);
 
     // Background
     this.add.image(512, 512, "bg_cockpit");
@@ -296,9 +296,7 @@ class Cockpit extends Phaser.Scene {
   // FORM SUBMISSION HANDLER
   // ------------------------------------------------------------------------------------------ //
 
-  onFormSubmitted(e) {
-    // const data = e.detail.data;
-    // WIP / TODO -> send data object to back
+  onFormSubmitted() {
     this.registry.set("fromCockpit", true);
 
     this.cameras.main.shake(250, 0.02);
@@ -310,13 +308,13 @@ class Cockpit extends Phaser.Scene {
 
     // Animation
     GameUtils.delayCall(this, 800, this.displayMissionMessages, this);
-    GameUtils.delayCall(this, 4000, () => AudioManager.setBackgroundMusic(this, "mus_launch_starship", 0.2, false, 0));
+    GameUtils.delayCall(this, 4000, () => AudioManager.setBackgroundMusic(this, "mus_launch_starship", 0.2, false));
     GameUtils.delayCall(this, 12000, this.clearMissionDisplay, this);
     GameUtils.delayCall(this, 13000, this.displayLaunchCountdown, this);
     GameUtils.delayCall(this, 25000, () => AudioManager.setBackgroundMusic(this, "sfx_alarm", 0.2, true));
     GameUtils.delayCall(this, 38700, () => AudioManager.stopBackgroundMusic(this, "sfx_alarm", 0));
-    GameUtils.delayCall(this, 38750, () => this.scene.stop("StartshipCockpit"), this);
-    GameUtils.delayCall(this, 38750, () => this.scene.wake("Level2"), this);
+    GameUtils.delayCall(this, 38750, () => this.scene.stop("Cockpit"), this);
+    GameUtils.delayCall(this, 38750, () => this.scene.wake("LaunchPlatform"), this);
   }
 
   fadeOutForm() {

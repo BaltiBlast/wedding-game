@@ -36,8 +36,8 @@ class ScreenTitle extends Phaser.Scene {
     this.setUpTransition();
 
     // Audio setup
-    AudioManager.setBackgroundMusic(this, "amb_title_atmosphere", 0.1, true, 5000);
-    AudioManager.setBackgroundMusic(this, "ow_title_theme", 0.3, true, 5000);
+    AudioManager.setBackgroundMusic(this, "amb_title_atmosphere", 0.1, true);
+    AudioManager.setBackgroundMusic(this, "ow_title_theme", 0.3, true);
 
     // Title
     this.createTitle();

@@ -55,7 +55,7 @@ class LaunchPlatform extends Phaser.Scene {
     KeyboardGuide.displayKeyboardGuide(this, 150, 150, 3.5);
 
     // Audio setup
-    AudioManager.setBackgroundMusic(this, "mus_level2_theme", 0.1, true, 2500);
+    AudioManager.setBackgroundMusic(this, "mus_level2_theme", 0.1, true);
 
     // Player setup
     this.createPlayer();
@@ -256,7 +256,7 @@ class LaunchPlatform extends Phaser.Scene {
 
     this.time.delayedCall(1000, () => {
       this.scene.sleep();
-      this.scene.launch("StartshipCockpit");
+      this.scene.launch("Cockpit");
 
       this.player.setVisible(false);
       this.spaceship.setVisible(false);

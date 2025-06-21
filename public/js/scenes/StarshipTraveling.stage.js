@@ -38,14 +38,14 @@ class StarshipTraveling extends Phaser.Scene {
     KeyboardGuide.displayKeyboardGuide(this, 850, 900, 4);
 
     // Audio setup
-    AudioManager.setBackgroundMusic(this, "mus_traveling_level", 0.1, true, 2500);
+    AudioManager.setBackgroundMusic(this, "mus_traveling_level", 0.1, true);
 
     // Animated background
     this.bg = this.add.tileSprite(0, 0, 1024, 1024, "bg_starship_traveling").setOrigin(0).setScrollFactor(0);
     this.bgScrollSpeed = 1.5;
 
     // Show stage banner
-    StageBanner.showStageBanner(this, "En route pour Gala", 1000);
+    StageBanner.showStageBanner(this, "En route pour Léviathe", 1000);
 
     // Show quets summary
     const quests = ["🪨 - Attention aux astéroïdes !"];
@@ -233,7 +233,7 @@ class StarshipTraveling extends Phaser.Scene {
 
           // Changement de scène après que la caméra ait fini de fader
           this.cameras.main.once("camerafadeoutcomplete", () => {
-            this.scene.start("Level3");
+            this.scene.start("Leviathe");
           });
         });
       },

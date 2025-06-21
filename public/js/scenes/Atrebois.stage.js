@@ -65,7 +65,7 @@ class Atrebois extends Phaser.Scene {
     KeyboardGuide.displayKeyboardGuide(this, 512, 900, 3.5);
 
     // Audio setup
-    AudioManager.setBackgroundMusic(this, "mus_level1_theme", 0.1, true, 2500);
+    AudioManager.setBackgroundMusic(this, "mus_level1_theme", 0.1, true);
 
     // Show quets summary
     const quests = [
