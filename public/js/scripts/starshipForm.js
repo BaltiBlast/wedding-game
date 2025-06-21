@@ -329,6 +329,12 @@ function starshipForm() {
     handleSubmit() {
       const payload = { ...this.formData };
 
+      const submitButton = document.getElementById("form_submit_btn");
+
+      if (submitButton) {
+        submitButton.disabled = true;
+      }
+
       fetch("/add-response", {
         method: "POST",
         headers: {
