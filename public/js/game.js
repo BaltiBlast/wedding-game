@@ -2,14 +2,38 @@ const WeddingGame = {
   game: null,
 
   init() {
-    // Configuration Phaser avec nos scènes
+    this.fullscreenPrompt();
+  },
+
+  fullscreenPrompt: () => {
+    const dialog = document.getElementById("fullscreen-dialog");
+    const btn = document.getElementById("enter-fullscreen-btn");
+
+    btn.addEventListener("click", async () => {
+      const elem = document.documentElement;
+
+      try {
+        if (elem.requestFullscreen) {
+          await elem.requestFullscreen();
+        } else if (elem.webkitRequestFullscreen) {
+          await elem.webkitRequestFullscreen();
+        }
+
+        dialog.style.display = "none";
+        WeddingGame.launchGame();
+      } catch (err) {
+        console.error("Erreur plein écran :", err);
+      }
+    });
+  },
+
+  launchGame: () => {
     const config = {
       ...GameConfig,
       scene: GameConfig.scenes,
     };
 
-    console.log("Initialisation du jeu...");
-    this.game = new Phaser.Game(config);
+    WeddingGame.game = new Phaser.Game(config);
   },
 };
 
