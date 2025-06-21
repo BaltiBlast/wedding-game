@@ -20,6 +20,7 @@ const WeddingGame = {
         }
 
         dialog.style.display = "none";
+
         WeddingGame.launchGame();
       } catch (err) {
         console.error("Erreur plein écran :", err);
@@ -33,7 +34,13 @@ const WeddingGame = {
       scene: GameConfig.scenes,
     };
 
-    WeddingGame.game = new Phaser.Game(config);
+    try {
+      console.log("Game started");
+
+      WeddingGame.game = new Phaser.Game(config);
+    } catch (error) {
+      console.log(error);
+    }
   },
 };
 
