@@ -296,8 +296,10 @@ class Cockpit extends Phaser.Scene {
   // FORM SUBMISSION HANDLER
   // ------------------------------------------------------------------------------------------ //
 
-  onFormSubmitted() {
+  onFormSubmitted(e) {
+    const userName = e.detail.data.commander_name;
     this.registry.set("fromCockpit", true);
+    this.registry.set("userName", userName);
 
     this.cameras.main.shake(250, 0.02);
     AudioManager.playSoundEffects(this, "sfx_impact", 0.5);

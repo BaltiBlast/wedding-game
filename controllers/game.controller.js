@@ -71,6 +71,38 @@ const gameController = {
       res.status(500).send("Erreur lors de l'ajout");
     }
   },
+
+  postComment: async (req, res) => {
+    const data = req.body;
+
+    const payload = {
+      data: [
+        {
+          name: data.player,
+          message: data.comment,
+        },
+      ],
+    };
+
+    try {
+      const response = await fetch("https://sheetdb.io/api/v1/hho66wm4manbo?sheet=Commentaires", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        console.error("Erreur SheetDB :", response.status);
+        return res.status(500).send("Erreur lors de l’envoi à SheetDB");
+      }
+
+      res.status(200).send("Données ajoutées à Google Sheets !");
+    } catch (error) {
+      console.log(error);
+    }
+  },
 };
 
 module.exports = gameController;

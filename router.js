@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const isUserLogged = require("./Middlewares/isUserlogged");
 
-const { getGame, getHome, getMobile, postResponse } = require("./controllers/game.controller");
+const { getGame, getHome, getMobile, postResponse, postComment } = require("./controllers/game.controller");
 const { getLogin, postLogin, getLogout } = require("./controllers/auth.controller");
 
 // Auth
@@ -15,10 +15,6 @@ router.get("/", isUserLogged, getHome);
 router.get("/game", isUserLogged, getGame);
 router.get("/mobile", isUserLogged, getMobile);
 router.post("/add-response", isUserLogged, postResponse);
-
-// router.get("/", getHome);
-// router.get("/game", getGame);
-// router.get("/mobile", getMobile);
-// router.post("/add-response", postResponse);
+router.post("/comment", isUserLogged, postComment);
 
 module.exports = router;

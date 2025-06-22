@@ -17,39 +17,30 @@ class StarshipManager {
     this.state.baseY = this.state.spaceship.y;
 
     this.state.cursors = scene.input.keyboard.createCursorKeys();
-    this.state.keys = scene.input.keyboard.addKeys({
-      up: Phaser.Input.Keyboard.KeyCodes.Z,
-      down: Phaser.Input.Keyboard.KeyCodes.S,
-      left: Phaser.Input.Keyboard.KeyCodes.Q,
-      right: Phaser.Input.Keyboard.KeyCodes.D,
-    });
   }
 
   static updateMovement(speed = 150) {
-    const { spaceship, cursors, keys } = this.state;
+    const { spaceship, cursors } = this.state;
     if (!spaceship) return;
 
-    // Reset la vélocité à chaque frame
     spaceship.setVelocity(0);
 
-    // Mouvement basé sur les touches
-    if (cursors.left.isDown || keys.left.isDown) {
+    if (cursors.left.isDown) {
       spaceship.setVelocityX(-speed);
     }
-    if (cursors.right.isDown || keys.right.isDown) {
+    if (cursors.right.isDown) {
       spaceship.setVelocityX(speed);
     }
-    if (cursors.up.isDown || keys.up.isDown) {
+    if (cursors.up.isDown) {
       spaceship.setVelocityY(-speed);
     }
-    if (cursors.down.isDown || keys.down.isDown) {
+    if (cursors.down.isDown) {
       spaceship.setVelocityY(speed);
     }
 
-    // Légère oscillation (flottement)
     this.state.elapsed += 0.1;
     const floatOffset = Math.sin(this.state.elapsed) * 2;
-    spaceship.y += floatOffset * 0.1; // très subtil pour ne pas fausser la hitbox
+    spaceship.y += floatOffset * 0.1;
   }
   static getSpaceship() {
     return this.state.spaceship;

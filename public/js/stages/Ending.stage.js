@@ -25,12 +25,12 @@ class Ending extends Phaser.Scene {
 
     // Starship deplacement + animation
     this.starshipInit();
-    this.createInvisibleWalls();
 
     // Lancer les crédits après 5 secondes (5000 ms)
     this.time.delayedCall(2000, () => {
       this.startCredits();
     });
+    this.commentForm();
   }
   update() {
     this.bg.tilePositionX += this.bgScrollSpeed;
@@ -63,7 +63,8 @@ class Ending extends Phaser.Scene {
       duration: 4000,
       ease: "Sine.easeInOut",
       onComplete: () => {
-        // Optionnel : activer les contrôles ou déclencher autre chose une fois arrivé
+        this.input.keyboard.removeAllListeners();
+        this.input.keyboard.clearCaptures();
       },
     });
   }
@@ -172,8 +173,6 @@ class Ending extends Phaser.Scene {
       });
     });
 
-    // Afficher un message final après la fin des crédits
-    // Affichage du message final après que le scroll est terminé
     this.time.delayedCall(45000, () => {
       const finalMessage = this.add
         .text(
@@ -197,19 +196,38 @@ class Ending extends Phaser.Scene {
         ease: "Sine.easeInOut",
       });
 
-      // (Facultatif) Fade out après 10s
-      this.time.delayedCall(120000, () => {
-        this.tweens.add({
-          targets: finalMessage,
-          alpha: 0,
-          duration: 500,
-          ease: "Sine.easeInOut",
-        });
-      });
+      const form = document.getElementById("comment_form");
+      if (form) {
+        form.style.display = "flex";
+        form.style.opacity = "0";
 
-      // Retour à l'écran titre après 2 minutes
+        this.tweens.add({
+          targets: { opacity: 0 },
+          opacity: 1,
+          duration: 2000,
+          onUpdate: (tween) => {
+            form.style.opacity = tween.getValue();
+          },
+        });
+      }
+
       this.time.delayedCall(120000, () => {
-        this.cameras.main.fadeOut(2600, 0, 0, 0); // 2s, noir
+        const form = document.getElementById("comment_form");
+        if (form) {
+          this.tweens.add({
+            targets: { opacity: 1 },
+            opacity: 0,
+            duration: 2000,
+            onUpdate: (tween) => {
+              form.style.opacity = tween.getValue();
+            },
+            onComplete: () => {
+              form.style.display = "none";
+            },
+          });
+        }
+
+        this.cameras.main.fadeOut(2600, 0, 0, 0);
         AudioManager.stopBackgroundMusic(this, "mus_level3", 2000);
 
         this.time.delayedCall(2000, () => {
@@ -217,6 +235,61 @@ class Ending extends Phaser.Scene {
           this.scene.start("ScreenTitle");
         });
       });
+    });
+  }
+
+  commentForm() {
+    const form = document.getElementById("comment_form");
+    const submitButton = form.querySelector('button[type="submit"]');
+    const commentInput = form.querySelector('textarea[name="comment"]');
+    const playerName = this.registry.get("userName");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      submitButton.disabled = true;
+
+      const comment = commentInput.value.trim();
+
+      if (!comment) {
+        alert("Merci d’écrire un commentaire avant d’envoyer.");
+        submitButton.disabled = false;
+        return;
+      }
+
+      const payload = {
+        player: playerName,
+        comment: comment,
+        timestamp: new Date().toISOString(),
+      };
+
+      try {
+        const response = await fetch("/comment", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        });
+
+        if (!response.ok) throw new Error("Échec de l’envoi");
+
+        // Fade out du formulaire
+        this.tweens.add({
+          targets: { opacity: 1 },
+          opacity: 0,
+          duration: 600,
+          onUpdate: (tween) => {
+            form.style.opacity = tween.getValue();
+          },
+          onComplete: () => {
+            form.style.display = "none";
+          },
+        });
+      } catch (error) {
+        console.error("❌ Erreur d’envoi :", error);
+        alert("Erreur lors de l’envoi du commentaire.");
+        submitButton.disabled = false;
+      }
     });
   }
 }

@@ -24,6 +24,13 @@
         </template>
       </div>
 
+      <form id="comment_form" style="display: none" action="/comment" method="POST">
+        <p>Tu as aimé le voyage ?</p>
+        <p>Laisses nous un mot</p>
+        <textarea name="comment" cols="30" rows="5"></textarea>
+        <button type="submit">Envoyer !</button>
+      </form>
+
       <form id="form_starship" @submit.prevent="handleSubmit" style="display: none">
         <div x-show="getCurrentField()">
           <!-- Input text: Nom du commandant de bord -->

@@ -7,6 +7,23 @@ body {
   margin: 0;
 }
 
+#comment_form {
+  font-family: "Courier New", monospace;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  position: absolute;
+  right: 280px;
+  top: 600px;
+  color: white;
+}
+
+#comment_form p {
+  margin: 0;
+  font-size: 18px;
+}
+
 #fullscreen-dialog {
   position: absolute;
   z-index: 9999;
