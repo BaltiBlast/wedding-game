@@ -11,10 +11,10 @@
   </head>
 
   <body>
-    <div id="fullscreen-dialog">
+    <!-- <div id="fullscreen-dialog">
       <p>Pour une meilleure immersion, le jeu va passer en plein écran.</p>
       <button id="enter-fullscreen-btn">Entrer dans le jeu</button>
-    </div>
+    </div> -->
 
     <div id="game-container" x-data="starshipForm()">
       <!-- Zone d'affichage des réponses validées -->
@@ -262,9 +262,17 @@
             <button type="button" @click="prevField()" x-show="currentFieldIndex > 0">Retour</button>
 
             <!-- Bouton Décollage : visible seulement sur l'étape de vérification -->
-            <button type="submit" x-show="getCurrentField().key === 'verification'">🚀 DÉCOLLAGE</button>
+            <button id="form_submit_btn" type="submit" x-show="getCurrentField().key === 'verification'">
+              🚀 DÉCOLLAGE
+            </button>
           </div>
         </div>
+      </form>
+
+      <form id="form_comment" action="/comemnt" method="post">
+        <p>Comment as tu trouvé le voyage ?</p>
+        <p>Laisse nous un petit mots</p>
+        <textarea name="comment"></textarea>
       </form>
     </div>
 
@@ -276,11 +284,12 @@
     <script src="../js/utils/NPCDialogue.js"></script>
     <script src="../js/utils/SceneManager.js"></script>
     <script src="../js/utils/PlayerManager.js"></script>
-    <script src="../js/utils/StarshipManager.js"></script>
-    <script src="../js/utils/AsteroidManager.js"></script>
 
     <!-- Managers -->
+    <script src="../js/Managers/Global.manager.js"></script>
     <script src="../js/Managers/Audio.manager.js"></script>
+    <script src="../js/Managers/Asteroid.manager.js"></script>
+    <script src="../js/Managers/Starship.manager.js"></script>
 
     <!-- Composants -->
     <script src="../js/Components/StageBanner.components.js"></script>
@@ -288,15 +297,14 @@
     <script src="../js/Components/QuestSummary.components.js"></script>
 
     <!-- Stages -->
-    <script src="../js/scenes/Auth.stage.js"></script>
-    <script src="../js/scenes/ScreenEnding.js"></script>
-    <script src="../js/scenes/StarshipTraveling.js"></script>
-    <script src="../js/scenes/StarshipCockpit.js"></script>
-    <script src="../js/scenes/Elevator.js"></script>
-    <script src="../js/scenes/Level3.js"></script>
-    <script src="../js/scenes/Level2.js"></script>
-    <script src="../js/scenes/Level1.js"></script>
-    <script src="../js/scenes/ScreenTitle.js"></script>
+    <script src="../js/stages/ScreenTitle.stage.js"></script>
+    <script src="../js/stages/Atrebois.stage.js"></script>
+    <script src="../js/stages/Elevator.stage.js"></script>
+    <script src="../js/stages/LaunchPlatform.stage.js"></script>
+    <script src="../js/stages/Cockpit.stage.js"></script>
+    <script src="../js/stages/StarshipTraveling.stage.js"></script>
+    <script src="../js/stages/Leviathe.stage.js"></script>
+    <script src="../js/stages/Ending.stage.js"></script>
 
     <!-- Game config -->
     <script src="../js/config.js"></script>
