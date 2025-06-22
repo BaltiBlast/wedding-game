@@ -50,8 +50,7 @@ class Leviathe extends Phaser.Scene {
   // CREATE SCENE
   // ------------------------------------------------------------------------------------------ //
   create() {
-    // this.currentPlayer = this.registry.get("selectedCharacter");
-    this.currentPlayer = "Jenovefa";
+    this.currentPlayer = this.registry.get("selectedCharacter");
 
     // Scene transition
     this.setupTransition();
@@ -214,21 +213,14 @@ class Leviathe extends Phaser.Scene {
   NPCDialogue() {
     // 1. Attendre 1.5 seconde avant d’afficher le dialogue complet
     this.time.delayedCall(500, () => {
-      // const isVefa = this.currentPlayer === "Jenovefa";
-
       this.playerDialogueBox.setVisible(true);
       this.playerPortraitFrame.setVisible(true);
       this.playerPortrait.setVisible(true);
       this.playerCharacterName.setVisible(true);
       this.playerDialogueText.setVisible(true);
 
-      if (this.currentPlayer === "Jenovafa") {
-        console.log("IF", this.currentPlayer);
-      } else {
-        console.log("ELSE", this.currentPlayer);
-      }
-      this.playerPortrait.setTexture(this.currentPlayer === "Jenovefa" ? "char_alexis_portrait" : "char_vefa_portrait");
-      this.playerCharacterName.setText(this.currentPlayer === "Jenovefa" ? "Alexis" : "Jenovefa");
+      this.playerPortrait.setTexture(this.currentPlayer === "Vefa" ? "char_alexis_portrait" : "char_vefa_portrait");
+      this.playerCharacterName.setText(this.currentPlayer === "Vefa" ? "Alexis" : "Jenovefa");
 
       this.playerDialogueText.setText(
         "Tu es enfin là...\nMon vaisseau s’est écrasé à l’atterrissage… J’ai cru que je n’allais jamais pouvoir rentrer.\nHeureusement que t’es venu me chercher.\nOn a un mariage à préparer, non ?"
