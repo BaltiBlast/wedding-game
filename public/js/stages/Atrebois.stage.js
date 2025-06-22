@@ -45,6 +45,7 @@ class Atrebois extends Phaser.Scene {
     this.load.audio("sfx_access_granted", "../assets/sounds/level1/sfx_access_granted.wav");
     this.load.audio("mus_level1_theme", "../assets/sounds/level1/mus_level1_theme.mp3");
     this.load.audio("sfx_paper", "../assets/sounds/level1/sfx_paper.wav");
+    this.load.audio("ardoise_speak", "../assets/sounds/level1/ardoise_speak.wav");
   }
 
   // ------------------------------------------------------------------------------------------ //
@@ -123,10 +124,14 @@ class Atrebois extends Phaser.Scene {
       () => {
         this.interactionBubble.setVisible(true);
         DialogueManager.showNPCDialogue(this, this.npcDialogue, "npc_ardoise", "Ardoise");
+        AudioManager.setBackgroundMusic(this, "ardoise_speak", 0.1);
+        console.log("pre");
       },
       () => {
         this.interactionBubble.setVisible(false);
         DialogueManager.hideNPCDialogue(this);
+        AudioManager.stopBackgroundMusic(this, "ardoise_speak", 0.1);
+        console.log("pa pre");
       }
     );
 

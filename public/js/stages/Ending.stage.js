@@ -178,7 +178,7 @@ class Ending extends Phaser.Scene {
         .text(
           this.creditsContainer.x,
           this.scale.height / 2,
-          "Merci d’être là le 27 septembre 2025\nà la salle des fêtes de Chieulles vers 16h\n\nLes faire-parts vous seront envoyés avec les précisions 🙂",
+          "Merci d’être là le 27 septembre 2025\nà la salle des fêtes de Chieulles vers 16h\n\nLes faire-parts vous seront envoyés avec les précisions 🙂\n\nAppuyez sur la touche ECHAP pour sortir du mode plein écran",
           {
             font: "24px Arial",
             color: "#ffffff",

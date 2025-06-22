@@ -44,6 +44,8 @@ class Leviathe extends Phaser.Scene {
     this.load.audio("sfx_footstep_grass", "../assets/sounds/step_walk/sfx_footstep_grass.mp3");
     this.load.audio("sfx_surprised", "../assets/sounds/level3/sfx_surprised.wav");
     this.load.audio("sfx_kiss", "../assets/sounds/level3/sfx_kiss.wav");
+    this.load.audio("vefa_speak", "../assets/sounds/level3/vefa_speak.wav");
+    this.load.audio("alexis_speak", "../assets/sounds/level3/alexis_speak.wav");
   }
 
   // ------------------------------------------------------------------------------------------ //
@@ -221,6 +223,12 @@ class Leviathe extends Phaser.Scene {
 
       this.playerPortrait.setTexture(this.currentPlayer === "Vefa" ? "char_alexis_portrait" : "char_vefa_portrait");
       this.playerCharacterName.setText(this.currentPlayer === "Vefa" ? "Alexis" : "Jenovefa");
+
+      if (this.currentPlayer === "Vefa") {
+        AudioManager.playSoundEffects(this, "alexis_speak", 0.2, false);
+      } else {
+        AudioManager.playSoundEffects(this, "vefa_speak", 0.2, false);
+      }
 
       this.playerDialogueText.setText(
         "Tu es enfin là...\nMon vaisseau s’est écrasé à l’atterrissage… J’ai cru que je n’allais jamais pouvoir rentrer.\nHeureusement que t’es venu me chercher.\nOn a un mariage à préparer, non ?"
