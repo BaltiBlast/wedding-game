@@ -251,7 +251,7 @@ class LaunchPlatform extends Phaser.Scene {
     this.input.keyboard.manager.clearCaptures();
     this.input.keyboard.enabled = false;
 
-    AudioManager.stopBackgroundMusic(this, "mus_level2_theme", 1000);
+    AudioManager.stopBackgroundMusic(this, "mus_level2_theme");
     AudioManager.playSoundEffects(this, "fx_enter_door", 0.1);
 
     this.time.delayedCall(1000, () => {
