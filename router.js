@@ -15,6 +15,6 @@ router.get("/", isUserLogged, getHome);
 router.get("/game", isUserLogged, getGame);
 router.get("/mobile", isUserLogged, getMobile);
 router.post("/add-response", isUserLogged, postResponse);
-router.post("/comment", isUserLogged, postComment);
+router.post("/comment", postComment);
 
 module.exports = router;
