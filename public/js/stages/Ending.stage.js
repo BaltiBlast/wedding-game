@@ -174,7 +174,7 @@ class Ending extends Phaser.Scene {
 
     // Afficher un message final après la fin des crédits
     // Affichage du message final après que le scroll est terminé
-    this.time.delayedCall(40000, () => {
+    this.time.delayedCall(45000, () => {
       const finalMessage = this.add
         .text(
           this.creditsContainer.x,
