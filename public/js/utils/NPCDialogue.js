@@ -71,7 +71,3 @@ class DialogueManager {
     }
   }
 }
-
-function hideNPCDialogue(scene) {
-  DialogueManager.hideNPCDialogue(scene);
-}

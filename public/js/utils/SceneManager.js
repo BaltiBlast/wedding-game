@@ -16,13 +16,6 @@ class SceneManager {
     });
   }
 
-  static restartSceneWithFade(scene, fadeOutDuration = sceneDurationDefault) {
-    this.fadeOutScene(scene, fadeOutDuration);
-    scene.cameras.main.once("camerafadeoutcomplete", () => {
-      scene.scene.restart();
-    });
-  }
-
   static showElementWithDelay(scene, element, delay = 0, duration = sceneDurationDefault, targetAlpha = 1) {
     scene.time.delayedCall(delay, () => {
       scene.tweens.add({

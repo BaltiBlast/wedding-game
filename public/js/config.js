@@ -10,7 +10,6 @@ const GameConfig = {
     arcade: { debug: false },
   },
   WEDDING_DATE: "270925",
-  defaultDuration: 2000,
 
   dom: {
     createContainer: true,

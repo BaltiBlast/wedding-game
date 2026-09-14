@@ -42,7 +42,6 @@ class Leviathe extends Phaser.Scene {
     this.load.audio("sfx_landing_reactor", "./js/stages/Leviathe/ressources/sons/sfx_starship_reactor.wav");
     this.load.audio("fx_enter_door", "./assets/common/sons/effets/fx_enter_door.wav");
     this.load.audio("sfx_footstep_grass", "./assets/common/sons/effets/sfx_footstep_grass.mp3");
-    this.load.audio("sfx_surprised", "./js/stages/Leviathe/ressources/sons/sfx_surprised.wav");
     this.load.audio("sfx_kiss", "./js/stages/Leviathe/ressources/sons/sfx_kiss.wav");
     this.load.audio("vefa_speak", "./js/stages/Leviathe/ressources/sons/vefa_speak.wav");
     this.load.audio("alexis_speak", "./js/stages/Leviathe/ressources/sons/alexis_speak.wav");

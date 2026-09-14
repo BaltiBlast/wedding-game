@@ -68,23 +68,6 @@ class Ending extends Phaser.Scene {
     });
   }
 
-  // ------------------------------------------------------------------------------------------ //
-  // INVISIBLE WALLS SETUP
-  // ------------------------------------------------------------------------------------------ //
-  createInvisibleWalls() {
-    const walls = {
-      top: this.add.rectangle(512, 0, 1024, 5, 0x000000, 0),
-      bottom: this.add.rectangle(512, 1024, 1024, 5, 0x000000, 0),
-      left: this.add.rectangle(0, 512, 5, 1024, 0x000000, 0),
-      right: this.add.rectangle(1024, 512, 5, 1024, 0x000000, 0),
-    };
-
-    for (const wall of Object.values(walls)) {
-      this.physics.add.existing(wall, true);
-      this.physics.add.collider(this.player, wall);
-    }
-  }
-
   startCredits() {
     // Liste de lignes de crédits (placeholder)
     const creditLines = [

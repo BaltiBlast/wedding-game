@@ -232,17 +232,6 @@ class PlayerManager {
     scene.wasMoving = isMoving;
   }
 
-  static playerFadeout(scene, currentPlayer) {
-    scene.tweens.add({
-      targets: currentPlayer,
-      alpha: 0,
-      duration: 500,
-      onComplete: () => {
-        currentPlayer.setVisible(false);
-      },
-    });
-  }
-
   static setupCompletePlayer(scene, x, y, selectedCharacter, speed = 135, footstepSoundKey) {
     const player = this.createPlayer(scene, x, y, selectedCharacter);
     this.addBreathingAnimation(scene, player);

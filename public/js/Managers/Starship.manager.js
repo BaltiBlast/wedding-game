@@ -1,20 +1,13 @@
 class StarshipManager {
   static state = {
-    scene: null,
     spaceship: null,
     cursors: null,
-    keys: null,
-    baseY: null,
     elapsed: 0,
   };
 
   static createStarshipControls(scene) {
-    this.state.scene = scene;
-
     this.state.spaceship = scene.physics.add.image(800, 500, "prop_spaceship").setScale(0.2);
     this.state.spaceship.setCircle(300, 80, 50);
-
-    this.state.baseY = this.state.spaceship.y;
 
     this.state.cursors = scene.input.keyboard.createCursorKeys();
   }
