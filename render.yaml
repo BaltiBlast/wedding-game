@@ -1,0 +1,7 @@
+services:
+  - type: web
+    runtime: static
+    name: wedding-game
+    buildCommand: echo "No build required"
+    staticPublishPath: .
+    autoDeployTrigger: commit
