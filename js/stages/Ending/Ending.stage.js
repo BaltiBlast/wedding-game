@@ -166,7 +166,7 @@ class Ending extends Phaser.Scene {
             color: "#ffffff",
             align: "center",
             wordWrap: { width: 800 },
-          }
+          },
         )
         .setOrigin(0.5)
         .setAlpha(0);
