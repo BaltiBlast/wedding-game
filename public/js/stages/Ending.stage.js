@@ -7,8 +7,8 @@ class Ending extends Phaser.Scene {
     // Keyboard guide assets
     KeyboardGuide.preloadKeyboardGuide(this);
 
-    this.load.image("bg_starship_traveling", "../assets/images/traveling/bg_starship_traveling.png");
-    this.load.image("prop_spaceship", "../assets/images/level2/prop_spaceship.png");
+    this.load.image("bg_starship_traveling", "./assets/images/traveling/bg_starship_traveling.png");
+    this.load.image("prop_spaceship", "./assets/images/level2/prop_spaceship.png");
   }
 
   create() {
@@ -30,7 +30,6 @@ class Ending extends Phaser.Scene {
     this.time.delayedCall(2000, () => {
       this.startCredits();
     });
-    this.commentForm();
   }
   update() {
     this.bg.tilePositionX += this.bgScrollSpeed;
@@ -196,37 +195,7 @@ class Ending extends Phaser.Scene {
         ease: "Sine.easeInOut",
       });
 
-      const form = document.getElementById("comment_form");
-      if (form) {
-        form.style.display = "flex";
-        form.style.opacity = "0";
-
-        this.tweens.add({
-          targets: { opacity: 0 },
-          opacity: 1,
-          duration: 2000,
-          onUpdate: (tween) => {
-            form.style.opacity = tween.getValue();
-          },
-        });
-      }
-
       this.time.delayedCall(120000, () => {
-        const form = document.getElementById("comment_form");
-        if (form) {
-          this.tweens.add({
-            targets: { opacity: 1 },
-            opacity: 0,
-            duration: 2000,
-            onUpdate: (tween) => {
-              form.style.opacity = tween.getValue();
-            },
-            onComplete: () => {
-              form.style.display = "none";
-            },
-          });
-        }
-
         this.cameras.main.fadeOut(2600, 0, 0, 0);
         AudioManager.stopBackgroundMusic(this, "mus_level3", 2000);
 
@@ -235,61 +204,6 @@ class Ending extends Phaser.Scene {
           this.scene.start("ScreenTitle");
         });
       });
-    });
-  }
-
-  commentForm() {
-    const form = document.getElementById("comment_form");
-    const submitButton = form.querySelector('button[type="submit"]');
-    const commentInput = form.querySelector('textarea[name="comment"]');
-    const playerName = this.registry.get("userName");
-
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      submitButton.disabled = true;
-
-      const comment = commentInput.value.trim();
-
-      if (!comment) {
-        alert("Merci d’écrire un commentaire avant d’envoyer.");
-        submitButton.disabled = false;
-        return;
-      }
-
-      const payload = {
-        player: playerName,
-        comment: comment,
-        timestamp: new Date().toISOString(),
-      };
-
-      try {
-        const response = await fetch("/comment", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-        });
-
-        if (!response.ok) throw new Error("Échec de l’envoi");
-
-        // Fade out du formulaire
-        this.tweens.add({
-          targets: { opacity: 1 },
-          opacity: 0,
-          duration: 600,
-          onUpdate: (tween) => {
-            form.style.opacity = tween.getValue();
-          },
-          onComplete: () => {
-            form.style.display = "none";
-          },
-        });
-      } catch (error) {
-        console.error("❌ Erreur d’envoi :", error);
-        alert("Erreur lors de l’envoi du commentaire.");
-        submitButton.disabled = false;
-      }
     });
   }
 }

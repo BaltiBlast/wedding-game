@@ -15,5 +15,14 @@ const GameConfig = {
   dom: {
     createContainer: true,
   },
-  scenes: [ScreenTitle, Atrebois, Elevator, LaunchPlatform, Cockpit, StarshipTraveling, Leviathe, Ending],
+  scenes: [
+    // ScreenTitle,
+    // Atrebois,
+    // Elevator,
+    LaunchPlatform,
+    Cockpit,
+    StarshipTraveling,
+    Leviathe,
+    Ending,
+  ],
 };

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.70.0/dist/phaser.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Doto:wght@500&display=swap" rel="stylesheet" />
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="stylesheet" href="./css/game.css" />
+    <title>Stellar Wedding</title>
+  </head>
+
+  <body>
+    <div id="fullscreen-dialog">
+      <p>Pour une meilleure immersion, le jeu va passer en plein écran.</p>
+      <p>N'oublie pas d'activer ton son ! 📢</p>
+      <button id="enter-fullscreen-btn">Entrer dans le jeu</button>
+    </div>
+
+    <div id="game-container" x-data="starshipForm()">
+      <form id="form_starship" @submit.prevent="handleSubmit" style="display: none">
+        <div>
+          <label x-text="displayedLabel"></label>
+          <p x-text="displayedText"></p>
+          <input type="text" x-show="!isTyping" x-model="commanderName" required />
+          <div style="margin-top: 20px">
+            <button id="form_submit_btn" type="submit" x-show="!isTyping && commanderName.trim()">
+              🚀 DÉCOLLAGE
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <script src="./js/scripts/starshipForm.js"></script>
+    <script src="./js/utils/GameUtils.js"></script>
+    <script src="./js/utils/InteractionManager.js"></script>
+    <script src="./js/utils/ObstacleManager.js"></script>
+    <script src="./js/utils/PlayerDialogue.js"></script>
+    <script src="./js/utils/NPCDialogue.js"></script>
+    <script src="./js/utils/SceneManager.js"></script>
+    <script src="./js/utils/PlayerManager.js"></script>
+
+    <!-- Managers -->
+    <script src="./js/Managers/Global.manager.js"></script>
+    <script src="./js/Managers/Audio.manager.js"></script>
+    <script src="./js/Managers/Asteroid.manager.js"></script>
+    <script src="./js/Managers/Starship.manager.js"></script>
+
+    <!-- Composants -->
+    <script src="./js/Components/StageBanner.components.js"></script>
+    <script src="./js/Components/KeyboardGuide.components.js"></script>
+    <script src="./js/Components/QuestSummary.components.js"></script>
+
+    <!-- Stages -->
+    <script src="./js/stages/ScreenTitle.stage.js"></script>
+    <script src="./js/stages/Atrebois.stage.js"></script>
+    <script src="./js/stages/Elevator.stage.js"></script>
+    <script src="./js/stages/LaunchPlatform.stage.js"></script>
+    <script src="./js/stages/Cockpit.stage.js"></script>
+    <script src="./js/stages/StarshipTraveling.stage.js"></script>
+    <script src="./js/stages/Leviathe.stage.js"></script>
+    <script src="./js/stages/Ending.stage.js"></script>
+
+    <!-- Game config -->
+    <script src="./js/config.js"></script>
+    <script src="./js/game.js"></script>
+  </body>
+</html>
