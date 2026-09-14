@@ -8,21 +8,21 @@ class ScreenTitle extends Phaser.Scene {
   // ------------------------------------------------------------------------------------------ //
   preload() {
     // Images
-    this.load.image("bg_title_screen", "./assets/images/title_screen/bg_title_screen.png");
-    this.load.image("char_alexis_idle", "./assets/images/title_screen/char_alexis_idle.png");
-    this.load.image("char_vefa_idle", "./assets/images/title_screen/char_vefa_idle.png");
-    this.load.image("prop_astronaut", "./assets/images/title_screen/prop_astronaut.png");
-    this.load.image("prop_lantern", "./assets/images/title_screen/prop_lantern.png");
-    this.load.spritesheet("fx_fire_animation", "./assets/images/title_screen/fx_fire_animation.png", {
+    this.load.image("bg_title_screen", "./js/stages/ScreenTitle/ressources/images/bg_title_screen.png");
+    this.load.image("char_alexis_idle", "./js/stages/ScreenTitle/ressources/images/char_alexis_idle.png");
+    this.load.image("char_vefa_idle", "./js/stages/ScreenTitle/ressources/images/char_vefa_idle.png");
+    this.load.image("prop_astronaut", "./js/stages/ScreenTitle/ressources/images/prop_astronaut.png");
+    this.load.image("prop_lantern", "./js/stages/ScreenTitle/ressources/images/prop_lantern.png");
+    this.load.spritesheet("fx_fire_animation", "./assets/common/images/effects/fx_fire_animation.png", {
       frameWidth: 48,
       frameHeight: 48,
     });
 
     // Audio
-    this.load.audio("sfx_character_select", "./assets/sounds/title_screen/sfx_character_select.mp3");
-    this.load.audio("amb_title_atmosphere", "./assets/sounds/title_screen/amb_title_atmosphere.mp3");
-    this.load.audio("sfx_button_start", "./assets/sounds/title_screen/sfx_button_start.mp3");
-    this.load.audio("ow_title_theme", "./assets/sounds/title_screen/ow_title_theme.mp3");
+    this.load.audio("sfx_character_select", "./js/stages/ScreenTitle/ressources/sons/sfx_character_select.mp3");
+    this.load.audio("amb_title_atmosphere", "./js/stages/ScreenTitle/ressources/sons/amb_title_atmosphere.mp3");
+    this.load.audio("sfx_button_start", "./js/stages/ScreenTitle/ressources/sons/sfx_button_start.mp3");
+    this.load.audio("ow_title_theme", "./js/stages/ScreenTitle/ressources/sons/ow_title_theme.mp3");
   }
 
   // ------------------------------------------------------------------------------------------ //
@@ -36,8 +36,8 @@ class ScreenTitle extends Phaser.Scene {
     this.setUpTransition();
 
     // Audio setup
-    AudioManager.setBackgroundMusic(this, "amb_title_atmosphere", 0.1, true);
-    AudioManager.setBackgroundMusic(this, "ow_title_theme", 0.3, true);
+    AudioManager.playMusic(this, "amb_title_atmosphere", 0.1, true);
+    AudioManager.playMusic(this, "ow_title_theme", 0.3, true);
 
     // Title
     this.createTitle();
@@ -156,14 +156,14 @@ class ScreenTitle extends Phaser.Scene {
 
   setupCharacterInteractions() {
     this.alexisSprite.on("pointerdown", () => {
-      AudioManager.playSoundEffects(this, "sfx_character_select", 0.1);
+      AudioManager.playSound(this, "sfx_character_select", 0.1);
       this.selectedCharacter = "Alexis";
       this.registry.set("selectedCharacter", this.selectedCharacter);
       this.updateCharacterSelection();
     });
 
     this.vefaSprite.on("pointerdown", () => {
-      AudioManager.playSoundEffects(this, "sfx_character_select", 0.1);
+      AudioManager.playSound(this, "sfx_character_select", 0.1);
       this.selectedCharacter = "Vefa";
       this.registry.set("selectedCharacter", this.selectedCharacter);
       this.updateCharacterSelection();
@@ -235,9 +235,9 @@ class ScreenTitle extends Phaser.Scene {
     });
 
     this.startButton.on("pointerdown", () => {
-      AudioManager.playSoundEffects(this, "sfx_button_start", 0.03);
-      AudioManager.stopBackgroundMusic(this, "ow_title_theme", 2500);
-      AudioManager.stopBackgroundMusic(this, "amb_title_atmosphere", 2500);
+      AudioManager.playSound(this, "sfx_button_start", 0.03);
+      AudioManager.stopMusic("ow_title_theme");
+      AudioManager.stopMusic("amb_title_atmosphere");
       SceneManager.changeSceneWithFade(this, "Atrebois", 2600);
     });
   }

@@ -8,30 +8,30 @@ class LaunchPlatform extends Phaser.Scene {
     KeyboardGuide.preloadKeyboardGuide(this);
 
     // Images
-    this.load.image("bg_level2", "./assets/images/level2/bg_level2.png");
-    this.load.image("prop_fences", "./assets/images/level2/prop_fences.png");
-    this.load.image("prop_spaceship", "./assets/images/level2/prop_spaceship.png");
+    this.load.image("bg_level2", "./js/stages/LaunchPlatform/ressources/images/bg_level2.png");
+    this.load.image("prop_fences", "./js/stages/LaunchPlatform/ressources/images/prop_fences.png");
+    this.load.image("prop_spaceship", "./assets/common/images/environment/prop_spaceship.png");
 
     // Spritesheets
-    this.load.spritesheet("char_alexis_spritesheet", "./assets/images/characters/char_alexis_spritesheet.png", {
+    this.load.spritesheet("char_alexis_spritesheet", "./assets/common/images/characters/char_alexis_spritesheet.png", {
       frameWidth: 270,
       frameHeight: 600,
     });
 
-    this.load.spritesheet("char_vefa_spritesheet", "./assets/images/characters/char_vefa_spritesheet.png", {
+    this.load.spritesheet("char_vefa_spritesheet", "./assets/common/images/characters/char_vefa_spritesheet.png", {
       frameWidth: 270,
       frameHeight: 600,
     });
 
-    this.load.spritesheet("fx_fire_animation", "./assets/images/title_screen/fx_fire_animation.png", {
+    this.load.spritesheet("fx_fire_animation", "./assets/common/images/effects/fx_fire_animation.png", {
       frameWidth: 48,
       frameHeight: 48,
     });
 
     // Audio
-    this.load.audio("sfx_footstep_wood", "./assets/sounds/step_walk/sfx_footstep_wood.mp3");
-    this.load.audio("mus_level2_theme", "./assets/sounds/level2/mus_level2_theme.mp3");
-    this.load.audio("fx_enter_door", "./assets/sounds/level2/fx_enter_door.wav");
+    this.load.audio("sfx_footstep_wood", "./assets/common/sons/effets/sfx_footstep_wood.mp3");
+    this.load.audio("mus_level2_theme", "./js/stages/LaunchPlatform/ressources/sons/mus_level2_theme.mp3");
+    this.load.audio("fx_enter_door", "./assets/common/sons/effets/fx_enter_door.wav");
   }
 
   create() {
@@ -55,7 +55,7 @@ class LaunchPlatform extends Phaser.Scene {
     KeyboardGuide.displayKeyboardGuide(this, 150, 150, 3.5);
 
     // Audio setup
-    AudioManager.setBackgroundMusic(this, "mus_level2_theme", 0.1, true);
+    AudioManager.playMusic(this, "mus_level2_theme", 0.1, true);
 
     // Player setup
     this.createPlayer();
@@ -251,8 +251,8 @@ class LaunchPlatform extends Phaser.Scene {
     this.input.keyboard.manager.clearCaptures();
     this.input.keyboard.enabled = false;
 
-    AudioManager.stopBackgroundMusic(this, "mus_level2_theme");
-    AudioManager.playSoundEffects(this, "fx_enter_door", 0.1);
+    AudioManager.stopMusic("mus_level2_theme");
+    AudioManager.playSound(this, "fx_enter_door", 0.1);
 
     this.time.delayedCall(1000, () => {
       this.scene.sleep();
@@ -310,21 +310,9 @@ class LaunchPlatform extends Phaser.Scene {
                 }
 
                 this.time.delayedCall(2000, () => {
-                  const music = this.sound.get("mus_launch_starship");
-
-                  if (music && music.isPlaying) {
-                    this.tweens.add({
-                      targets: music,
-                      volume: 0,
-                      duration: 1500,
-                      onComplete: () => {
-                        music.stop();
-                        this.scene.start("StarshipTraveling");
-                      },
-                    });
-                  } else {
+                  AudioManager.stopMusic("mus_launch_starship", () => {
                     this.scene.start("StarshipTraveling");
-                  }
+                  });
                 });
               },
             });

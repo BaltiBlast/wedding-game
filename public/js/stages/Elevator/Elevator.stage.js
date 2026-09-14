@@ -5,12 +5,12 @@ class Elevator extends Phaser.Scene {
 
   preload() {
     // Images
-    this.load.image("bg_elevator", "./assets/images/elevator/bg_elevator.png");
-    this.load.image("char_alexis_game", "./assets/images/characters/char_alexis_game.png");
-    this.load.image("char_vefa_game", "./assets/images/characters/char_vefa_game.png");
+    this.load.image("bg_elevator", "./js/stages/Elevator/ressources/images/bg_elevator.png");
+    this.load.image("char_alexis_game", "./assets/common/images/characters/char_alexis_game.png");
+    this.load.image("char_vefa_game", "./assets/common/images/characters/char_vefa_game.png");
 
     // Musique
-    this.load.audio("mus_elevator_theme", "./assets/sounds/elevator/mus_elevator_theme.mp3");
+    this.load.audio("mus_elevator_theme", "./js/stages/Elevator/ressources/sons/mus_elevator_theme.mp3");
   }
 
   create() {
@@ -18,7 +18,7 @@ class Elevator extends Phaser.Scene {
     this.setupTransition();
 
     // Audio setup
-    AudioManager.setBackgroundMusic(this, "mus_elevator_theme", 0.1, false);
+    AudioManager.playMusic(this, "mus_elevator_theme", 0.1, false);
 
     // Background
     this.elevatorCage = this.add.image(512, 512, "bg_elevator");
@@ -75,7 +75,7 @@ class Elevator extends Phaser.Scene {
   // ------------------------------------------------------------------------------------------ //
   fadeOutScene() {
     this.time.delayedCall(10000, () => {
-      AudioManager.stopBackgroundMusic(this, "mus_elevator_theme", 2500);
+      AudioManager.stopMusic("mus_elevator_theme");
       SceneManager.changeSceneWithFade(this, "LaunchPlatform", 2600);
     });
   }

@@ -7,8 +7,8 @@ class Ending extends Phaser.Scene {
     // Keyboard guide assets
     KeyboardGuide.preloadKeyboardGuide(this);
 
-    this.load.image("bg_starship_traveling", "./assets/images/traveling/bg_starship_traveling.png");
-    this.load.image("prop_spaceship", "./assets/images/level2/prop_spaceship.png");
+    this.load.image("bg_starship_traveling", "./assets/common/images/environment/bg_starship_traveling.png");
+    this.load.image("prop_spaceship", "./assets/common/images/environment/prop_spaceship.png");
   }
 
   create() {
@@ -177,7 +177,7 @@ class Ending extends Phaser.Scene {
         .text(
           this.creditsContainer.x,
           this.scale.height / 2,
-          "Merci d’être là le 27 septembre 2025\nà la salle des fêtes de Chieulles vers 16h\n\nLes faire-parts vous seront envoyés avec les précisions 🙂\n\nAppuyez sur la touche ECHAP pour sortir du mode plein écran",
+          "Merci d’être là le 27 septembre 2025\nà la salle des fêtes de Chieulles vers 16h\n\nLes faire-parts vous seront envoyés avec les précisions 🙂",
           {
             font: "24px Arial",
             color: "#ffffff",
@@ -197,7 +197,7 @@ class Ending extends Phaser.Scene {
 
       this.time.delayedCall(120000, () => {
         this.cameras.main.fadeOut(2600, 0, 0, 0);
-        AudioManager.stopBackgroundMusic(this, "mus_level3", 2000);
+        AudioManager.stopMusic("mus_level3");
 
         this.time.delayedCall(2000, () => {
           this.registry.destroy();

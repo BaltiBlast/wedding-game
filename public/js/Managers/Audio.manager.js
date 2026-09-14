@@ -8,19 +8,75 @@
 // 2. Add the method you need where you need it
 //
 // -- use for audio (music)
-// AudioManager.setBackgroundMusic(this, key, volume, loop);
+// AudioManager.playMusic(this, key, volume, loop);
 // explains : this = scene // key = "music_lvl" // volume = level musique // loop = music loopable
 //
 // -- use for play sound (sfx - sound effect)
-// AudioManager.playSoundEffects(this, key, volume, loop);
-// explains this = scene // key = "sfx_sound" // volume = level sound // loop = sound loopable
+// AudioManager.playSound(this, key, volume);
+// explains this = scene // key = "sfx_sound" // volume = level sound
 //
 // -- use for stop audio (music)
-// AudioManager.stopBackgroundMusic(this, key);
+// AudioManager.stopMusic(key);
 // explains this = scene // key = "music_lvl"
 // ======================================================================== //
 
 class AudioManager {
+  static musicFadeDuration = 1500;
+  static music = {};
+
+  static playMusic(scene, key, volume = 1, loop = true) {
+    if (this.music[key]) return this.music[key].sound;
+
+    const sound = scene.sound.add(key, { volume: 0, loop });
+    const entry = { sound, events: scene.game.events, cancelFade: null };
+    this.music[key] = entry;
+    const cleanup = () => {
+      if (entry.cancelFade) entry.cancelFade();
+      entry.events.off("destroy", destroy);
+      if (this.music[key] === entry) delete this.music[key];
+    };
+    const destroy = () => sound.destroy();
+    sound.once("destroy", cleanup);
+    sound.once("complete", destroy);
+    entry.events.once("destroy", destroy);
+    sound.play();
+    this.fadeMusic(entry, volume);
+    return sound;
+  }
+
+  static stopMusic(key, onComplete) {
+    const entry = this.music[key];
+    if (!entry) {
+      if (onComplete) onComplete();
+      return;
+    }
+    this.fadeMusic(entry, 0, () => {
+      entry.sound.stop();
+      entry.sound.destroy();
+      if (onComplete) onComplete();
+    });
+  }
+
+  static fadeMusic(entry, volume, onComplete) {
+    if (entry.cancelFade) entry.cancelFade();
+    const startVolume = entry.sound.volume;
+    let elapsed = 0;
+    const update = (time, delta) => {
+      elapsed += delta;
+      const progress = Math.min(elapsed / this.musicFadeDuration, 1);
+      entry.sound.setVolume(startVolume + (volume - startVolume) * progress);
+      if (progress === 1) {
+        entry.cancelFade();
+        if (onComplete) onComplete();
+      }
+    };
+    entry.cancelFade = () => {
+      entry.events.off("step", update);
+      entry.cancelFade = null;
+    };
+    entry.events.on("step", update);
+  }
+
   //-------------------------------------------------------------------------------------------- //
   static sounds = {};
 
@@ -52,12 +108,8 @@ class AudioManager {
   }
 
   //-------------------------------------------------------------------------------------------- //
-  static playSoundEffects(scene, key, volume = 1, loop = false) {
-    const sound = scene.sound.add(key, {
-      volume: volume,
-      loop: loop,
-    });
-    sound.play();
+  static playSound(scene, key, volume = 1) {
+    return scene.sound.play(key, { volume, loop: false });
   }
 
   //-------------------------------------------------------------------------------------------- //

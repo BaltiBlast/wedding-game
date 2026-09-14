@@ -11,41 +11,41 @@ class Atrebois extends Phaser.Scene {
     KeyboardGuide.preloadKeyboardGuide(this);
 
     // Images
-    this.load.image("bg_level1", "./assets/images/level1/bg_level1.png");
-    this.load.image("npc_ardoise", "./assets/images/level1/npc_ardoise.png");
-    this.load.image("char_alexis_game", "./assets/images/characters/char_alexis_game.png");
-    this.load.image("char_vefa_game", "./assets/images/characters/char_vefa_game.png");
-    this.load.image("prop_pole1", "./assets/images/level1/prop_pole1.png");
-    this.load.image("prop_pole2", "./assets/images/level1/prop_pole2.png");
-    this.load.image("prop_pole3", "./assets/images/level1/prop_pole3.png");
-    this.load.image("prop_house", "./assets/images/level1/prop_house.png");
-    this.load.image("prop_tree", "./assets/images/level1/prop_tree.png");
-    this.load.image("item_paper", "./assets/images/level1/item_paper.png");
+    this.load.image("bg_level1", "./js/stages/Atrebois/ressources/images/bg_level1.png");
+    this.load.image("npc_ardoise", "./js/stages/Atrebois/ressources/images/npc_ardoise.png");
+    this.load.image("char_alexis_game", "./assets/common/images/characters/char_alexis_game.png");
+    this.load.image("char_vefa_game", "./assets/common/images/characters/char_vefa_game.png");
+    this.load.image("prop_pole1", "./js/stages/Atrebois/ressources/images/prop_pole1.png");
+    this.load.image("prop_pole2", "./js/stages/Atrebois/ressources/images/prop_pole2.png");
+    this.load.image("prop_pole3", "./js/stages/Atrebois/ressources/images/prop_pole3.png");
+    this.load.image("prop_house", "./js/stages/Atrebois/ressources/images/prop_house.png");
+    this.load.image("prop_tree", "./js/stages/Atrebois/ressources/images/prop_tree.png");
+    this.load.image("item_paper", "./js/stages/Atrebois/ressources/images/item_paper.png");
 
     // Spritesheets
-    this.load.spritesheet("char_alexis_spritesheet", "./assets/images/characters/char_alexis_spritesheet.png", {
+    this.load.spritesheet("char_alexis_spritesheet", "./assets/common/images/characters/char_alexis_spritesheet.png", {
       frameWidth: 270,
       frameHeight: 600,
     });
 
-    this.load.spritesheet("char_vefa_spritesheet", "./assets/images/characters/char_vefa_spritesheet.png", {
+    this.load.spritesheet("char_vefa_spritesheet", "./assets/common/images/characters/char_vefa_spritesheet.png", {
       frameWidth: 270,
       frameHeight: 600,
     });
 
-    this.load.spritesheet("fx_campfire", "./assets/images/title_screen/fx_fire_animation.png", {
+    this.load.spritesheet("fx_campfire", "./assets/common/images/effects/fx_fire_animation.png", {
       frameWidth: 48,
       frameHeight: 48,
     });
 
     // Audio
-    this.load.audio("sfx_footstep_grass", "./assets/sounds/step_walk/sfx_footstep_grass.mp3");
-    this.load.audio("sfx_access_denied", "./assets/sounds/level1/sfx_access_denied.mp3");
-    this.load.audio("sfx_open", "./assets/sounds/level1/sfx_open.wav");
-    this.load.audio("sfx_access_granted", "./assets/sounds/level1/sfx_access_granted.wav");
-    this.load.audio("mus_level1_theme", "./assets/sounds/level1/mus_level1_theme.mp3");
-    this.load.audio("sfx_paper", "./assets/sounds/level1/sfx_paper.wav");
-    this.load.audio("ardoise_speak", "./assets/sounds/level1/ardoise_speak.wav");
+    this.load.audio("sfx_footstep_grass", "./assets/common/sons/effets/sfx_footstep_grass.mp3");
+    this.load.audio("sfx_access_denied", "./js/stages/Atrebois/ressources/sons/sfx_access_denied.mp3");
+    this.load.audio("sfx_open", "./js/stages/Atrebois/ressources/sons/sfx_open.wav");
+    this.load.audio("sfx_access_granted", "./js/stages/Atrebois/ressources/sons/sfx_access_granted.wav");
+    this.load.audio("mus_level1_theme", "./js/stages/Atrebois/ressources/sons/mus_level1_theme.mp3");
+    this.load.audio("sfx_paper", "./js/stages/Atrebois/ressources/sons/sfx_paper.wav");
+    this.load.audio("ardoise_speak", "./js/stages/Atrebois/ressources/sons/ardoise_speak.wav");
   }
 
   // ------------------------------------------------------------------------------------------ //
@@ -66,7 +66,7 @@ class Atrebois extends Phaser.Scene {
     KeyboardGuide.displayKeyboardGuide(this, 512, 900, 3.5);
 
     // Audio setup
-    AudioManager.setBackgroundMusic(this, "mus_level1_theme", 0.1, true);
+    AudioManager.playMusic(this, "mus_level1_theme", 0.1, true);
 
     // Show quets summary
     const quests = [
@@ -140,7 +140,7 @@ class Atrebois extends Phaser.Scene {
       this.paperBubble.setVisible(true);
 
       if (!this.hasPlayedPaperSound) {
-        AudioManager.playSoundEffects(this, "sfx_paper", 0.15);
+        AudioManager.playSound(this, "sfx_paper", 0.15);
         this.hasPlayedPaperSound = true;
       }
     });
@@ -503,7 +503,7 @@ Peut-être qu’il est tombé quelque part dans le coin...`;
 
     // Stop player movement
     PlayerManager.stopPlayer(this);
-    AudioManager.playSoundEffects(this, "sfx_open", 0.3);
+    AudioManager.playSound(this, "sfx_open", 0.3);
 
     this.elevatorElements = [
       this.elevatorUI,
@@ -564,8 +564,8 @@ Peut-être qu’il est tombé quelque part dans le coin...`;
     if (this.currentCode === GameConfig.WEDDING_DATE) {
       // Correct code
       this.hideElevatorUI();
-      AudioManager.playSoundEffects(this, "sfx_access_granted", 0.3);
-      AudioManager.stopBackgroundMusic(this, "mus_level1_theme", 2500);
+      AudioManager.playSound(this, "sfx_access_granted", 0.3);
+      AudioManager.stopMusic("mus_level1_theme");
 
       // Scene transition
       SceneManager.changeSceneWithFade(this, "Elevator", 2600);
@@ -574,7 +574,7 @@ Peut-être qu’il est tombé quelque part dans le coin...`;
       this.errorMessage.setText("Code incorrect !");
       this.errorMessage.setVisible(true);
 
-      AudioManager.playSoundEffects(this, "sfx_access_denied", 0.3);
+      AudioManager.playSound(this, "sfx_access_denied", 0.3);
 
       // Flash input red
       this.tweens.add({

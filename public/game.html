@@ -11,12 +11,6 @@
   </head>
 
   <body>
-    <div id="fullscreen-dialog">
-      <p>Pour une meilleure immersion, le jeu va passer en plein écran.</p>
-      <p>N'oublie pas d'activer ton son ! 📢</p>
-      <button id="enter-fullscreen-btn">Entrer dans le jeu</button>
-    </div>
-
     <div id="game-container" x-data="starshipForm()">
       <form id="form_starship" @submit.prevent="handleSubmit" style="display: none">
         <div>
@@ -53,14 +47,14 @@
     <script src="./js/Components/QuestSummary.components.js"></script>
 
     <!-- Stages -->
-    <script src="./js/stages/ScreenTitle.stage.js"></script>
-    <script src="./js/stages/Atrebois.stage.js"></script>
-    <script src="./js/stages/Elevator.stage.js"></script>
-    <script src="./js/stages/LaunchPlatform.stage.js"></script>
-    <script src="./js/stages/Cockpit.stage.js"></script>
-    <script src="./js/stages/StarshipTraveling.stage.js"></script>
-    <script src="./js/stages/Leviathe.stage.js"></script>
-    <script src="./js/stages/Ending.stage.js"></script>
+    <script src="./js/stages/ScreenTitle/ScreenTitle.stage.js"></script>
+    <script src="./js/stages/Atrebois/Atrebois.stage.js"></script>
+    <script src="./js/stages/Elevator/Elevator.stage.js"></script>
+    <script src="./js/stages/LaunchPlatform/LaunchPlatform.stage.js"></script>
+    <script src="./js/stages/Cockpit/Cockpit.stage.js"></script>
+    <script src="./js/stages/StarshipTraveling/StarshipTraveling.stage.js"></script>
+    <script src="./js/stages/Leviathe/Leviathe.stage.js"></script>
+    <script src="./js/stages/Ending/Ending.stage.js"></script>
 
     <!-- Game config -->
     <script src="./js/config.js"></script>

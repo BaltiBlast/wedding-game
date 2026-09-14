@@ -8,33 +8,33 @@ class Cockpit extends Phaser.Scene {
   // ------------------------------------------------------------------------------------------ //
   preload() {
     // Image
-    this.load.image("bg_cockpit", "./assets/images/cockpit/bg_cockpit.png");
+    this.load.image("bg_cockpit", "./js/stages/Cockpit/ressources/images/bg_cockpit.png");
 
     // Spritesheets
-    this.load.spritesheet("bg_cockpit_danger_spritsheet", "./assets/images/cockpit/bg_cockpit_danger_spritsheet.png", {
+    this.load.spritesheet("bg_cockpit_danger_spritsheet", "./js/stages/Cockpit/ressources/images/bg_cockpit_danger_spritsheet.png", {
       frameWidth: 1024,
       frameHeight: 761,
     });
 
-    this.load.spritesheet("light1_spritesheet", "./assets/images/cockpit/light1_spritesheet.png", {
+    this.load.spritesheet("light1_spritesheet", "./js/stages/Cockpit/ressources/images/light1_spritesheet.png", {
       frameWidth: 55,
       frameHeight: 50,
     });
 
-    this.load.spritesheet("light2_spritesheet", "./assets/images/cockpit/light2_spritesheet.png", {
+    this.load.spritesheet("light2_spritesheet", "./js/stages/Cockpit/ressources/images/light2_spritesheet.png", {
       frameWidth: 64,
       frameHeight: 55,
     });
 
-    this.load.spritesheet("holo_planet_spritesheet", "./assets/images/cockpit/holo_planet_spritesheet.png", {
+    this.load.spritesheet("holo_planet_spritesheet", "./js/stages/Cockpit/ressources/images/holo_planet_spritesheet.png", {
       frameWidth: 118,
       frameHeight: 142,
     });
     // Audio
-    this.load.audio("mus_cockpit_theme", "./assets/sounds/cockpit/mus_cockpit_theme.mp3");
-    this.load.audio("sfx_alarm", "./assets/sounds/cockpit/sfx_alarm.mp3");
-    this.load.audio("mus_launch_starship", "./assets/sounds/cockpit/mus_launch_starship.mp3");
-    this.load.audio("sfx_impact", "./assets/sounds/cockpit/sfx_impact.wav");
+    this.load.audio("mus_cockpit_theme", "./js/stages/Cockpit/ressources/sons/mus_cockpit_theme.mp3");
+    this.load.audio("sfx_alarm", "./js/stages/Cockpit/ressources/sons/sfx_alarm.mp3");
+    this.load.audio("mus_launch_starship", "./assets/common/sons/musiques/mus_launch_starship.mp3");
+    this.load.audio("sfx_impact", "./js/stages/Cockpit/ressources/sons/sfx_impact.wav");
   }
 
   // ------------------------------------------------------------------------------------------ //
@@ -45,7 +45,7 @@ class Cockpit extends Phaser.Scene {
     this.setupTransition();
 
     // Audio setup
-    AudioManager.setBackgroundMusic(this, "mus_cockpit_theme", 0.03);
+    AudioManager.playMusic(this, "mus_cockpit_theme", 0.03);
 
     // Background
     this.add.image(512, 512, "bg_cockpit");
@@ -300,15 +300,15 @@ class Cockpit extends Phaser.Scene {
     this.registry.set("fromCockpit", true);
 
     this.cameras.main.shake(250, 0.02);
-    AudioManager.playSoundEffects(this, "sfx_impact", 0.5);
-    AudioManager.stopBackgroundMusic(this, "mus_cockpit_theme", 100);
+    AudioManager.playSound(this, "sfx_impact", 0.5);
+    AudioManager.stopMusic("mus_cockpit_theme");
 
     this.fadeOutForm();
     this.createDecorativeElements();
 
     // Animation
     GameUtils.delayCall(this, 800, this.displayMissionMessages, this);
-    GameUtils.delayCall(this, 4000, () => AudioManager.setBackgroundMusic(this, "mus_launch_starship", 0.2));
+    GameUtils.delayCall(this, 4000, () => AudioManager.playMusic(this, "mus_launch_starship", 0.2));
     GameUtils.delayCall(this, 12000, this.clearMissionDisplay, this);
     GameUtils.delayCall(this, 13000, this.displayLaunchCountdown, this);
     GameUtils.delayCall(this, 25000, () => AudioManager.setBackgroundMusic(this, "sfx_alarm", 0.1));

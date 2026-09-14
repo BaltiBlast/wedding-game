@@ -8,44 +8,44 @@ class Leviathe extends Phaser.Scene {
   // ------------------------------------------------------------------------------------------ //
   preload() {
     // Images
-    this.load.image("bg_level3", "./assets/images/level3/bg_level3.png");
-    this.load.image("prop_palm1", "./assets/images/level3/prop_palm1.png");
-    this.load.image("prop_palm2", "./assets/images/level3/prop_palm2.png");
-    this.load.image("prop_palm3", "./assets/images/level3/prop_palm3.png");
-    this.load.image("prop_crashed_spaceship", "./assets/images/level3/prop_crashed_spaceship.png");
-    this.load.image("prop_spaceship", "./assets/images/level2/prop_spaceship.png");
-    this.load.image("char_alexis", "./assets/images/characters/char_alexis_game.png");
-    this.load.image("char_vefa", "./assets/images/characters/char_vefa_game.png");
-    this.load.image("prop_heart", "./assets/images/level3/prop_heart.png");
-    this.load.image("char_alexis_portrait", "./assets/images/characters/char_alexis_portrait.png");
-    this.load.image("char_vefa_portrait", "./assets/images/characters/char_vefa_portrait.png");
+    this.load.image("bg_level3", "./js/stages/Leviathe/ressources/images/bg_level3.png");
+    this.load.image("prop_palm1", "./js/stages/Leviathe/ressources/images/prop_palm1.png");
+    this.load.image("prop_palm2", "./js/stages/Leviathe/ressources/images/prop_palm2.png");
+    this.load.image("prop_palm3", "./js/stages/Leviathe/ressources/images/prop_palm3.png");
+    this.load.image("prop_crashed_spaceship", "./js/stages/Leviathe/ressources/images/prop_crashed_spaceship.png");
+    this.load.image("prop_spaceship", "./assets/common/images/environment/prop_spaceship.png");
+    this.load.image("char_alexis", "./assets/common/images/characters/char_alexis_game.png");
+    this.load.image("char_vefa", "./assets/common/images/characters/char_vefa_game.png");
+    this.load.image("prop_heart", "./js/stages/Leviathe/ressources/images/prop_heart.png");
+    this.load.image("char_alexis_portrait", "./assets/common/images/characters/char_alexis_portrait.png");
+    this.load.image("char_vefa_portrait", "./assets/common/images/characters/char_vefa_portrait.png");
 
     // Spritesheets
-    this.load.spritesheet("char_alexis_spritesheet", "./assets/images/characters/char_alexis_spritesheet.png", {
+    this.load.spritesheet("char_alexis_spritesheet", "./assets/common/images/characters/char_alexis_spritesheet.png", {
       frameWidth: 270,
       frameHeight: 600,
     });
 
-    this.load.spritesheet("char_vefa_spritesheet", "./assets/images/characters/char_vefa_spritesheet.png", {
+    this.load.spritesheet("char_vefa_spritesheet", "./assets/common/images/characters/char_vefa_spritesheet.png", {
       frameWidth: 270,
       frameHeight: 600,
     });
 
-    this.load.spritesheet("fx_fire_animation", "./assets/images/title_screen/fx_fire_animation.png", {
+    this.load.spritesheet("fx_fire_animation", "./assets/common/images/effects/fx_fire_animation.png", {
       frameWidth: 48,
       frameHeight: 48,
     });
 
     // Audio
-    this.load.audio("mus_level3", "./assets/sounds/level3/mus_level3.mp3");
-    this.load.audio("sfx_landing_starchip", "./assets/sounds/level3/sfx_landing_starship.wav");
-    this.load.audio("sfx_landing_reactor", "./assets/sounds/level3/sfx_starship_reactor.wav");
-    this.load.audio("fx_enter_door", "./assets/sounds/level2/fx_enter_door.wav");
-    this.load.audio("sfx_footstep_grass", "./assets/sounds/step_walk/sfx_footstep_grass.mp3");
-    this.load.audio("sfx_surprised", "./assets/sounds/level3/sfx_surprised.wav");
-    this.load.audio("sfx_kiss", "./assets/sounds/level3/sfx_kiss.wav");
-    this.load.audio("vefa_speak", "./assets/sounds/level3/vefa_speak.wav");
-    this.load.audio("alexis_speak", "./assets/sounds/level3/alexis_speak.wav");
+    this.load.audio("mus_level3", "./assets/common/sons/musiques/mus_level3.mp3");
+    this.load.audio("sfx_landing_starchip", "./js/stages/Leviathe/ressources/sons/sfx_landing_starship.wav");
+    this.load.audio("sfx_landing_reactor", "./js/stages/Leviathe/ressources/sons/sfx_starship_reactor.wav");
+    this.load.audio("fx_enter_door", "./assets/common/sons/effets/fx_enter_door.wav");
+    this.load.audio("sfx_footstep_grass", "./assets/common/sons/effets/sfx_footstep_grass.mp3");
+    this.load.audio("sfx_surprised", "./js/stages/Leviathe/ressources/sons/sfx_surprised.wav");
+    this.load.audio("sfx_kiss", "./js/stages/Leviathe/ressources/sons/sfx_kiss.wav");
+    this.load.audio("vefa_speak", "./js/stages/Leviathe/ressources/sons/vefa_speak.wav");
+    this.load.audio("alexis_speak", "./js/stages/Leviathe/ressources/sons/alexis_speak.wav");
   }
 
   // ------------------------------------------------------------------------------------------ //
@@ -57,7 +57,7 @@ class Leviathe extends Phaser.Scene {
     // Scene transition
     this.setupTransition();
 
-    AudioManager.setBackgroundMusic(this, "mus_level3", 0.15, true);
+    AudioManager.playMusic(this, "mus_level3", 0.15, true);
 
     // Background
     this.add.image(512, 512, "bg_level3");
@@ -144,7 +144,7 @@ class Leviathe extends Phaser.Scene {
                 AudioManager.stopBackgroundMusic(this, "sfx_landing_reactor", 500);
 
                 // 💥 ➤ C'est ici que tu peux jouer le son d'impact de l'atterrissage
-                AudioManager.playSoundEffects(this, "sfx_landing_starchip", 0.3, false);
+                AudioManager.playSound(this, "sfx_landing_starchip", 0.3);
 
                 // Rebond après impact
                 this.tweens.add({
@@ -176,13 +176,13 @@ class Leviathe extends Phaser.Scene {
 
   spawnPlayerFromShip() {
     this.time.delayedCall(1000, () => {
-      AudioManager.playSoundEffects(this, "fx_enter_door", 0.3, false);
+      AudioManager.playSound(this, "fx_enter_door", 0.3);
 
       // Création du joueur via le manager
       this.player = PlayerManager.createPlayer(this, 300, 700, this.currentPlayer).setScale(0.15);
       this.player.setAlpha(0);
 
-      AudioManager.playSoundEffects(this, "sfx_footstep_grass", 0.15, false);
+      AudioManager.playSound(this, "sfx_footstep_grass", 0.15);
 
       this.tweens.add({
         targets: this.player,
@@ -225,9 +225,9 @@ class Leviathe extends Phaser.Scene {
       this.playerCharacterName.setText(this.currentPlayer === "Vefa" ? "Alexis" : "Jenovefa");
 
       if (this.currentPlayer === "Vefa") {
-        AudioManager.playSoundEffects(this, "alexis_speak", 0.2, false);
+        AudioManager.playSound(this, "alexis_speak", 0.2);
       } else {
-        AudioManager.playSoundEffects(this, "vefa_speak", 0.2, false);
+        AudioManager.playSound(this, "vefa_speak", 0.2);
       }
 
       this.playerDialogueText.setText(
@@ -268,7 +268,7 @@ class Leviathe extends Phaser.Scene {
             });
 
             // Son de bisou
-            AudioManager.playSoundEffects(this, "sfx_kiss", 0.5, false);
+            AudioManager.playSound(this, "sfx_kiss", 0.5);
 
             // Ajout d'un petit coeur animé
             const heart = this.add.image(400, 620, "prop_heart").setScale(0.03).setDepth(2000);

@@ -11,15 +11,15 @@ class StarshipTraveling extends Phaser.Scene {
     KeyboardGuide.preloadKeyboardGuide(this);
 
     // Images
-    this.load.image("bg_starship_traveling", "./assets/images/traveling/bg_starship_traveling.png");
-    this.load.image("prop_spaceship", "./assets/images/level2/prop_spaceship.png");
-    this.load.image("prop_green_planet", "./assets/images/traveling/prop_green_planet.png");
+    this.load.image("bg_starship_traveling", "./assets/common/images/environment/bg_starship_traveling.png");
+    this.load.image("prop_spaceship", "./assets/common/images/environment/prop_spaceship.png");
+    this.load.image("prop_green_planet", "./js/stages/StarshipTraveling/ressources/images/prop_green_planet.png");
 
     AsteroidManager.preloadAsteroides(this);
 
     // Audio
-    this.load.audio("sfx_space_impact", "./assets/sounds/traveling/sfx_space_impact.mp3");
-    this.load.audio("mus_traveling_level", "./assets/sounds/traveling/mus_traveling_level.mp3");
+    this.load.audio("sfx_space_impact", "./js/stages/StarshipTraveling/ressources/sons/sfx_space_impact.mp3");
+    this.load.audio("mus_traveling_level", "./js/stages/StarshipTraveling/ressources/sons/mus_traveling_level.mp3");
   }
 
   // ------------------------------------------------------------------------------------------ //
@@ -38,7 +38,7 @@ class StarshipTraveling extends Phaser.Scene {
     KeyboardGuide.displayKeyboardGuide(this, 850, 900, 4);
 
     // Audio setup
-    AudioManager.setBackgroundMusic(this, "mus_traveling_level", 0.1, true);
+    AudioManager.playMusic(this, "mus_traveling_level", 0.1, true);
 
     // Animated background
     this.bg = this.add.tileSprite(0, 0, 1024, 1024, "bg_starship_traveling").setOrigin(0).setScrollFactor(0);
@@ -118,7 +118,7 @@ class StarshipTraveling extends Phaser.Scene {
 
     this.lastLoopingTime = now;
 
-    AudioManager.playSoundEffects(this, "sfx_space_impact", 0.05);
+    AudioManager.playSound(this, "sfx_space_impact", 0.05);
 
     this.tweens.add({
       targets: spaceship,
@@ -216,7 +216,7 @@ class StarshipTraveling extends Phaser.Scene {
             .setDepth(10);
 
           // Démarre en même temps les deux fadeouts
-          AudioManager.stopBackgroundMusic(this, "mus_traveling_level", 2500);
+          AudioManager.stopMusic("mus_traveling_level");
           this.cameras.main.fadeOut(2600, 0, 0, 0);
 
           // Animation de l'étoile
