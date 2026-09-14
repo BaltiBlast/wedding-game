@@ -4,10 +4,9 @@ const test = {
   },
 
   isMobileOrTablet: () => {
-    const isMobile = /Mobi|Android|iPhone|iPad|iPod|Tablet/i.test(navigator.userAgent);
-    const isSmallScreen = window.innerWidth < 768 || window.innerHeight < 500;
+    const isSmallScreen = window.innerWidth < 1024 || window.innerHeight < 1024;
 
-    if (isMobile || isSmallScreen) {
+    if (isSmallScreen) {
       window.location.href = "./mobile.html";
     } else {
       window.location.href = "./game.html";

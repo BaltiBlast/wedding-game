@@ -2,7 +2,17 @@ const WeddingGame = {
   game: null,
 
   init() {
+    if (this.redirectIfTooSmall()) return;
+    window.addEventListener("resize", () => this.redirectIfTooSmall());
     this.launchGame();
+  },
+
+  redirectIfTooSmall() {
+    if (window.innerWidth < GameConfig.width || window.innerHeight < GameConfig.height) {
+      window.location.replace("./mobile.html");
+      return true;
+    }
+    return false;
   },
 
   launchGame: () => {
